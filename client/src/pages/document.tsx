@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRoute } from "wouter";
-import { Document } from "@shared/schema";
+import { Document, RelatedItem } from "@shared/schema";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import DocumentViewer from "@/components/document/DocumentViewer";
 import DocumentNav from "@/components/document/DocumentNav";
@@ -22,7 +22,7 @@ const DocumentPage = () => {
   });
 
   // Fetch related items
-  const { data: relatedItems, isLoading: isLoadingRelated } = useQuery({
+  const { data: relatedItems, isLoading: isLoadingRelated } = useQuery<RelatedItem[]>({
     queryKey: [`/api/document/${slug}/related`],
     enabled: !!slug,
   });
@@ -30,9 +30,10 @@ const DocumentPage = () => {
   // Set document title
   useEffect(() => {
     if (document) {
-      document.title = `${document.title} | Archival Histories`;
+      // Use window.document instead of document to avoid conflict with the document variable
+      window.document.title = `${document.title} | Archival Histories`;
     } else {
-      document.title = "Document | Archival Histories";
+      window.document.title = "Document | Archival Histories";
     }
   }, [document]);
 
