@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Document, Person, Place, Event, Collection } from "@shared/schema";
-import { Scroll, Search, User, MapPin, Calendar, FileText, ArrowRight } from "lucide-react";
+import { Ghost, Search, User, MapPin, Calendar, FileText, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import SearchBar from "@/components/search/SearchBar";
@@ -37,7 +37,7 @@ const Home = () => {
 
   // Prefetch for better UX
   useEffect(() => {
-    document.title = "Archival Histories | Historical Research";
+    document.title = "Ghost in the Archive";
   }, []);
 
   const recentDocuments = documents?.slice(0, 3) || [];
@@ -52,9 +52,9 @@ const Home = () => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <Scroll className="h-16 w-16 mx-auto text-primary mb-4" />
+            <Ghost className="h-16 w-16 mx-auto text-primary mb-4" />
             <h1 className="font-serif text-4xl md:text-5xl font-bold text-accent-900 dark:text-white mb-6">
-              Archival Histories
+              Ghost in the Archive
             </h1>
             <p className="text-xl text-accent-700 dark:text-primary-200 mb-8">
               A scholarly repository of transcribed historical documents, providing researchers and history enthusiasts with accessible primary sources.

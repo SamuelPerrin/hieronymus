@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Scroll } from "lucide-react";
+import { Ghost } from "lucide-react";
 import { FaTwitter, FaFacebookF, FaInstagram, FaGithub } from "react-icons/fa";
 
 const Footer = () => {
@@ -9,11 +9,11 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
-              <Scroll className="h-6 w-6 text-white" />
-              <span className="font-serif text-xl font-bold">Archival Histories</span>
+              <Ghost className="h-6 w-6 text-white" />
+              <span className="font-serif text-xl font-bold">Ghost in the Archive</span>
             </div>
             <p className="text-primary-100 mb-4">
-              A scholarly repository of transcribed historical documents, providing researchers and history enthusiasts with accessible primary sources.
+              A scholarly repository of transcribed historical documents, providing researchers and history enthusiasts with accessible primary sources
             </p>
             <div className="flex space-x-4">
               <a

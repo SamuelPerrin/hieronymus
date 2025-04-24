@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Scroll, BookOpen, FileText, Code } from "lucide-react";
+import { Ghost, BookOpen, FileText, Code } from "lucide-react";
 import { motion } from "framer-motion";
 
 const AboutPage = () => {
@@ -34,7 +34,7 @@ const AboutPage = () => {
             <CardContent className="pt-6">
               <div className="flex justify-center mb-6">
                 <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Scroll className="h-10 w-10 text-primary" />
+                  <Ghost className="h-10 w-10 text-primary" />
                 </div>
               </div>
               <p className="text-accent-700 dark:text-primary-200 mb-4">

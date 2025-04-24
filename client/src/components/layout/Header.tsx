@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, Search, Scroll } from "lucide-react";
+import { Menu, Search, Ghost } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useMediaQuery } from "@/hooks/use-mobile";
@@ -11,7 +11,7 @@ interface HeaderProps {
   title?: string;
 }
 
-const Header = ({ title = "Archival Histories" }: HeaderProps) => {
+const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
   const [location, navigate] = useLocation();
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -50,7 +50,7 @@ const Header = ({ title = "Archival Histories" }: HeaderProps) => {
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
               <Link href="/" className="flex items-center space-x-2">
-                <Scroll className="h-6 w-6 text-accent-700" />
+                <Ghost className="h-6 w-6 text-accent-700" />
                 <span className="font-serif text-xl font-bold text-accent-900 dark:text-primary-200">{title}</span>
               </Link>
             </div>
