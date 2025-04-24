@@ -1,0 +1,214 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 210 40% 98%;
+  --foreground: 222 47% 11%;
+  
+  --muted: 210 20% 96%;
+  --muted-foreground: 215 25% 40%;
+  
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  
+  --primary: 211 95% 55%;
+  --primary-foreground: 0 0% 100%;
+  --primary-50: 211 95% 95%;
+  --primary-100: 211 95% 90%;
+  --primary-200: 211 95% 80%;
+  --primary-300: 211 95% 70%;
+  --primary-400: 211 95% 60%;
+  --primary-500: 211 95% 55%;
+  --primary-600: 211 95% 45%;
+  --primary-700: 211 95% 35%;
+  --primary-800: 211 95% 25%;
+  --primary-900: 211 95% 15%;
+  
+  --secondary: 210 20% 96%;
+  --secondary-foreground: 222 47% 11%;
+  
+  --accent: 216 34% 17%;
+  --accent-foreground: 210 40% 98%;
+  --accent-100: 215 20% 90%;
+  --accent-200: 215 25% 80%;
+  --accent-300: 215 30% 70%;
+  --accent-400: 215 35% 60%;
+  --accent-500: 215 40% 50%;
+  --accent-600: 215 45% 40%;
+  --accent-700: 215 50% 30%;
+  --accent-800: 215 55% 20%;
+  --accent-900: 215 60% 10%;
+  
+  --destructive: 0 100% 50%;
+  --destructive-foreground: 210 40% 98%;
+  
+  --ring: 215 20.2% 65.1%;
+
+  --radius: 0.5rem;
+  
+  --highlight: 261 95% 63%;
+  
+  --chart-1: 211 95% 55%;
+  --chart-2: 261 95% 63%;
+  --chart-3: 150 75% 50%;
+  --chart-4: 30 95% 60%;
+  --chart-5: 300 80% 50%;
+}
+
+.dark {
+  --background: 224 71% 4%;
+  --foreground: 213 31% 91%;
+  
+  --muted: 223 47% 11%;
+  --muted-foreground: 215 20% 65%;
+  
+  --popover: 224 71% 4%;
+  --popover-foreground: 215 20% 65%;
+  
+  --card: 224 71% 4%;
+  --card-foreground: 213 31% 91%;
+  
+  --border: 216 34% 17%;
+  --input: 216 34% 17%;
+  
+  --primary: 211 95% 55%;
+  --primary-foreground: 0 0% 100%;
+  --primary-50: 211 95% 95%;
+  --primary-100: 211 95% 90%;
+  --primary-200: 211 95% 80%;
+  --primary-300: 211 95% 70%;
+  --primary-400: 211 95% 60%;
+  --primary-500: 211 95% 55%;
+  --primary-600: 211 95% 45%;
+  --primary-700: 211 95% 35%;
+  --primary-800: 211 95% 25%;
+  --primary-900: 211 95% 15%;
+  
+  --secondary: 222 47% 11%;
+  --secondary-foreground: 210 40% 98%;
+  
+  --accent: 217 33% 17%;
+  --accent-foreground: 210 40% 98%;
+  --accent-100: 215 20% 90%;
+  --accent-200: 215 25% 80%;
+  --accent-300: 215 30% 70%;
+  --accent-400: 215 35% 60%;
+  --accent-500: 215 40% 50%;
+  --accent-600: 215 45% 40%;
+  --accent-700: 215 50% 30%;
+  --accent-800: 215 55% 20%;
+  --accent-900: 215 60% 10%;
+  
+  --destructive: 0 63% 31%;
+  --destructive-foreground: 210 40% 98%;
+  
+  --ring: 216 34% 17%;
+  
+  --radius: 0.5rem;
+  
+  --highlight: 261 95% 63%;
+  
+  --chart-1: 211 95% 55%;
+  --chart-2: 261 95% 63%;
+  --chart-3: 150 75% 50%;
+  --chart-4: 30 95% 60%;
+  --chart-5: 300 80% 50%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-bold;
+  }
+  
+  h1 {
+    @apply text-2xl lg:text-3xl;
+  }
+  
+  h2 {
+    @apply text-xl lg:text-2xl;
+  }
+  
+  h3 {
+    @apply text-lg lg:text-xl;
+  }
+  
+  /* Markdown content styling */
+  .markdown-content {
+    @apply text-accent-900 leading-relaxed;
+  }
+  
+  .markdown-content p {
+    @apply mb-4;
+  }
+  
+  .markdown-content a {
+    @apply text-highlight hover:underline;
+  }
+  
+  .markdown-content blockquote {
+    @apply border-l-4 pl-4 italic my-6 text-muted-foreground;
+  }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:wght@400;600&display=swap');
+
+@layer base {
+  :root {
+    --font-sans: 'Source Sans Pro', system-ui, sans-serif;
+    --font-serif: 'Playfair Display', serif;
+  }
+  
+  html {
+    font-family: var(--font-sans);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+  }
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+.transition-fade {
+  transition: opacity 0.3s ease;
+}
+
+.page-transition-enter {
+  opacity: 0;
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transition: opacity 300ms;
+}
+
+.page-transition-exit {
+  opacity: 1;
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}
