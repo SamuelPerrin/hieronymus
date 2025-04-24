@@ -46,7 +46,12 @@ const DocumentPage = () => {
   ];
 
   if (document) {
-    breadcrumbItems.push({ label: document.title, current: true });
+    // Add the current document to breadcrumbs with the current flag
+    breadcrumbItems.push({ 
+      label: document.title, 
+      href: `/documents/${document.slug}`,
+      current: true 
+    });
   }
 
   return (
