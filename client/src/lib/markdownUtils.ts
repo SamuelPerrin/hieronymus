@@ -1,37 +1,21 @@
 import { marked } from 'marked';
 
-// Configure marked options
-marked.setOptions({
-  gfm: true,
-  breaks: true
-});
-
-// Custom renderer to handle internal links
-const renderer = new marked.Renderer();
-
-// Override the default link renderer to add styling
-renderer.link = (href, title, text) => {
-  const isExternal = href?.startsWith('http');
-  const className = 'text-highlight hover:underline';
-  const targetAttr = isExternal ? 'target="_blank" rel="noopener noreferrer"' : '';
-  return `<a href="${href}" title="${title || ''}" class="${className}" ${targetAttr}>${text}</a>`;
-};
-
-// Override the default blockquote renderer to match our style
-renderer.blockquote = (quote) => {
-  return `<blockquote class="border-l-4 pl-4 italic my-6 text-accent-700 dark:text-primary-300">${quote}</blockquote>`;
-};
-
-// Override the default paragraph renderer for styling
-renderer.paragraph = (text) => {
-  return `<p class="mb-4">${text}</p>`;
-};
-
 /**
  * Convert Markdown to HTML
  */
 export function renderMarkdown(markdown: string): string {
-  return marked(markdown, { renderer });
+  if (!markdown || typeof markdown !== 'string') {
+    console.error('Invalid markdown content:', markdown);
+    return 'Content could not be displayed';
+  }
+  
+  try {
+    // Use the simplest approach to parse markdown to HTML
+    return marked.parse(markdown);
+  } catch (error) {
+    console.error('Error parsing markdown:', error);
+    return 'Error rendering content';
+  }
 }
 
 /**

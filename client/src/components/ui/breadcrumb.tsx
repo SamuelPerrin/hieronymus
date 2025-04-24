@@ -22,10 +22,8 @@ export function Breadcrumb({ className, items }: BreadcrumbProps) {
               <ChevronRight className="w-3 h-3 mx-2 text-muted-foreground" />
             )}
             {item.href && !item.current ? (
-              <Link href={item.href}>
-                <a className="hover:text-accent-700 dark:hover:text-white transition-colors">
-                  {item.label}
-                </a>
+              <Link href={item.href} className="hover:text-accent-700 dark:hover:text-white transition-colors">
+                {item.label}
               </Link>
             ) : (
               <span className={item.current ? "text-accent-700 dark:text-white" : ""} aria-current={item.current ? "page" : undefined}>

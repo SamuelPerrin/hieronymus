@@ -13,6 +13,10 @@ interface DocumentViewerProps {
 const DocumentViewer = ({ document }: DocumentViewerProps) => {
   const { toast } = useToast();
   
+  // Debug document content
+  console.log('Document content type:', typeof document.content);
+  console.log('Document content:', document.content);
+  
   // Handle actions
   const handleDownload = () => {
     toast({
@@ -117,7 +121,11 @@ const DocumentViewer = ({ document }: DocumentViewerProps) => {
       {/* Document Content */}
       <div 
         className="font-serif text-accent-900 dark:text-primary-200 leading-relaxed markdown-content" 
-        dangerouslySetInnerHTML={{ __html: renderMarkdown(document.content) }} 
+        dangerouslySetInnerHTML={{ 
+          __html: typeof document.content === 'string' 
+            ? renderMarkdown(document.content) 
+            : `<p class="text-red-500">Error: Document content could not be displayed</p>`
+        }} 
       />
 
       {/* Document Footer */}
