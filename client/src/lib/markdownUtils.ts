@@ -3,7 +3,7 @@ import { marked } from 'marked';
 /**
  * Convert Markdown to HTML
  */
-export function renderMarkdown(markdown: string): string {
+export function renderMarkdown(markdown: string): string | Promise<string> {
   if (!markdown || typeof markdown !== 'string') {
     console.error('Invalid markdown content:', markdown);
     return 'Content could not be displayed';

@@ -1,20 +1,22 @@
-// Tell TypeScript about .md imports
-declare module "*.md" {
-  const content: string;
-  export default content;
-}
-
 import { Collection, Document, Event, Person, Place } from "@shared/schema";
 
 // Import all markdown files
-const documents = import.meta.glob("/content/documents/*.md", { as: "raw", eager: true });
-const collections = import.meta.glob("/content/collections/*.md", {
-  as: "raw",
+const documents = import.meta.glob("./content/documents/*.md", {
+  eager: true
+});
+console.log("Documents:", documents);
+const collections = import.meta.glob("./content/collections/*.md", {
   eager: true,
 });
-const events = import.meta.glob("/content/events/*.md", { as: "raw", eager: true });
-const people = import.meta.glob("/content/people/*.md", { as: "raw", eager: true });
-const places = import.meta.glob("/content/places/*.md", { as: "raw", eager: true });
+const events = import.meta.glob("./content/events/*.md", {
+  eager: true
+});
+const people = import.meta.glob("./content/people/*.md", {
+  eager: true
+});
+const places = import.meta.glob("./content/places/*.md", {
+  eager: true
+});
 
 function parseMarkdownMetadata(content: string) {
   const lines = content.split("\n");
@@ -73,7 +75,7 @@ export function getAllDocuments(): Document[] {
 
 // Similar functions for other content types...
 export function getCollectionBySlug(slug: string): Collection | undefined {
-  const filePath = `./content/collections/${slug}.md`;
+  const filePath = `/content/collections/${slug}.md`;
   const file = collections[filePath] as { default: string } | undefined;
 
   if (!file) return undefined;
