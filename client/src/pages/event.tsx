@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRoute } from "wouter";
 import { Event } from "@shared/schema";
-import { Breadcrumb } from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumb";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -39,7 +39,7 @@ const EventPage = () => {
   }, [event]);
 
   // Define breadcrumb items
-  const breadcrumbItems = [
+  const breadcrumbItems : BreadcrumbItem[] = [
     { label: "Home", href: "/" },
     { label: "Events", href: "/events" },
   ];
@@ -125,9 +125,9 @@ const EventPage = () => {
               </Card>
 
               {/* Related Items Carousel (Mobile Only) */}
-              {isMobile && relatedItems && relatedItems.length > 0 && (
+              {/* {isMobile && relatedItems && relatedItems.length > 0 && (
                 <RelatedItemsCarousel items={relatedItems} />
-              )}
+              )} */}
             </motion.div>
           ) : (
             <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">

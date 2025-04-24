@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { getDocumentBySlug } from "@/lib/contentLoader";
 import { useRoute } from "wouter";
 import { Document, RelatedItem } from "@shared/schema";
-import { Breadcrumb } from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumb";
 import DocumentViewer from "@/components/document/DocumentViewer";
 import DocumentNav from "@/components/document/DocumentNav";
 import Sidebar from "@/components/layout/Sidebar";
@@ -36,7 +36,7 @@ const DocumentPage = () => {
   }, [document]);
 
   // Define breadcrumb items
-  const breadcrumbItems = [
+  const breadcrumbItems : BreadcrumbItem[] = [
     { label: "Home", href: "/" },
     document?.collectionId
       ? { label: "Collections", href: "/collections/letters" }

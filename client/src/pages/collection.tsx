@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRoute, Link } from "wouter";
 import { Collection, Document } from "@shared/schema";
-import { Breadcrumb } from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumb";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Calendar, ArrowRight } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -31,16 +31,16 @@ const CollectionPage = () => {
   // Set page title
   useEffect(() => {
     if (collection) {
-      document.title = `${collection.title} | Archival Histories`;
+      document.title = `${collection.title} | Ghost in the Archive`;
     } else {
-      document.title = "Collection | Archival Histories";
+      document.title = "Collection | Ghost in the Archive";
     }
   }, [collection]);
 
   // Define breadcrumb items
-  const breadcrumbItems = [
+  const breadcrumbItems : BreadcrumbItem[] = [
     { label: "Home", href: "/" },
-    { label: "Collections", href: "/collections" },
+    { label: "Collections", href: "/collections"},
   ];
 
   if (collection) {

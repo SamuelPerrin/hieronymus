@@ -5,11 +5,13 @@ import { cn } from "@/lib/utils";
 
 interface BreadcrumbProps {
   className?: string;
-  items: {
-    label: string;
-    href?: string;
-    current?: boolean;
-  }[];
+  items: BreadcrumbItem[];
+}
+
+export interface BreadcrumbItem {
+  label: string;
+  href?: string;
+  current?: boolean;
 }
 
 export function Breadcrumb({ className, items }: BreadcrumbProps) {
