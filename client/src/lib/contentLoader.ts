@@ -7,13 +7,13 @@ declare module "*.md" {
 import { Collection, Document, Event, Person, Place } from "@shared/schema";
 
 // Import all markdown files
-const documents = import.meta.glob("/content/documents/*.md", { eager: true });
-const collections = import.meta.glob("/content/collections/*.md", {
+const documents = import.meta.glob("../../../content/documents/*.md", { eager: true });
+const collections = import.meta.glob("../../../content/collections/*.md", {
   eager: true,
 });
-const events = import.meta.glob("/content/events/*.md", { eager: true });
-const people = import.meta.glob("/content/people/*.md", { eager: true });
-const places = import.meta.glob("/content/places/*.md", { eager: true });
+const events = import.meta.glob("../../../content/events/*.md", { eager: true });
+const people = import.meta.glob("../../../content/people/*.md", { eager: true });
+const places = import.meta.glob("../../../content/places/*.md", { eager: true });
 
 function parseMarkdownMetadata(content: string) {
   const lines = content.split("\n");
