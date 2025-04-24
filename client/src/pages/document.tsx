@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { getDocumentBySlug } from "@/lib/contentLoader";
 import { useRoute } from "wouter";
 import { Document, RelatedItem } from "@shared/schema";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
@@ -15,17 +15,13 @@ const DocumentPage = () => {
   const slug = params?.slug || "";
   const isMobile = useMediaQuery("(max-width: 1023px)");
 
-  // Fetch document
-  const { data: document, isLoading: isLoadingDocument } = useQuery<Document>({
-    queryKey: [`/api/documents/${slug}`],
-    enabled: !!slug,
-  });
+  // Load document from markdown
+  const document = getDocumentBySlug(slug);
+  const isLoadingDocument = false;
 
-  // Fetch related items
-  const { data: relatedItems, isLoading: isLoadingRelated } = useQuery<RelatedItem[]>({
-    queryKey: [`/api/document/${slug}/related`],
-    enabled: !!slug,
-  });
+  // TODO: Implement related items loading from markdown
+  const relatedItems: RelatedItem[] = [];
+  const isLoadingRelated = false;
 
   // Set document title
   useEffect(() => {
