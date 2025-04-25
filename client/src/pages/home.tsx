@@ -1,38 +1,29 @@
 import { useEffect } from "react";
 import { Link } from "wouter";
-import { useQuery } from "@tanstack/react-query";
 import { Document, Person, Place, Event, Collection } from "@shared/schema";
-import { Ghost, Search, User, MapPin, Calendar, FileText, ArrowRight } from "lucide-react";
+import { Ghost, Search, User, MapPin, Calendar, ArrowRight, Archive } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import SearchBar from "@/components/search/SearchBar";
 import { extractExcerpt } from "@/lib/markdownUtils";
 import { motion } from "framer-motion";
-import { getAllDocuments } from "@/lib/contentLoader";
+import { getAllDocuments, getCollectionsLength, getEventsLength, getPeopleLength, getPlacesLength } from "@/lib/contentLoader";
 
 const Home = () => {
   // Fetch recent documents
-  const documents  = getAllDocuments();
+  const documents = getAllDocuments();
 
   // Fetch collections
-  const { data: collections } = useQuery<Collection[]>({
-    queryKey: ["/api/collections"],
-  });
+  const collectionsLength = getCollectionsLength();
 
   // Fetch people
-  const { data: people } = useQuery<Person[]>({
-    queryKey: ["/api/people"],
-  });
+  const peopleLength = getPeopleLength();
 
   // Fetch places
-  const { data: places } = useQuery<Place[]>({
-    queryKey: ["/api/places"],
-  });
+  const placesLength = getPlacesLength();
 
   // Fetch events
-  const { data: events } = useQuery<Event[]>({
-    queryKey: ["/api/events"],
-  });
+  const eventsLength = getEventsLength();
 
   // Prefetch for better UX
   useEffect(() => {
@@ -123,12 +114,12 @@ const Home = () => {
               <CardContent className="pt-6">
                 <div className="flex items-center mb-4">
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4">
-                    <FileText className="h-6 w-6 text-primary" />
+                    <Archive className="h-6 w-6 text-primary" />
                   </div>
                   <div>
                     <h3 className="font-serif font-bold text-accent-900 dark:text-white">Collections</h3>
                     <p className="text-sm text-muted-foreground">
-                      {collections?.length || 0} available
+                      {collectionsLength === 1 ? `${collectionsLength} archival collection` : `${collectionsLength} archival collections`}
                     </p>
                   </div>
                 </div>
@@ -149,7 +140,7 @@ const Home = () => {
                   <div>
                     <h3 className="font-serif font-bold text-accent-900 dark:text-white">People</h3>
                     <p className="text-sm text-muted-foreground">
-                      {people?.length || 0} profiles
+                      {peopleLength === 1 ? `${peopleLength} biography` : `${peopleLength} biographies`}
                     </p>
                   </div>
                 </div>
@@ -170,7 +161,7 @@ const Home = () => {
                   <div>
                     <h3 className="font-serif font-bold text-accent-900 dark:text-white">Places</h3>
                     <p className="text-sm text-muted-foreground">
-                      {places?.length || 0} locations
+                      {placesLength === 1 ? `${placesLength} location` : `${placesLength} locations`}
                     </p>
                   </div>
                 </div>
@@ -191,7 +182,7 @@ const Home = () => {
                   <div>
                     <h3 className="font-serif font-bold text-accent-900 dark:text-white">Events</h3>
                     <p className="text-sm text-muted-foreground">
-                      {events?.length || 0} historical events
+                      {eventsLength === 1 ? `${eventsLength} historical event` : `${eventsLength} historiacal events`}
                     </p>
                   </div>
                 </div>
@@ -222,7 +213,7 @@ const Home = () => {
               </Button>
             </Link>
             <Link href="/about">
-              <Button variant="outline" className="text-white border-white hover:bg-accent-700">
+              <Button variant="outline" className="text-accent-900 border-white hover:bg-accent-700">
                 Learn More
               </Button>
             </Link>

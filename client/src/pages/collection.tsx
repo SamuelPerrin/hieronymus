@@ -10,7 +10,7 @@ import { extractExcerpt, prepareJSX } from "@/lib/markdownUtils";
 import Sidebar from "@/components/layout/Sidebar";
 import { useMediaQuery } from "@/hooks/use-mobile";
 import { motion } from "framer-motion";
-import { getCollectionBySlug } from "@/lib/contentLoader";
+import { getCollectionBySlug, getDocumentsByCollectionId } from "@/lib/contentLoader";
 
 const CollectionPage = () => {
   const [match, params] = useRoute("/collections/:slug");
@@ -23,10 +23,12 @@ const CollectionPage = () => {
   isLoadingCollection = !collection;
 
   // Fetch documents for this collection
-  const { data: documents, isLoading: isLoadingDocuments } = useQuery<Document[]>({
-    queryKey: [`/api/collection/${collection?.id}/documents`],
-    enabled: !!collection?.id,
-  });
+  let isLoadingDocuments = true;
+  const documents : Document[] = [];
+  if (collection) {
+    documents.push(...getDocumentsByCollectionId(collection.id));
+    isLoadingDocuments = documents.length === 0;
+  }
 
   // Set page title
   useEffect(() => {

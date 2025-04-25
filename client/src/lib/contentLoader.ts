@@ -78,6 +78,14 @@ export function getAllDocuments(): Document[] {
   });
 }
 
+export function getDocumentsLength(): number {
+  return Object.keys(documents).length;
+}
+
+export function getDocumentsByCollectionId(collectionId: number): Document[] {
+  return getAllDocuments().filter(doc => doc.collectionId === collectionId);
+}
+
 // Get Collections
 export function getCollectionBySlug(slug: string): Collection | undefined {
   const filePath = `../content/collections/${slug}.md`;
@@ -102,6 +110,10 @@ export function getAllCollections(): Collection[] {
     const slug = path.split("/").pop()?.replace(".md", "") || "";
     return getCollectionBySlug(slug)!;
   });
+}
+
+export function getCollectionsLength(): number {
+  return Object.keys(collections).length;
 }
 
 // Get People
@@ -132,6 +144,10 @@ export function getAllPeople(): Person[] {
   });
 }
 
+export function getPeopleLength(): number {
+  return Object.keys(people).length;
+}
+
 // Get Events
 export function getEventBySlug(slug: string): Event | undefined {
   const filePath = `../content/events/${slug}.md`;
@@ -154,6 +170,10 @@ export function getAllEvents(): Event[] {
     const slug = path.split("/").pop()?.replace(".md", "") || "";
     return getEventBySlug(slug)!;
   });
+}
+
+export function getEventsLength(): number {
+  return Object.keys(events).length;
 }
 
 // Get Places
@@ -182,6 +202,10 @@ export function getAllPlaces(): Place[] {
     const slug = path.split("/").pop()?.replace(".md", "") || "";
     return getPlaceBySlug(slug)!;
   });
+}
+
+export function getPlacesLength(): number {
+  return Object.keys(places).length;
 }
 
 // Utils

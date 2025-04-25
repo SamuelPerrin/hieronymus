@@ -69,8 +69,14 @@ const transform = (node: any): React.JSX.Element => {
  * Extract the first paragraph from markdown for summaries
  */
 export function extractExcerpt(markdown: string, maxLength = 150): string {
-  // Get the first paragraph
-  const firstParagraph = markdown.split('\n\n')[0].replace(/\n/g, ' ').trim();
+  const MINIMUM_LENGTH = 20; // characters
+
+  // Get the first real paragraph (avoid dates, salutations, addresses, etc.)
+  const paragraphs = markdown.split('\n\n');
+  let firstParagraph = paragraphs.find(p => p.length > MINIMUM_LENGTH)?.replace(/\n/g, ' ').trim();
+  if (!firstParagraph) {
+    firstParagraph = paragraphs[0].replace(/\n/g, ' ').trim();
+  }
   
   // Strip markdown syntax
   const plainText = firstParagraph

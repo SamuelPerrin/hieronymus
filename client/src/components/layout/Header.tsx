@@ -57,37 +57,37 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
 
             <div className="hidden md:flex items-center space-x-6">
               <Link href="/">
-                <Button variant="ghost" className={cn("text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white", 
+                <Button variant="ghost" className={cn("text-accent-700 hover:text-white dark:text-primary-200 dark:hover:text-white", 
                   location === "/" && "text-accent-900 dark:text-white")}>
                   Home
                 </Button>
               </Link>
               <Link href="/collections/letters">
-                <Button variant="ghost" className={cn("text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white",
+                <Button variant="ghost" className={cn("text-accent-700 hover:text-white dark:text-primary-200 dark:hover:text-white",
                   location.startsWith("/collections") && "text-accent-900 dark:text-white")}>
                   Collections
                 </Button>
               </Link>
               <Link href="/people/alexander-hamilton">
-                <Button variant="ghost" className={cn("text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white",
+                <Button variant="ghost" className={cn("text-accent-700 hover:text-white dark:text-primary-200 dark:hover:text-white",
                   location.startsWith("/people") && "text-accent-900 dark:text-white")}>
                   People
                 </Button>
               </Link>
               <Link href="/places/new-windsor">
-                <Button variant="ghost" className={cn("text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white",
+                <Button variant="ghost" className={cn("text-accent-700 hover:text-white dark:text-primary-200 dark:hover:text-white",
                   location.startsWith("/places") && "text-accent-900 dark:text-white")}>
                   Places
                 </Button>
               </Link>
               <Link href="/events/american-revolution">
-                <Button variant="ghost" className={cn("text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white",
+                <Button variant="ghost" className={cn("text-accent-700 hover:text-white dark:text-primary-200 dark:hover:text-white",
                   location.startsWith("/events") && "text-accent-900 dark:text-white")}>
                   Events
                 </Button>
               </Link>
               <Link href="/about">
-                <Button variant="ghost" className={cn("text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white",
+                <Button variant="ghost" className={cn("text-accent-700 hover:text-white dark:text-primary-200 dark:hover:text-white",
                   location === "/about" && "text-accent-900 dark:text-white")}>
                   About
                 </Button>

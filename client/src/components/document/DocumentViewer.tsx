@@ -115,7 +115,7 @@ const DocumentViewer = ({ document }: DocumentViewerProps) => {
 
       {/* Document Content */}
       <div 
-        className="font-serif text-accent-900 dark:text-primary-200 leading-relaxed markdown-content" 
+        className="font-serif text-accent-900 dark:text-primary-200 leading-relaxed markdown-content max-w-prose" 
       >
         {typeof document.content === 'string'
           ? prepareJSX(document.content)
