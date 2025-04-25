@@ -164,7 +164,7 @@
   }
   
   .markdown-content blockquote {
-    @apply border-l-4 pl-4 italic my-6 text-muted-foreground;
+    @apply border-l-4 border-l-gray-200 dark:border-l-gray-600 pl-4 my-6 text-muted-foreground;
   }
 }
 

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Document } from "@shared/schema";
 import { prepareJSX } from "@/lib/markdownUtils";
+import { formatDate } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 
 interface DocumentViewerProps {
@@ -61,7 +62,7 @@ const DocumentViewer = ({ document }: DocumentViewerProps) => {
           {document.date && (
             <div className="text-accent-700 dark:text-primary-200 flex items-center space-x-2">
               <Calendar className="h-4 w-4" />
-              <span>{document.date}</span>
+              <span>{formatDate(document.date)}</span>
             </div>
           )}
 

@@ -59,6 +59,7 @@ export type Place = {
   alternateNames?: string[];
   region?: string;
   country?: string;
+  city?: string;
   description?: string;
 };
 

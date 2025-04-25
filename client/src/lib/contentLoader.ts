@@ -273,6 +273,7 @@ export function getPlaceBySlug(slug: string): Place | undefined {
     slug,
     name: metadata.name || "",
     alternateNames: metadata.alternateNames || [],
+    city: metadata.city,
     region: metadata.region,
     country: metadata.country,
     description: content,
