@@ -14,8 +14,8 @@ const DocumentViewer = ({ document }: DocumentViewerProps) => {
   const { toast } = useToast();
   
   // Debug document content
-  console.log('Document content type:', typeof document.content);
-  console.log('Document content:', document.content);
+  // console.log('Document content type:', typeof document.content);
+  // console.log('Document content:', document.content);
   
   // Handle actions
   const handleDownload = () => {
@@ -69,7 +69,7 @@ const DocumentViewer = ({ document }: DocumentViewerProps) => {
             <div className="flex flex-wrap items-center sm:justify-end gap-2">
               {document.type && (
                 <Badge variant="outline" className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 border-none">
-                  {document.type.charAt(0).toUpperCase() + document.type.slice(1).replace('_', ' ')}
+                  {document.type.toString().charAt(0).toUpperCase() + document.type.toString().slice(1).replace('_', ' ')}
                 </Badge>
               )}
               {document.tags.map((tag, index) => {

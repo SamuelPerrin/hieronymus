@@ -14,7 +14,6 @@
     "allowImportingTsExtensions": true,
     "moduleResolution": "bundler",
     "baseUrl": ".",
-    "include": ["src", "types"],
     "types": ["node", "vite/client"],
     "paths": {
       "@/*": ["./client/src/*"],

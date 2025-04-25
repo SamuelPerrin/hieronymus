@@ -1,20 +1,21 @@
 import { Collection, Document, Event, Person, Place } from "@shared/schema";
 
 // Import all markdown files
-const documents = import.meta.glob("./content/documents/*.md", {
-  eager: true
+const documents = import.meta.glob("../content/documents/*.md", {
+  eager: true,
+  query: "?raw"
 });
 console.log("Documents:", documents);
-const collections = import.meta.glob("./content/collections/*.md", {
+const collections = import.meta.glob("../content/collections/*.md", {
   eager: true,
 });
-const events = import.meta.glob("./content/events/*.md", {
+const events = import.meta.glob("../content/events/*.md", {
   eager: true
 });
-const people = import.meta.glob("./content/people/*.md", {
+const people = import.meta.glob("../content/people/*.md", {
   eager: true
 });
-const places = import.meta.glob("./content/places/*.md", {
+const places = import.meta.glob("../content/places/*.md", {
   eager: true
 });
 
@@ -42,27 +43,28 @@ function parseMarkdownMetadata(content: string) {
 }
 
 export function getDocumentBySlug(slug: string): Document | undefined {
-  const filePath = `/content/documents/${slug}.md`;
-  console.log("File path:", filePath);
-  console.log("Documents:", documents);
+  const filePath = `../content/documents/${slug}.md`;
+  // console.log("File path:", filePath);
+  // console.log("Documents:", documents);
   const file = documents[filePath] as { default: string } | undefined;
   console.log("File:", file);
 
   if (!file) return undefined;
 
   const { metadata, content } = parseMarkdownMetadata(file.default);
+  // console.log("Metadata:", metadata);
+  // console.log("Content:", content);
   return {
     id: parseInt(metadata.id) || 0,
     slug,
     title: metadata.title || "",
     content,
     date: metadata.date,
+    type: metadata.type,
     source: metadata.source,
     location: metadata.location,
     archiveReference: metadata.archiveReference,
-    collectionId: parseInt(metadata.collectionId) || undefined,
-    createdAt: new Date(metadata.createdAt || Date.now()),
-    updatedAt: new Date(metadata.updatedAt || Date.now()),
+    collectionId: parseInt(metadata.collectionId) || 0,
   };
 }
 
