@@ -57,7 +57,7 @@ const Home = () => {
               Ghost in the Archive
             </h1>
             <p className="text-xl text-accent-700 dark:text-primary-200 mb-8">
-              A scholarly repository of transcribed historical documents, providing researchers and history enthusiasts with accessible primary sources.
+              A scholarly repository of transcribed historical documents, providing researchers and history enthusiasts with accessible primary sources
             </p>
           </motion.div>
           
