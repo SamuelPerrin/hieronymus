@@ -27,9 +27,9 @@ const DocumentPage = () => {
   useEffect(() => {
     if (document) {
       // Use window.document instead of document to avoid conflict with the document variable
-      window.document.title = `${document.title} | Archival Histories`;
+      window.document.title = `${document.title} | Ghost in the Archive`;
     } else {
-      window.document.title = "Document | Archival Histories";
+      window.document.title = "Document | Ghost in the Archive";
     }
   }, [document]);
 

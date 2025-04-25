@@ -12,7 +12,7 @@ import RelatedItemsCarousel from "@/components/related/RelatedItemsCarousel";
 import { useMediaQuery } from "@/hooks/use-mobile";
 import { motion } from "framer-motion";
 import { getPlaceBySlug } from "@/lib/contentLoader";
-import { renderMarkdown } from "@/lib/markdownUtils";
+import { prepareJSX } from "@/lib/markdownUtils";
 
 const PlacePage = () => {
   const [match, params] = useRoute("/places/:slug");
@@ -33,10 +33,10 @@ const PlacePage = () => {
   // Set page title
   useEffect(() => {
     if (place) {
-      document.title = `${place.name} | Archival Histories`;
+      document.title = `${place.name} | Ghost in the Archive`;
       isLoadingPlace = false;
     } else {
-      document.title = "Place | Archival Histories";
+      document.title = "Place | Ghost in the Archive";
     }
   }, [place, isLoadingPlace]);
 
@@ -119,12 +119,11 @@ const PlacePage = () => {
                   {place.description && (
                     <div 
                     className="text-accent-700 dark:text-primary-200 leading-relaxed markdown-content" 
-                    dangerouslySetInnerHTML={{ 
-                      __html: typeof place.description === 'string' 
-                        ? renderMarkdown(place.description) 
-                        : `<p class="text-red-500">Error: Document content could not be displayed</p>`
-                    }} 
-                  />
+                  >
+                    {typeof place.description === 'string' 
+                        ? prepareJSX(place.description) 
+                        : <p className="text-red-500">Error: Document content could not be displayed</p>}
+                  </div>
                   )}
                 </CardContent>
               </Card>

@@ -2,7 +2,7 @@ import { Calendar, Download, Share, Printer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Document } from "@shared/schema";
-import { renderMarkdown } from "@/lib/markdownUtils";
+import { prepareJSX } from "@/lib/markdownUtils";
 import { useToast } from "@/hooks/use-toast";
 
 interface DocumentViewerProps {
@@ -116,13 +116,12 @@ const DocumentViewer = ({ document }: DocumentViewerProps) => {
       {/* Document Content */}
       <div 
         className="font-serif text-accent-900 dark:text-primary-200 leading-relaxed markdown-content" 
-        dangerouslySetInnerHTML={{ 
-          __html: typeof document.content === 'string' 
-            ? renderMarkdown(document.content) 
-            : `<p class="text-red-500">Error: Document content could not be displayed</p>`
-        }} 
-      />
-
+      >
+        {typeof document.content === 'string'
+          ? prepareJSX(document.content)
+          : <p className="text-red-500">Error: Document content could not be displayed</p>
+        }
+      </div>
       {/* Document Footer */}
       <footer className="mt-10 pt-6 border-t border-primary-100 dark:border-accent-700">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">

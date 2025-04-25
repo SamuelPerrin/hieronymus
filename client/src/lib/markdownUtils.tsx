@@ -1,5 +1,8 @@
 import { marked } from 'marked';
 import { getEntityTypeForSlug } from './contentLoader';
+import parse from 'html-react-parser';
+import React from 'react';
+import { Link } from 'wouter';
 
 const renderer = new marked.Renderer();
 
@@ -38,6 +41,28 @@ export function renderMarkdown(markdown: string): string | Promise<string> {
     console.error('Error parsing markdown:', error);
     return 'Error rendering content';
   }
+}
+
+/**
+ * Convert HTML to JSX
+ */
+export function prepareJSX(markdown: string): React.JSX.Element {
+  let html = renderMarkdown(markdown);
+  if (typeof html == 'string') {
+    return <>{parse(html, { replace: transform})}</>
+  }
+  return <p className="text-red-500">There was an error rendering this document.</p>
+}
+
+/**
+ * Helper for parsing HTML anchor tags to wouter Links
+ */
+const transform = (node: any): React.JSX.Element => {
+  if (node.type === "tag" && node.name === "a") {
+    const href = node.attribs.href;
+    return <Link to={href}>{node.children.map((child: {type: string; data?: string}) => child.type === "text" ? child.data : "")}</Link>
+  }
+  return node;
 }
 
 /**

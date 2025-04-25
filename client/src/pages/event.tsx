@@ -11,7 +11,7 @@ import Sidebar from "@/components/layout/Sidebar";
 import RelatedItemsCarousel from "@/components/related/RelatedItemsCarousel";
 import { useMediaQuery } from "@/hooks/use-mobile";
 import { motion } from "framer-motion";
-import { renderMarkdown } from "@/lib/markdownUtils";
+import { prepareJSX } from "@/lib/markdownUtils";
 import { getEventBySlug } from "@/lib/contentLoader";
 
 const EventPage = () => {
@@ -33,9 +33,9 @@ const EventPage = () => {
   // Set page title
   useEffect(() => {
     if (event) {
-      document.title = `${event.name} | Archival Histories`;
+      document.title = `${event.name} | Ghost in the Archive`;
     } else {
-      document.title = "Event | Archival Histories";
+      document.title = "Event | Ghost in the Archive";
     }
   }, [event]);
 
@@ -120,12 +120,11 @@ const EventPage = () => {
                   {event.description && (
                     <div 
                     className="text-accent-700 dark:text-primary-200 leading-relaxed markdown-content" 
-                    dangerouslySetInnerHTML={{ 
-                      __html: typeof event.description === 'string' 
-                        ? renderMarkdown(event.description) 
-                        : `<p class="text-red-500">Error: Document content could not be displayed</p>`
-                    }} 
-                  />
+                  >
+                    {typeof event.description === 'string' 
+                        ? prepareJSX(event.description) 
+                        : <p className="text-red-500">Error: Document content could not be displayed</p>}
+                  </div>
                   )}
                 </CardContent>
               </Card>

@@ -6,12 +6,11 @@ import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumb";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Calendar, ArrowRight } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { extractExcerpt } from "@/lib/markdownUtils";
+import { extractExcerpt, prepareJSX } from "@/lib/markdownUtils";
 import Sidebar from "@/components/layout/Sidebar";
 import { useMediaQuery } from "@/hooks/use-mobile";
 import { motion } from "framer-motion";
 import { getCollectionBySlug } from "@/lib/contentLoader";
-import { renderMarkdown } from "@/lib/markdownUtils";
 
 const CollectionPage = () => {
   const [match, params] = useRoute("/collections/:slug");
@@ -90,13 +89,12 @@ const CollectionPage = () => {
                 <CardContent>
                   {collection.content && (
                     <div 
-                    className="text-accent-700 dark:text-primary-200 leading-relaxed markdown-content" 
-                    dangerouslySetInnerHTML={{ 
-                      __html: typeof collection.content === 'string' 
-                        ? renderMarkdown(collection.content) 
-                        : `<p class="text-red-500">Error: Document content could not be displayed</p>`
-                    }} 
-                  />
+                    className="text-accent-700 dark:text-primary-200 leading-relaxed markdown-content"
+                  >
+                    {typeof collection.content === 'string' 
+                        ? prepareJSX(collection.content) 
+                        : <p className="text-red-500">Error: Document content could not be displayed</p>}
+                  </div>
                   )}
                 </CardContent>
               </Card>

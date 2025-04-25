@@ -26,8 +26,8 @@ const SearchPage = () => {
   // Update title
   useEffect(() => {
     document.title = queryParam
-      ? `Search: ${queryParam} | Archival Histories`
-      : "Search | Archival Histories";
+      ? `Search: ${queryParam} | Ghost in the Archive`
+      : "Search | Ghost in the Archive";
   }, [queryParam]);
 
   // Count total results

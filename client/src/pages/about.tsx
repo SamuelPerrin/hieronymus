@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 const AboutPage = () => {
   useEffect(() => {
-    document.title = "About | Archival Histories";
+    document.title = "About | Ghost in the Archive";
   }, []);
 
   // Define breadcrumb items
@@ -27,7 +27,7 @@ const AboutPage = () => {
           transition={{ duration: 0.3 }}
         >
           <h1 className="text-3xl font-serif font-bold text-accent-900 dark:text-white mb-6">
-            About Archival Histories
+            About Ghost in the Archive
           </h1>
 
           <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700 mb-8">
@@ -38,7 +38,7 @@ const AboutPage = () => {
                 </div>
               </div>
               <p className="text-accent-700 dark:text-primary-200 mb-4">
-                Archival Histories is a scholarly repository dedicated to making historical primary sources accessible to researchers, educators, students, and history enthusiasts. Our mission is to provide transcribed historical documents with rich context and interconnections.
+                Ghost in the Archive is a scholarly repository dedicated to making historical primary sources accessible to researchers, educators, students, and history enthusiasts. Our mission is to provide transcribed historical documents with rich context and interconnections.
               </p>
               <p className="text-accent-700 dark:text-primary-200">
                 Through this digital archive, we aim to preserve historical knowledge, facilitate research, and deepen understanding of the past by creating a network of relationships between historical documents, people, places, and events.
@@ -84,10 +84,10 @@ const AboutPage = () => {
                   When referencing materials from our archive in your research or publications, please use the following citation format:
                 </p>
                 <div className="bg-primary-50 dark:bg-accent-700 p-4 rounded text-sm font-mono text-accent-900 dark:text-primary-200">
-                  "Document Title," Archival Histories, accessed [Access Date], [URL].
+                  "Document Title," Ghost in the Archive, accessed [Access Date], [URL].
                 </div>
                 <p className="text-accent-700 dark:text-primary-200 mt-4">
-                  For example: "Letter from Alexander Hamilton to George Washington," Archival Histories, accessed May 15, 2023, https://archivalhistories.org/documents/hamilton-to-washington-1781.
+                  For example: "Letter from Alexander Hamilton to George Washington," Ghost in the Archive, accessed May 15, 2023, https://archivalhistories.org/documents/hamilton-to-washington-1781.
                 </p>
               </CardContent>
             </Card>
@@ -104,7 +104,7 @@ const AboutPage = () => {
             </CardHeader>
             <CardContent>
               <p className="text-accent-700 dark:text-primary-200 mb-4">
-                Archival Histories is built using modern web technologies to ensure accessibility, performance, and sustainability:
+                Ghost in the Archive is built using modern web technologies to ensure accessibility, performance, and sustainability:
               </p>
               <ul className="list-disc pl-5 space-y-2 text-accent-700 dark:text-primary-200">
                 <li>React and TypeScript for a reliable and maintainable application</li>

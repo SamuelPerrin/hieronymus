@@ -1,4 +1,4 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, Router } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -14,19 +14,21 @@ import Event from "@/pages/event";
 import Search from "@/pages/search";
 import About from "@/pages/about";
 
-function Router() {
+function MyRouter() {
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/documents/:slug" component={Document} />
-      <Route path="/collections/:slug" component={Collection} />
-      <Route path="/people/:slug" component={Person} />
-      <Route path="/places/:slug" component={Place} />
-      <Route path="/events/:slug" component={Event} />
-      <Route path="/search" component={Search} />
-      <Route path="/about" component={About} />
-      <Route component={NotFound} />
-    </Switch>
+    <Router>
+      <Switch>
+        <Route path="/" component={Home} />
+        <Route path="/documents/:slug" component={Document} />
+        <Route path="/collections/:slug" component={Collection} />
+        <Route path="/people/:slug" component={Person} />
+        <Route path="/places/:slug" component={Place} />
+        <Route path="/events/:slug" component={Event} />
+        <Route path="/search" component={Search} />
+        <Route path="/about" component={About} />
+        <Route component={NotFound} />
+      </Switch>
+    </Router>
   );
 }
 
@@ -36,7 +38,7 @@ function App() {
       <TooltipProvider>
         <Toaster />
         <AppLayout>
-          <Router />
+          <MyRouter />
         </AppLayout>
       </TooltipProvider>
     </QueryClientProvider>

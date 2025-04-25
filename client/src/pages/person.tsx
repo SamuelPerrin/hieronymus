@@ -11,7 +11,7 @@ import Sidebar from "@/components/layout/Sidebar";
 import RelatedItemsCarousel from "@/components/related/RelatedItemsCarousel";
 import { useMediaQuery } from "@/hooks/use-mobile";
 import { motion } from "framer-motion";
-import { renderMarkdown } from "@/lib/markdownUtils";
+import { prepareJSX } from "@/lib/markdownUtils";
 import { getPersonBySlug } from "@/lib/contentLoader";
 
 const PersonPage = () => {
@@ -33,9 +33,9 @@ const PersonPage = () => {
   // Set page title
   useEffect(() => {
     if (person) {
-      document.title = `${person.name} | Archival Histories`;
+      document.title = `${person.name} | Ghost in the Archive`;
     } else {
-      document.title = "Person | Archival Histories";
+      document.title = "Person | Ghost in the Archive";
     }
   }, [person]);
 
@@ -113,12 +113,11 @@ const PersonPage = () => {
                   {person.description && (
                     <div 
                     className="text-accent-700 dark:text-primary-200 leading-relaxed markdown-content" 
-                    dangerouslySetInnerHTML={{ 
-                      __html: typeof person.description === 'string' 
-                        ? renderMarkdown(person.description) 
-                        : `<p class="text-red-500">Error: Document content could not be displayed</p>`
-                    }} 
-                  />
+                  >
+                    {typeof person.description === 'string' 
+                        ? prepareJSX(person.description) 
+                        : <p className="text-red-500">Error: Document content could not be displayed</p>}
+                  </div>
                   )}
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
