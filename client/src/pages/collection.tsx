@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRoute, Link } from "wouter";
-import { Collection, Document } from "@shared/schema";
+import { Collection, Document, EntityType } from "@shared/schema";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumb";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Calendar, ArrowRight } from "lucide-react";
+import { Calendar, ArrowRight, Archive } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { extractExcerpt, prepareJSX } from "@/lib/markdownUtils";
 import Sidebar from "@/components/layout/Sidebar";
@@ -58,7 +58,7 @@ const CollectionPage = () => {
         {/* Sidebar (Desktop) */}
         {!isMobile && (
           <aside className="lg:w-64 flex-shrink-0">
-            <Sidebar entityType="collection" slug={slug} />
+            <Sidebar entityType={EntityType.collection} slug={slug} />
           </aside>
         )}
 
@@ -79,14 +79,21 @@ const CollectionPage = () => {
             >
               <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700 mb-8">
                 <CardHeader>
-                  <CardTitle className="text-2xl font-serif text-accent-900 dark:text-white">
-                    {collection.title}
-                  </CardTitle>
-                  {collection.description && (
-                    <CardDescription className="text-accent-700 dark:text-primary-200 text-base">
-                      {collection.description}
-                    </CardDescription>
-                  )}
+                  <div className="flex flex-col md:flex-row md:items-center gap-4">
+                    <div className="bg-orange-100 dark:bg-orange-900 h-16 w-16 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Archive className="h-8 w-8 text-orange-800 dark:text-orange-200" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-2xl font-serif text-accent-900 dark:text-white">
+                        {collection.title}
+                      </CardTitle>
+                      {collection.description && (
+                        <CardDescription className="text-accent-700 dark:text-primary-200 text-base">
+                          {collection.description}
+                        </CardDescription>
+                      )}
+                    </div>
+                  </div>
                 </CardHeader>
                 <CardContent>
                   {collection.content && (
@@ -128,7 +135,7 @@ const CollectionPage = () => {
                       <CardHeader className="pb-2">
                         <CardTitle className="text-lg font-serif hover:text-primary transition-colors">
                           <Link href={`/documents/${doc.slug}`}>
-                            <a>{doc.title}</a>
+                            {doc.title}
                           </Link>
                         </CardTitle>
                         <CardDescription className="flex items-center text-muted-foreground">
@@ -139,11 +146,9 @@ const CollectionPage = () => {
                         <p className="text-sm text-accent-700 dark:text-primary-300 line-clamp-3">
                           {extractExcerpt(doc.content)}
                         </p>
-                        <Link href={`/documents/${doc.slug}`}>
-                          <a className="inline-flex items-center mt-2 text-primary hover:text-primary/80 text-sm">
-                            Read full document
-                            <ArrowRight className="h-3 w-3 ml-1" />
-                          </a>
+                        <Link href={`/documents/${doc.slug}`} className="inline-flex items-center mt-2 text-primary hover:text-primary/80 text-sm">
+                          Read full document
+                          <ArrowRight className="h-3 w-3 ml-1" />
                         </Link>
                       </CardContent>
                     </Card>

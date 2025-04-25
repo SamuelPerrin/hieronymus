@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRoute } from "wouter";
-import { Event } from "@shared/schema";
+import { EntityType, Event } from "@shared/schema";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumb";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -58,7 +58,7 @@ const EventPage = () => {
         {/* Sidebar (Desktop) */}
         {!isMobile && (
           <aside className="lg:w-64 flex-shrink-0">
-            <Sidebar entityType="event" slug={slug} />
+            <Sidebar entityType={EntityType.event} slug={slug} />
           </aside>
         )}
 
@@ -87,8 +87,8 @@ const EventPage = () => {
               <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">
                 <CardHeader>
                   <div className="flex flex-col md:flex-row md:items-center gap-4">
-                    <div className="bg-primary/10 h-16 w-16 rounded-full flex items-center justify-center">
-                      <Calendar className="h-8 w-8 text-primary" />
+                    <div className="bg-green-100 dark:bg-green-900 h-16 w-16 rounded-full flex items-center justify-center  flex-shrink-0">
+                      <Calendar className="h-8 w-8 text-green-800 dark:text-green-200" />
                     </div>
                     <div>
                       <CardTitle className="text-2xl font-serif text-accent-900 dark:text-white">

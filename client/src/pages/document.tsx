@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { getDocumentBySlug } from "@/lib/contentLoader";
+import { getDocumentBySlug, getRelatedItemsForSlug } from "@/lib/contentLoader";
 import { useRoute } from "wouter";
-import { Document, RelatedItem } from "@shared/schema";
+import { Document, EntityType, RelatedItem } from "@shared/schema";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumb";
 import DocumentViewer from "@/components/document/DocumentViewer";
 import DocumentNav from "@/components/document/DocumentNav";
@@ -19,9 +19,10 @@ const DocumentPage = () => {
   const document = getDocumentBySlug(slug);
   const isLoadingDocument = false;
 
-  // TODO: Implement related items loading from markdown
-  const relatedItems: RelatedItem[] = [];
-  const isLoadingRelated = false;
+  // Load related items for sidebar
+  let isLoadingRelated = true;
+  const relatedItems: RelatedItem[] = getRelatedItemsForSlug(slug, EntityType.document);
+  isLoadingRelated = false;
 
   // Set document title
   useEffect(() => {
@@ -70,7 +71,7 @@ const DocumentPage = () => {
                 <Skeleton className="h-8 w-full mb-4" />
               </div>
             ) : (
-              <Sidebar entityType="document" slug={slug} />
+              <Sidebar entityType={EntityType.document} slug={slug} />
             )}
           </aside>
         )}

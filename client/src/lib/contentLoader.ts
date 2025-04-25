@@ -1,4 +1,4 @@
-import { Collection, Document, EntityTypeSlug, Event, Person, Place } from "@shared/schema";
+import { Collection, Document, EntityTypeSlug, Event, Person, Place, RelatedItem, EntityType } from "@shared/schema";
 
 // Import all markdown files
 const documents = import.meta.glob("../content/documents/*.md", {
@@ -84,6 +84,88 @@ export function getDocumentsLength(): number {
 
 export function getDocumentsByCollectionId(collectionId: number): Document[] {
   return getAllDocuments().filter(doc => doc.collectionId === collectionId);
+}
+
+export function getRelatedItemsForSlug(slug: string, entityType: EntityType): RelatedItem[] {
+  let content: string | undefined;
+  let document: Document | undefined;
+  switch (entityType) {
+    case EntityType.document:
+      document = getDocumentBySlug(slug);
+      content = document?.content;
+      break;
+    case EntityType.collection:
+      content = getCollectionBySlug(slug)?.content;
+      break;
+    case EntityType.person:
+      content = getPersonBySlug(slug)?.description;
+      break;
+    case EntityType.event:
+      content = getEventBySlug(slug)?.description;
+      break;
+    case EntityType.place:
+      content = getPlaceBySlug(slug)?.description;
+      break;
+    default:
+      return [];
+  }
+
+  const relatedItems: RelatedItem[] = [];
+
+  // Get related documents
+  const documents = getAllDocuments().filter(doc => content?.includes(doc.title) && doc.slug !== slug);
+  relatedItems.push(...documents.map(doc => ({
+    id: doc.id,
+    type: EntityType.document,
+    name: doc.title,
+    slug: doc.slug,
+    description: doc.content,
+    date: doc.date,
+  })));
+
+  // Get related collections
+  const collections = getAllCollections().filter(collection => entityType == EntityType.document && collection.id === document!.collectionId && collection.slug !== slug);
+  relatedItems.push(...collections.map(collection => ({
+    id: collection.id,
+    type: EntityType.collection,
+    name: collection.title,
+    slug: collection.slug,
+    description: collection.description,
+  })));
+
+  // Get related people
+  const people = getAllPeople().filter(person => content?.includes(person.name) && person.slug !== slug);
+  relatedItems.push(...people.map(person => ({
+    id: person.id,
+    type: EntityType.person,
+    name: person.name,
+    slug: person.slug,
+    description: person.description,
+  })));
+
+  // Get related events
+  const events = getAllEvents().filter(event => content?.includes(event.name) && event.slug !== slug);
+  relatedItems.push(...events.map(event => ({
+    id: event.id,
+    type: EntityType.event,
+    name: event.name,
+    slug: event.slug,
+    description: event.description,
+    date: event.startDate || event.endDate,
+  })));
+
+  // Get related places
+  const places = getAllPlaces().filter(place => content?.includes(place.name) && place.slug !== slug);
+  relatedItems.push(...places.map(place => ({
+    id: place.id,
+    type: EntityType.place,
+    name: place.name,
+    slug: place.slug,
+    description: place.description,
+  })));
+  console.log("For slug", slug);
+  console.log("relatedItems:", relatedItems);
+  return relatedItems;
 }
 
 // Get Collections
@@ -212,15 +294,15 @@ export function getPlacesLength(): number {
 export function getEntityTypeForSlug(slug: string): EntityTypeSlug | null {
   if (slug) {
     if (documents[`../content/documents/${slug}.md`]) {
-      return "documents";
+      return EntityTypeSlug.documents;
     } else if (collections[`../content/collections/${slug}.md`]) {
-      return "collections";
+      return EntityTypeSlug.collections;
     } else if (people[`../content/people/${slug}.md`]) {
-      return "people";
+      return EntityTypeSlug.people;
     } else if (events[`../content/events/${slug}.md`]) {
-      return "events";
+      return EntityTypeSlug.events;
     } else if (places[`../content/places/${slug}.md`]) {
-      return "places";
+      return EntityTypeSlug.places;
     }
   }
 

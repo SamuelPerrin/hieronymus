@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRoute } from "wouter";
-import { Person } from "@shared/schema";
+import { EntityType, Person } from "@shared/schema";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumb";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -58,7 +58,7 @@ const PersonPage = () => {
         {/* Sidebar (Desktop) */}
         {!isMobile && (
           <aside className="lg:w-64 flex-shrink-0">
-            <Sidebar entityType="person" slug={slug} />
+            <Sidebar entityType={EntityType.person} slug={slug} />
           </aside>
         )}
 
@@ -87,8 +87,8 @@ const PersonPage = () => {
               <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">
                 <CardHeader>
                   <div className="flex flex-col md:flex-row md:items-center gap-4">
-                    <div className="bg-primary/10 h-16 w-16 rounded-full flex items-center justify-center">
-                      <User className="h-8 w-8 text-primary" />
+                    <div className="bg-red-100 dark:bg-red-900 h-16 w-16 rounded-full flex items-center justify-center flex-shrink-0">
+                      <User className="h-8 w-8 text-red-800 dark:text-red-200" />
                     </div>
                     <div>
                       <CardTitle className="text-2xl font-serif text-accent-900 dark:text-white">

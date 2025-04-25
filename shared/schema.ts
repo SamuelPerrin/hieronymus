@@ -75,17 +75,36 @@ export type Event = {
 
 
 // Entity type for unified handling of different entity types
-export type EntityType = 'document' | 'person' | 'place' | 'event' | 'collection';
+export enum EntityType {
+  document,
+  person,
+  place,
+  event,
+  collection
+};
 
-export type EntityTypeSlug = 'documents' | 'people' | 'places' | 'events' | 'collections';
+export enum EntityTypeSlug {
+  documents = 'documents',
+  people = 'people',
+  places = 'places',
+  events = 'events',
+  collections = 'collections'
+};
 
-export type Entity = Document | Person | Place | Event | Collection;
-
-export type RelatedItem = {
+export class RelatedItem {
   id: number;
   type: EntityType;
   name: string;
   slug: string;
   description?: string;
   date?: string;
+  
+  constructor(id: number, type: EntityType, name: string, slug: string, description?: string, date?: string) {
+    this.id = id;
+    this.type = type;
+    this.name = name;
+    this.slug = slug;
+    this.description = description;
+    this.date = date;
+  }
 };

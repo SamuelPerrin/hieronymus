@@ -1,41 +1,56 @@
 import { Link } from "wouter";
-import { useQuery } from "@tanstack/react-query";
-import { RelatedItem } from "@shared/schema";
-import { User, MapPin, Calendar, FileText } from "lucide-react";
+import { RelatedItem, EntityType } from "@shared/schema";
+import { User, MapPin, Calendar, FileText, Archive } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getRelatedItemsForSlug } from "@/lib/contentLoader";
 
 interface SidebarProps {
-  entityType: "document" | "person" | "place" | "event" | "collection";
+  entityType: EntityType;
   slug: string;
 }
 
 const Sidebar = ({ entityType, slug }: SidebarProps) => {
-  const { data: relatedItems, isLoading } = useQuery<RelatedItem[]>({
-    queryKey: [`/api/${entityType}/${slug}/related`],
-  });
+  let isLoading = true;
+  const relatedItems = getRelatedItemsForSlug(slug, entityType);
+  isLoading = false;
 
   const groupedItems = relatedItems
     ? {
-        people: relatedItems.filter((item) => item.type === "person"),
-        places: relatedItems.filter((item) => item.type === "place"),
-        events: relatedItems.filter((item) => item.type === "event"),
-        documents: relatedItems.filter((item) => item.type === "document"),
-        collections: relatedItems.filter((item) => item.type === "collection"),
+        people: relatedItems.filter((item) => item.type === EntityType.person),
+        places: relatedItems.filter((item) => item.type === EntityType.place),
+        events: relatedItems.filter((item) => item.type === EntityType.event),
+        documents: relatedItems.filter((item) => item.type === EntityType.document),
+        collections: relatedItems.filter((item) => item.type === EntityType.collection),
       }
     : null;
 
-  const getIcon = (type: string) => {
+  const getIcon = (type: EntityType) => {
     switch (type) {
-      case "person":
-        return <User className="h-4 w-4" />;
-      case "place":
-        return <MapPin className="h-4 w-4" />;
-      case "event":
-        return <Calendar className="h-4 w-4" />;
-      case "document":
-      case "collection":
-      default:
-        return <FileText className="h-4 w-4" />;
+      case EntityType.person:
+        return (
+          <div className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0 mr-2">
+            <User className="h-4 w-4" />
+          </div>);
+      case EntityType.place:
+        return (
+          <div className="bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0 mr-2">
+            <MapPin className="h-4 w-4" />
+          </div>);
+      case EntityType.event:
+        return (
+          <div className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0 mr-2">
+            <Calendar className="h-4 w-4" />
+          </div>);
+      case EntityType.collection:
+        return (
+          <div className="bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0 mr-2">
+            <Archive className="h-4 w-4" />
+          </div>);
+      case EntityType.document:
+        return (
+          <div className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0 mr-2">
+            <FileText className="h-4 w-4" />
+          </div>);
     }
   };
 
@@ -92,15 +107,11 @@ const Sidebar = ({ entityType, slug }: SidebarProps) => {
           <ul className="space-y-2">
             {groupedItems.people.map((person) => (
               <li key={`person-${person.id}`}>
-                <Link href={`/people/${person.slug}`}>
-                  <a className="flex items-center hover:bg-primary-50 dark:hover:bg-accent-700 p-1 rounded transition-colors">
-                    <span className="w-7 h-7 rounded-full bg-accent-100 dark:bg-accent-800 flex-shrink-0 flex items-center justify-center text-accent-700 dark:text-primary-200 mr-2 text-xs">
-                      <User className="h-4 w-4" />
-                    </span>
-                    <span className="text-accent-700 dark:text-primary-200 hover:text-accent-900 dark:hover:text-white transition-colors">
-                      {person.name}
-                    </span>
-                  </a>
+                <Link href={`/people/${person.slug}`} className="flex items-center hover:bg-primary-50 dark:hover:bg-accent-700 p-1 rounded transition-colors">
+                  {getIcon(EntityType.person)}
+                  <span className="text-accent-700 dark:text-primary-200 hover:text-accent-900 dark:hover:text-white transition-colors">
+                    {person.name}
+                  </span>
                 </Link>
               </li>
             ))}
@@ -117,15 +128,11 @@ const Sidebar = ({ entityType, slug }: SidebarProps) => {
           <ul className="space-y-2">
             {groupedItems.places.map((place) => (
               <li key={`place-${place.id}`}>
-                <Link href={`/places/${place.slug}`}>
-                  <a className="flex items-center hover:bg-primary-50 dark:hover:bg-accent-700 p-1 rounded transition-colors">
-                    <span className="w-7 h-7 rounded-full bg-accent-100 dark:bg-accent-800 flex-shrink-0 flex items-center justify-center text-accent-700 dark:text-primary-200 mr-2 text-xs">
-                      <MapPin className="h-4 w-4" />
-                    </span>
-                    <span className="text-accent-700 dark:text-primary-200 hover:text-accent-900 dark:hover:text-white transition-colors">
-                      {place.name}
-                    </span>
-                  </a>
+                <Link href={`/places/${place.slug}`} className="flex items-center hover:bg-primary-50 dark:hover:bg-accent-700 p-1 rounded transition-colors">
+                  {getIcon(EntityType.place)}
+                  <span className="text-accent-700 dark:text-primary-200 hover:text-accent-900 dark:hover:text-white transition-colors">
+                    {place.name}
+                  </span>
                 </Link>
               </li>
             ))}
@@ -142,15 +149,11 @@ const Sidebar = ({ entityType, slug }: SidebarProps) => {
           <ul className="space-y-2">
             {groupedItems.events.map((event) => (
               <li key={`event-${event.id}`}>
-                <Link href={`/events/${event.slug}`}>
-                  <a className="flex items-center hover:bg-primary-50 dark:hover:bg-accent-700 p-1 rounded transition-colors">
-                    <span className="w-7 h-7 rounded-full bg-accent-100 dark:bg-accent-800 flex-shrink-0 flex items-center justify-center text-accent-700 dark:text-primary-200 mr-2 text-xs">
-                      <Calendar className="h-4 w-4" />
-                    </span>
-                    <span className="text-accent-700 dark:text-primary-200 hover:text-accent-900 dark:hover:text-white transition-colors">
-                      {event.name}
-                    </span>
-                  </a>
+                <Link href={`/events/${event.slug}`} className="flex items-center hover:bg-primary-50 dark:hover:bg-accent-700 p-1 rounded transition-colors">
+                  {getIcon(EntityType.event)}
+                  <span className="text-accent-700 dark:text-primary-200 hover:text-accent-900 dark:hover:text-white transition-colors">
+                    {event.name}
+                  </span>
                 </Link>
               </li>
             ))}
@@ -162,20 +165,16 @@ const Sidebar = ({ entityType, slug }: SidebarProps) => {
       {groupedItems.documents.length > 0 && (
         <div className="mb-6">
           <h4 className="font-sans font-semibold text-accent-700 dark:text-primary-200 mb-2 text-sm uppercase tracking-wider">
-            Related Documents
+            Documents
           </h4>
           <ul className="space-y-2">
             {groupedItems.documents.map((doc) => (
               <li key={`doc-${doc.id}`}>
-                <Link href={`/documents/${doc.slug}`}>
-                  <a className="flex items-center hover:bg-primary-50 dark:hover:bg-accent-700 p-1 rounded transition-colors">
-                    <span className="w-7 h-7 rounded-full bg-accent-100 dark:bg-accent-800 flex-shrink-0 flex items-center justify-center text-accent-700 dark:text-primary-200 mr-2 text-xs">
-                      <FileText className="h-4 w-4" />
-                    </span>
-                    <span className="text-accent-700 dark:text-primary-200 hover:text-accent-900 dark:hover:text-white transition-colors">
-                      {doc.name}
-                    </span>
-                  </a>
+                <Link href={`/documents/${doc.slug}`} className="flex items-center hover:bg-primary-50 dark:hover:bg-accent-700 p-1 rounded transition-colors">
+                  {getIcon(EntityType.document)}
+                  <span className="text-accent-700 dark:text-primary-200 hover:text-accent-900 dark:hover:text-white transition-colors">
+                    {doc.name}
+                  </span>
                 </Link>
               </li>
             ))}
@@ -192,15 +191,11 @@ const Sidebar = ({ entityType, slug }: SidebarProps) => {
           <ul className="space-y-2">
             {groupedItems.collections.map((collection) => (
               <li key={`collection-${collection.id}`}>
-                <Link href={`/collections/${collection.slug}`}>
-                  <a className="flex items-center hover:bg-primary-50 dark:hover:bg-accent-700 p-1 rounded transition-colors">
-                    <span className="w-7 h-7 rounded-full bg-accent-100 dark:bg-accent-800 flex-shrink-0 flex items-center justify-center text-accent-700 dark:text-primary-200 mr-2 text-xs">
-                      <FileText className="h-4 w-4" />
-                    </span>
-                    <span className="text-accent-700 dark:text-primary-200 hover:text-accent-900 dark:hover:text-white transition-colors">
-                      {collection.name}
-                    </span>
-                  </a>
+                <Link href={`/collections/${collection.slug}`} className="flex items-center hover:bg-primary-50 dark:hover:bg-accent-700 p-1 rounded transition-colors">
+                  {getIcon(EntityType.collection)}
+                  <span className="text-accent-700 dark:text-primary-200 hover:text-accent-900 dark:hover:text-white transition-colors">
+                    {collection.name}
+                  </span>
                 </Link>
               </li>
             ))}
