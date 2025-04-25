@@ -8,12 +8,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import SearchBar from "@/components/search/SearchBar";
 import { extractExcerpt } from "@/lib/markdownUtils";
 import { motion } from "framer-motion";
+import { getAllDocuments } from "@/lib/contentLoader";
 
 const Home = () => {
   // Fetch recent documents
-  const { data: documents } = useQuery<Document[]>({
-    queryKey: ["/api/documents"],
-  });
+  const documents  = getAllDocuments();
 
   // Fetch collections
   const { data: collections } = useQuery<Collection[]>({

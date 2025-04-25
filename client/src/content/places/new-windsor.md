@@ -2,7 +2,7 @@
 name: New Windsor
 region: New York
 country: United States
-alternateNames: []
+alternateNames: 
 tags:
   - Continental Army
   - Winter Encampment

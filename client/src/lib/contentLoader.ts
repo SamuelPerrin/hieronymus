@@ -1,22 +1,25 @@
-import { Collection, Document, Event, Person, Place } from "@shared/schema";
+import { Collection, Document, EntityTypeSlug, Event, Person, Place } from "@shared/schema";
 
 // Import all markdown files
 const documents = import.meta.glob("../content/documents/*.md", {
   eager: true,
   query: "?raw"
 });
-console.log("Documents:", documents);
 const collections = import.meta.glob("../content/collections/*.md", {
   eager: true,
+  query: "?raw"
 });
 const events = import.meta.glob("../content/events/*.md", {
-  eager: true
+  eager: true,
+  query: "?raw"
 });
 const people = import.meta.glob("../content/people/*.md", {
-  eager: true
+  eager: true,
+  query: "?raw"
 });
 const places = import.meta.glob("../content/places/*.md", {
-  eager: true
+  eager: true,
+  query: "?raw"
 });
 
 function parseMarkdownMetadata(content: string) {
@@ -42,18 +45,15 @@ function parseMarkdownMetadata(content: string) {
   return { metadata, content: mainContent };
 }
 
+// Get Documents
 export function getDocumentBySlug(slug: string): Document | undefined {
   const filePath = `../content/documents/${slug}.md`;
-  // console.log("File path:", filePath);
-  // console.log("Documents:", documents);
   const file = documents[filePath] as { default: string } | undefined;
-  console.log("File:", file);
 
   if (!file) return undefined;
 
   const { metadata, content } = parseMarkdownMetadata(file.default);
-  // console.log("Metadata:", metadata);
-  // console.log("Content:", content);
+
   return {
     id: parseInt(metadata.id) || 0,
     slug,
@@ -70,14 +70,17 @@ export function getDocumentBySlug(slug: string): Document | undefined {
 
 export function getAllDocuments(): Document[] {
   return Object.entries(documents).map(([path, content]) => {
-    const slug = path.split("/").pop()?.replace(".md", "") || "";
+    const fileName = path.split("/").pop()?.replace(".md", "") || "";
+
+    // This should match the way slugs are generated in markdownUtils.ts
+    const slug = fileName.toLowerCase().replace(/\s+/g, "-");
     return getDocumentBySlug(slug)!;
   });
 }
 
-// Similar functions for other content types...
+// Get Collections
 export function getCollectionBySlug(slug: string): Collection | undefined {
-  const filePath = `/content/collections/${slug}.md`;
+  const filePath = `../content/collections/${slug}.md`;
   const file = collections[filePath] as { default: string } | undefined;
 
   if (!file) return undefined;
@@ -87,10 +90,115 @@ export function getCollectionBySlug(slug: string): Collection | undefined {
     id: parseInt(metadata.id) || 0,
     slug,
     title: metadata.title || "",
-    description: content,
+    description: metadata.description || "",
+    content,
     createdAt: new Date(metadata.createdAt || Date.now()),
     updatedAt: new Date(metadata.updatedAt || Date.now()),
   };
 }
 
-// Add other getter functions as needed
+export function getAllCollections(): Collection[] {
+  return Object.entries(collections).map(([path, content]) => {
+    const slug = path.split("/").pop()?.replace(".md", "") || "";
+    return getCollectionBySlug(slug)!;
+  });
+}
+
+// Get People
+export function getPersonBySlug(slug: string): Person | undefined {
+  const filePath = `../content/people/${slug}.md`;
+  const file = people[filePath] as { default: string } | undefined;
+  
+  if (!file) return undefined;
+
+  const { metadata, content } = parseMarkdownMetadata(file.default);
+  return {
+    id: parseInt(metadata.id) || 0,
+    slug,
+    name: metadata.name || "",
+    alternateNames: metadata.alternateNames || [],
+    description: content,
+    birthDate: metadata.birthDate,
+    deathDate: metadata.deathDate,
+    birthYear: metadata.birthYear,
+    deathYear: metadata.deathYear,
+  };
+}
+
+export function getAllPeople(): Person[] {
+  return Object.entries(people).map(([path, content]) => {
+    const slug = path.split("/").pop()?.replace(".md", "") || "";
+    return getPersonBySlug(slug)!;
+  });
+}
+
+// Get Events
+export function getEventBySlug(slug: string): Event | undefined {
+  const filePath = `../content/events/${slug}.md`;
+  const file = events[filePath] as { default: string } | undefined;
+  if (!file) return undefined;
+  const { metadata, content } = parseMarkdownMetadata(file.default);
+  return {
+    id: parseInt(metadata.id) || 0,
+    slug,
+    name: metadata.name || "",
+    description: content,
+    startDate: metadata.startDate,
+    endDate: metadata.endDate,
+    startYear: metadata.startYear,
+    endYear: metadata.endYear,
+  };
+}
+export function getAllEvents(): Event[] {
+  return Object.entries(events).map(([path, content]) => {
+    const slug = path.split("/").pop()?.replace(".md", "") || "";
+    return getEventBySlug(slug)!;
+  });
+}
+
+// Get Places
+export function getPlaceBySlug(slug: string): Place | undefined {
+  const filePath = `../content/places/${slug}.md`;
+  const file = places[filePath] as { default: string } | undefined;
+
+  
+  if (!file) return undefined;
+  
+  const { metadata, content } = parseMarkdownMetadata(file.default);
+
+  return {
+    id: parseInt(metadata.id) || 0,
+    slug,
+    name: metadata.name || "",
+    alternateNames: metadata.alternateNames || [],
+    region: metadata.region,
+    country: metadata.country,
+    description: content,
+  };
+}
+
+export function getAllPlaces(): Place[] {
+  return Object.entries(places).map(([path, content]) => {
+    const slug = path.split("/").pop()?.replace(".md", "") || "";
+    return getPlaceBySlug(slug)!;
+  });
+}
+
+// Utils
+export function getEntityTypeForSlug(slug: string): EntityTypeSlug | null {
+  if (slug) {
+    if (documents[`../content/documents/${slug}.md`]) {
+      return "documents";
+    } else if (collections[`../content/collections/${slug}.md`]) {
+      return "collections";
+    } else if (people[`../content/people/${slug}.md`]) {
+      return "people";
+    } else if (events[`../content/events/${slug}.md`]) {
+      return "events";
+    } else if (places[`../content/places/${slug}.md`]) {
+      return "places";
+    }
+  }
+
+  return null;
+}

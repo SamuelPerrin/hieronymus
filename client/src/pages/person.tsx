@@ -11,6 +11,8 @@ import Sidebar from "@/components/layout/Sidebar";
 import RelatedItemsCarousel from "@/components/related/RelatedItemsCarousel";
 import { useMediaQuery } from "@/hooks/use-mobile";
 import { motion } from "framer-motion";
+import { renderMarkdown } from "@/lib/markdownUtils";
+import { getPersonBySlug } from "@/lib/contentLoader";
 
 const PersonPage = () => {
   const [match, params] = useRoute("/people/:slug");
@@ -18,10 +20,9 @@ const PersonPage = () => {
   const isMobile = useMediaQuery("(max-width: 1023px)");
 
   // Fetch person
-  const { data: person, isLoading: isLoadingPerson } = useQuery<Person>({
-    queryKey: [`/api/people/${slug}`],
-    enabled: !!slug,
-  });
+  let isLoadingPerson = true;
+  const person = getPersonBySlug(slug);
+  isLoadingPerson = !person;
 
   // Fetch related items
   const { data: relatedItems, isLoading: isLoadingRelated } = useQuery({
@@ -110,9 +111,14 @@ const PersonPage = () => {
                 </CardHeader>
                 <CardContent>
                   {person.description && (
-                    <div className="text-accent-700 dark:text-primary-200 leading-relaxed mb-6">
-                      <p>{person.description}</p>
-                    </div>
+                    <div 
+                    className="text-accent-700 dark:text-primary-200 leading-relaxed markdown-content" 
+                    dangerouslySetInnerHTML={{ 
+                      __html: typeof person.description === 'string' 
+                        ? renderMarkdown(person.description) 
+                        : `<p class="text-red-500">Error: Document content could not be displayed</p>`
+                    }} 
+                  />
                   )}
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">

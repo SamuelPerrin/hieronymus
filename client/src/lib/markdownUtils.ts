@@ -1,4 +1,26 @@
 import { marked } from 'marked';
+import { getEntityTypeForSlug } from './contentLoader';
+
+const renderer = new marked.Renderer();
+
+renderer.text = function (text) {
+  // Match wiki links in the format [[PageName|DisplayName]]
+  // Example: [[PageName|DisplayName]] or [[PageName]]
+  const pattern = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g;
+  return text.raw.replace(pattern, (match, pageName, displayName) => {
+
+    // This should match the way slugs are generated from file names in contentLoader.ts
+    const slug = pageName.toLowerCase().replace(/\s+/g, "-");
+
+    // Check if the slug corresponds to a known page and determine the entity type
+    const entityType = getEntityTypeForSlug(slug);
+    if (!entityType) return displayName || pageName; // If no page/EntityType is found, don't link anything
+
+    return `<a href="/${entityType}/${slug}">${displayName || pageName}</a>`;
+  });
+};
+
+marked.setOptions({ renderer });
 
 /**
  * Convert Markdown to HTML

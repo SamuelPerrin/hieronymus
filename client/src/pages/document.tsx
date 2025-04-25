@@ -13,12 +13,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 const DocumentPage = () => {
   const [match, params] = useRoute("/documents/:slug");
   const slug = params?.slug || "";
-  console.log("Document slug:", slug);
   const isMobile = useMediaQuery("(max-width: 1023px)");
 
   // Load document from markdown
   const document = getDocumentBySlug(slug);
-  console.log("Document:", document);
   const isLoadingDocument = false;
 
   // TODO: Implement related items loading from markdown

@@ -11,6 +11,8 @@ import Sidebar from "@/components/layout/Sidebar";
 import RelatedItemsCarousel from "@/components/related/RelatedItemsCarousel";
 import { useMediaQuery } from "@/hooks/use-mobile";
 import { motion } from "framer-motion";
+import { getPlaceBySlug } from "@/lib/contentLoader";
+import { renderMarkdown } from "@/lib/markdownUtils";
 
 const PlacePage = () => {
   const [match, params] = useRoute("/places/:slug");
@@ -18,10 +20,9 @@ const PlacePage = () => {
   const isMobile = useMediaQuery("(max-width: 1023px)");
 
   // Fetch place
-  const { data: place, isLoading: isLoadingPlace } = useQuery<Place>({
-    queryKey: [`/api/places/${slug}`],
-    enabled: !!slug,
-  });
+  let isLoadingPlace = true;
+  const place = getPlaceBySlug(slug);
+  isLoadingPlace = !place;
 
   // Fetch related items
   const { data: relatedItems, isLoading: isLoadingRelated } = useQuery({
@@ -33,10 +34,11 @@ const PlacePage = () => {
   useEffect(() => {
     if (place) {
       document.title = `${place.name} | Archival Histories`;
+      isLoadingPlace = false;
     } else {
       document.title = "Place | Archival Histories";
     }
-  }, [place]);
+  }, [place, isLoadingPlace]);
 
   // Define breadcrumb items
   const breadcrumbItems : BreadcrumbItem[] = [
@@ -106,7 +108,7 @@ const PlacePage = () => {
                         )}
                         {place.alternateNames && place.alternateNames.length > 0 && (
                           <Badge variant="outline" className="bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 border-none">
-                            Also known as: {place.alternateNames.join(", ")}
+                            Also known as: {place.alternateNames?.join(", ")}
                           </Badge>
                         )}
                       </div>
@@ -115,9 +117,14 @@ const PlacePage = () => {
                 </CardHeader>
                 <CardContent>
                   {place.description && (
-                    <div className="text-accent-700 dark:text-primary-200 leading-relaxed">
-                      <p>{place.description}</p>
-                    </div>
+                    <div 
+                    className="text-accent-700 dark:text-primary-200 leading-relaxed markdown-content" 
+                    dangerouslySetInnerHTML={{ 
+                      __html: typeof place.description === 'string' 
+                        ? renderMarkdown(place.description) 
+                        : `<p class="text-red-500">Error: Document content could not be displayed</p>`
+                    }} 
+                  />
                   )}
                 </CardContent>
               </Card>

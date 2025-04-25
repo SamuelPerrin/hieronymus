@@ -17,6 +17,7 @@ export type Collection = {
   slug: string;
   title: string;
   description?: string;
+  content: string; // Markdown content
   createdAt: Date;
   updatedAt: Date;
 };
@@ -75,6 +76,8 @@ export type Event = {
 
 // Entity type for unified handling of different entity types
 export type EntityType = 'document' | 'person' | 'place' | 'event' | 'collection';
+
+export type EntityTypeSlug = 'documents' | 'people' | 'places' | 'events' | 'collections';
 
 export type Entity = Document | Person | Place | Event | Collection;
 

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Calendar, Download, Share, Printer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -12,10 +11,6 @@ interface DocumentViewerProps {
 
 const DocumentViewer = ({ document }: DocumentViewerProps) => {
   const { toast } = useToast();
-  
-  // Debug document content
-  // console.log('Document content type:', typeof document.content);
-  // console.log('Document content:', document.content);
   
   // Handle actions
   const handleDownload = () => {

@@ -10,6 +10,8 @@ import { extractExcerpt } from "@/lib/markdownUtils";
 import Sidebar from "@/components/layout/Sidebar";
 import { useMediaQuery } from "@/hooks/use-mobile";
 import { motion } from "framer-motion";
+import { getCollectionBySlug } from "@/lib/contentLoader";
+import { renderMarkdown } from "@/lib/markdownUtils";
 
 const CollectionPage = () => {
   const [match, params] = useRoute("/collections/:slug");
@@ -17,10 +19,9 @@ const CollectionPage = () => {
   const isMobile = useMediaQuery("(max-width: 1023px)");
 
   // Fetch collection
-  const { data: collection, isLoading: isLoadingCollection } = useQuery<Collection>({
-    queryKey: [`/api/collections/${slug}`],
-    enabled: !!slug,
-  });
+  let isLoadingCollection = true;
+  const collection = getCollectionBySlug(slug);
+  isLoadingCollection = !collection;
 
   // Fetch documents for this collection
   const { data: documents, isLoading: isLoadingDocuments } = useQuery<Document[]>({
@@ -86,6 +87,18 @@ const CollectionPage = () => {
                     </CardDescription>
                   )}
                 </CardHeader>
+                <CardContent>
+                  {collection.content && (
+                    <div 
+                    className="text-accent-700 dark:text-primary-200 leading-relaxed markdown-content" 
+                    dangerouslySetInnerHTML={{ 
+                      __html: typeof collection.content === 'string' 
+                        ? renderMarkdown(collection.content) 
+                        : `<p class="text-red-500">Error: Document content could not be displayed</p>`
+                    }} 
+                  />
+                  )}
+                </CardContent>
               </Card>
 
               <h2 className="font-serif text-xl font-bold text-accent-900 dark:text-white mb-4">

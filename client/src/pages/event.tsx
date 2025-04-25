@@ -11,6 +11,8 @@ import Sidebar from "@/components/layout/Sidebar";
 import RelatedItemsCarousel from "@/components/related/RelatedItemsCarousel";
 import { useMediaQuery } from "@/hooks/use-mobile";
 import { motion } from "framer-motion";
+import { renderMarkdown } from "@/lib/markdownUtils";
+import { getEventBySlug } from "@/lib/contentLoader";
 
 const EventPage = () => {
   const [match, params] = useRoute("/events/:slug");
@@ -18,10 +20,9 @@ const EventPage = () => {
   const isMobile = useMediaQuery("(max-width: 1023px)");
 
   // Fetch event
-  const { data: event, isLoading: isLoadingEvent } = useQuery<Event>({
-    queryKey: [`/api/events/${slug}`],
-    enabled: !!slug,
-  });
+  let isLoadingEvent = true;
+  const event = getEventBySlug(slug);
+  isLoadingEvent = !event;
 
   // Fetch related items
   const { data: relatedItems, isLoading: isLoadingRelated } = useQuery({
@@ -117,9 +118,14 @@ const EventPage = () => {
                 </CardHeader>
                 <CardContent>
                   {event.description && (
-                    <div className="text-accent-700 dark:text-primary-200 leading-relaxed">
-                      <p>{event.description}</p>
-                    </div>
+                    <div 
+                    className="text-accent-700 dark:text-primary-200 leading-relaxed markdown-content" 
+                    dangerouslySetInnerHTML={{ 
+                      __html: typeof event.description === 'string' 
+                        ? renderMarkdown(event.description) 
+                        : `<p class="text-red-500">Error: Document content could not be displayed</p>`
+                    }} 
+                  />
                   )}
                 </CardContent>
               </Card>
