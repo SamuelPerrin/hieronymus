@@ -16,29 +16,25 @@ const Footer = () => {
               A scholarly repository of transcribed historical documents, providing researchers and history enthusiasts with accessible primary sources
             </p>
             <div className="flex space-x-4">
+            <a
+                href="https://gogp.substack.com/"
+                aria-label="Substack"
+                className="text-primary-200 hover:text-white transition-colors"
+              >
+                {/* Substack Icon */}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-substack" viewBox="0 0 16 16">
+                  <path d="M15 3.604H1v1.891h14v-1.89ZM1 7.208V16l7-3.926L15 16V7.208zM15 0H1v1.89h14z"/>
+                </svg>
+              </a>
               <a
-                href="#"
+                href="https://x.com/Mal_Hibou"
                 aria-label="Twitter"
                 className="text-primary-200 hover:text-white transition-colors"
               >
                 <FaTwitter size={20} />
               </a>
               <a
-                href="#"
-                aria-label="Facebook"
-                className="text-primary-200 hover:text-white transition-colors"
-              >
-                <FaFacebookF size={20} />
-              </a>
-              <a
-                href="#"
-                aria-label="Instagram"
-                className="text-primary-200 hover:text-white transition-colors"
-              >
-                <FaInstagram size={20} />
-              </a>
-              <a
-                href="#"
+                href="https://github.com/SamuelPerrin/hieronymus"
                 aria-label="GitHub"
                 className="text-primary-200 hover:text-white transition-colors"
               >
