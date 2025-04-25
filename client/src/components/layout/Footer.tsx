@@ -107,7 +107,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-accent-700 mt-8 pt-6 text-sm text-primary-200">
-          <p>&copy; {new Date().getFullYear()} Archival Histories Project. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Ghost in the Archive. All rights reserved.</p>
           <p className="mt-2">
             This project is maintained by scholars committed to making historical primary sources accessible for research and education.
           </p>
