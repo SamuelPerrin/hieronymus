@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useMediaQuery } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import DarkModeToggle from "../ui/dark-mode-toggle";
 
 interface HeaderProps {
   title?: string;
@@ -95,6 +96,7 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
             </div>
 
             <div className="flex items-center">
+              <DarkModeToggle />
               <Button 
                 variant="ghost" 
                 size="icon" 

@@ -213,7 +213,7 @@ const Home = () => {
               </Button>
             </Link>
             <Link href="/about">
-              <Button variant="outline" className="text-accent-900 border-white hover:bg-accent-700">
+              <Button variant="outline" className="text-accent-900 border-white hover:bg-accent-700 dark:bg-white">
                 Learn More
               </Button>
             </Link>
