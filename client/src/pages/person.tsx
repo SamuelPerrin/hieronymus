@@ -12,6 +12,7 @@ import { useMediaQuery } from "@/hooks/use-mobile";
 import { motion } from "framer-motion";
 import { prepareJSX } from "@/lib/markdownUtils";
 import { getPersonBySlug, getRelatedItemsForSlug } from "@/lib/contentLoader";
+import { formatDate } from "@/lib/utils";
 
 const PersonPage = () => {
   const [match, params] = useRoute("/people/:slug");
@@ -126,7 +127,7 @@ const PersonPage = () => {
                         </h3>
                         <div className="flex items-center">
                           <Calendar className="h-4 w-4 mr-2 text-primary" />
-                          <span>{person.birthDate || `Year: ${person.birthYear}`}</span>
+                          <span>{formatDate(person.birthDate!.toString()) || `Year: ${person.birthYear}`}</span>
                         </div>
                       </div>
                     )}
@@ -138,7 +139,7 @@ const PersonPage = () => {
                         </h3>
                         <div className="flex items-center">
                           <Calendar className="h-4 w-4 mr-2 text-primary" />
-                          <span>{person.deathDate || `Year: ${person.deathYear}`}</span>
+                          <span>{formatDate(person.deathDate!.toString()) || `Year: ${person.deathYear}`}</span>
                         </div>
                       </div>
                     )}

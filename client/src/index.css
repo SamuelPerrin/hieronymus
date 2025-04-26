@@ -169,10 +169,11 @@
 
   .markdown-content li {
     @apply relative pl-4;
+    text-indent: -0.5rem;
   }
 
   .markdown-content li::before {
-    @apply absolute left-0 text-lg text-gray-600 content-['•'];
+    @apply absolute left-1 text-lg text-gray-600 content-['•'];
   }
 }
 

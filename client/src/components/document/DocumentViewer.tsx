@@ -1,4 +1,4 @@
-import { Calendar, Download, Share, Printer, FileText } from "lucide-react";
+import { Calendar, Download, Share, Printer, FileText, UserPen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Document } from "@shared/schema";
@@ -12,7 +12,6 @@ interface DocumentViewerProps {
 
 const DocumentViewer = ({ document }: DocumentViewerProps) => {
   const { toast } = useToast();
-  console.log("DocumentViewer", document);
   
   // Handle actions
   const handleDownload = () => {
@@ -60,16 +59,17 @@ const DocumentViewer = ({ document }: DocumentViewerProps) => {
         </div>
 
         <div className="flex flex-col sm:flex-row sm:items-center justify-between space-y-3 sm:space-y-0 mb-4">
+          {document.authors && document.authors.length > 0 && (
+            <div className="text-accent-700 dark:text-primary-200 flex items-center space-x-2">
+              <UserPen className="h-4 w-4" />
+              <span>{document.authors.join(", ")}</span>
+            </div>
+          )}
+
           {document.date && (
             <div className="text-accent-700 dark:text-primary-200 flex items-center space-x-2">
               <Calendar className="h-4 w-4" />
               <span>{formatDate(document.date)}</span>
-            </div>
-          )}
-
-          {document.authors && document.authors.length > 0 && (
-            <div className="text-accent-700 dark:text-primary-200">
-              <strong>{document.authors.length == 1 ? "Author:" : "Authors:"}</strong> {document.authors.join(", ")}
             </div>
           )}
 
