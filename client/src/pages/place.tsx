@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { useRoute } from "wouter";
 import { EntityType, Place } from "@shared/schema";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumb";
@@ -11,7 +10,7 @@ import Sidebar from "@/components/layout/Sidebar";
 import RelatedItemsCarousel from "@/components/related/RelatedItemsCarousel";
 import { useMediaQuery } from "@/hooks/use-mobile";
 import { motion } from "framer-motion";
-import { getPlaceBySlug } from "@/lib/contentLoader";
+import { getPlaceBySlug, getRelatedItemsForSlug } from "@/lib/contentLoader";
 import { prepareJSX } from "@/lib/markdownUtils";
 
 const PlacePage = () => {
@@ -25,10 +24,9 @@ const PlacePage = () => {
   isLoadingPlace = !place;
 
   // Fetch related items
-  const { data: relatedItems, isLoading: isLoadingRelated } = useQuery({
-    queryKey: [`/api/place/${slug}/related`],
-    enabled: !!slug,
-  });
+  let isLoadingRelated = true;
+  const relatedItems = getRelatedItemsForSlug(slug, EntityType.place);
+  isLoadingRelated = false;
 
   // Set page title
   useEffect(() => {
@@ -129,9 +127,9 @@ const PlacePage = () => {
               </Card>
 
               {/* Related Items Carousel (Mobile Only) */}
-              {/* {isMobile && relatedItems && relatedItems.length > 0 && (
+              {isMobile && relatedItems && relatedItems.length > 0 && (
                 <RelatedItemsCarousel items={relatedItems} />
-              )} */}
+              )}
             </motion.div>
           ) : (
             <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">

@@ -6,11 +6,15 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatDate(dateString: string) {
+  const [year, month, day] = dateString.split('-').map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "long",
     day: "numeric",
-  }
-  const date = new Date(dateString)
-  return date.toLocaleDateString("en-US", options)
+    timeZone: "UTC", // Force UTC interpretation
+  };
+
+  return new Intl.DateTimeFormat("en-US", options).format(date);
 }

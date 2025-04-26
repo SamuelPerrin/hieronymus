@@ -6,6 +6,7 @@ import { Link } from 'wouter';
 
 const renderer = new marked.Renderer();
 
+// Override the default text renderer to handle wiki links
 renderer.text = function (text) {
   // Match wiki links in the format [[PageName|DisplayName]]
   // Example: [[PageName|DisplayName]] or [[PageName]]
@@ -21,6 +22,19 @@ renderer.text = function (text) {
 
     return `<a href="/${entityType}/${slug}">${displayName || pageName}</a>`;
   });
+};
+
+// Override the default link renderer to handle external links
+renderer.link = function({href, title, text}) {
+  const isExternal = /^https?:\/\//.test(href);
+  return `<a href="${isExternal ? href : '/' + href}" target="${isExternal ? '_blank' : '_self'}">${text}</a>`;
+};
+
+// Override the default list renderer to ensure that links in lists are parsed correctly
+renderer.listitem = function({text, task, checked}) {
+  // Ensure `text` is a string before parsing
+  const parsedText = typeof text === "string" ? marked.parseInline(text) : text;
+  return `<li>${parsedText}</li>`;
 };
 
 marked.setOptions({ renderer });

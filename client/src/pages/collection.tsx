@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { useRoute, Link } from "wouter";
 import { Collection, Document, EntityType } from "@shared/schema";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumb";

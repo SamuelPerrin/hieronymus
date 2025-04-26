@@ -30,7 +30,8 @@ export type Document = {
   date?: string; // Historical date in text format
   year?: number; // For sorting/filtering
   type: SourceType; // Document type (letter, book, etc.)
-  source?: string; // Source information
+  source?: string; // Source 
+  authors?: string[]; // Authors of the document
   location?: string; // Where the document was created
   archiveReference?: string; // Reference number in archive
   collectionId: number;

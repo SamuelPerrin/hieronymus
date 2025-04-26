@@ -12,6 +12,7 @@ interface DocumentViewerProps {
 
 const DocumentViewer = ({ document }: DocumentViewerProps) => {
   const { toast } = useToast();
+  console.log("DocumentViewer", document);
   
   // Handle actions
   const handleDownload = () => {
@@ -48,7 +49,7 @@ const DocumentViewer = ({ document }: DocumentViewerProps) => {
   return (
     <article className="bg-white dark:bg-accent rounded-lg shadow-sm p-6 lg:p-8 border border-primary-100 dark:border-accent-700 max-w-2xl">
       {/* Document Header */}
-      <header className="mb-8">
+      <header className="mb-4 border-b border-primary-100 dark:border-accent-700 pb-2">
         <div className="flex flex-col md:flex-row md:items-center gap-4">
           <div className="bg-blue-100 dark:bg-blue-900 h-16 w-16 rounded-full flex items-center justify-center flex-shrink-0">
             <FileText className="h-8 w-8 text-blue-800 dark:text-blue-200" />
@@ -63,6 +64,20 @@ const DocumentViewer = ({ document }: DocumentViewerProps) => {
             <div className="text-accent-700 dark:text-primary-200 flex items-center space-x-2">
               <Calendar className="h-4 w-4" />
               <span>{formatDate(document.date)}</span>
+            </div>
+          )}
+
+          {document.authors && document.authors.length > 0 && (
+            <div className="text-accent-700 dark:text-primary-200">
+              <strong>{document.authors.length == 1 ? "Author:" : "Authors:"}</strong> {document.authors.join(", ")}
+            </div>
+          )}
+
+          {document.type && (
+            <div className="text-accent-700 dark:text-primary-200">
+              <Badge variant="outline" className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 border-none">
+                {document.type.toString().charAt(0).toUpperCase() + document.type.toString().slice(1).replace('_', ' ')}
+              </Badge>
             </div>
           )}
 
@@ -94,11 +109,23 @@ const DocumentViewer = ({ document }: DocumentViewerProps) => {
             </div>
           )}
         </div>
+      </header>
 
+      {/* Document Content */}
+      <div 
+        className="font-sans text-accent-900 dark:text-primary-200 leading-relaxed markdown-content max-w-prose" 
+      >
+        {typeof document.content === 'string'
+          ? prepareJSX(document.content)
+          : <p className="text-red-500">Error: Document content could not be displayed</p>
+        }
+      </div>
+      {/* Document Footer */}
+      <footer className="mt-10 pt-6 border-t border-primary-100 dark:border-accent-700">
         {/* Source Information */}
-        {(document.source || document.location || document.archiveReference) && (
-          <div className="bg-primary-50 dark:bg-accent-700 p-4 rounded-md border border-primary-100 dark:border-accent-600">
-            <div className="font-serif text-sm dark:text-primary-200">
+        {(document.source || document.location || document.archiveReference || document.transcribedBy) && (
+          <div className="bg-primary-50 dark:bg-accent-700 p-4 rounded-md border border-primary-100 dark:border-accent-600 mb-4">
+            <div className="font-sans text-sm dark:text-primary-200">
               {document.source && (
                 <div className="mb-1">
                   <strong>Source:</strong> {document.source}
@@ -114,29 +141,23 @@ const DocumentViewer = ({ document }: DocumentViewerProps) => {
                   <strong>Archive Reference:</strong> {document.archiveReference}
                 </div>
               )}
+              {document.transcribedBy && (
+                <div>
+                  <strong>Transcribed by:</strong> {document.transcribedBy}
+                </div>
+              )}
+              {document.transcriptionDate && (
+                <div>
+                  <strong>Transcription Date:</strong> {formatDate(document.transcriptionDate.toString())}
+                </div>
+              )}
             </div>
           </div>
         )}
-      </header>
-
-      {/* Document Content */}
-      <div 
-        className="font-sans text-accent-900 dark:text-primary-200 leading-relaxed markdown-content max-w-prose" 
-      >
-        {typeof document.content === 'string'
-          ? prepareJSX(document.content)
-          : <p className="text-red-500">Error: Document content could not be displayed</p>
-        }
-      </div>
-      {/* Document Footer */}
-      <footer className="mt-10 pt-6 border-t border-primary-100 dark:border-accent-700">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
           <div className="text-sm text-accent-700 dark:text-primary-300">
-            {document.transcribedBy && (
-              <p>Transcribed by {document.transcribedBy}</p>
-            )}
             {document.lastUpdated && (
-              <p>Last updated: {new Date(document.lastUpdated).toLocaleDateString()}</p>
+              <p>Last updated: {formatDate(document.lastUpdated.toString())}</p>
             )}
           </div>
 

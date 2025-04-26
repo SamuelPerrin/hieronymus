@@ -26,17 +26,34 @@ function parseMarkdownMetadata(content: string) {
   const lines = content.split("\n");
   const metadata: Record<string, any> = {};
   let contentStart = 0;
-
+  let currentKey: string | null = null;
+  
   // Find metadata section
   if (lines[0]?.trim() === "---") {
     for (let i = 1; i < lines.length; i++) {
-      if (lines[i]?.trim() === "---") {
+      const line = lines[i]?.trim();
+      if (line === "---") {
         contentStart = i + 1;
         break;
       }
-      const match = lines[i]?.match(/^(\w+):\s*(.*)$/);
-      if (match) {
-        metadata[match[1]] = match[2];
+      
+      const keyValueMatch = line.match(/^(\w+):\s*(.*)$/);
+      if (keyValueMatch) {
+        currentKey = keyValueMatch[1];
+        const value = keyValueMatch[2];
+
+        // Initialize as an array if the value starts with a list item
+        if (value.startsWith("-")) {
+          metadata[currentKey] = [value.slice(1).trim()];
+          console.log("Array initialized for key:", currentKey, "with value:", metadata[currentKey]);
+        } else {
+          metadata[currentKey] = value;
+        }
+      } else if (currentKey && line.startsWith("-")) {
+        if (!Array.isArray(metadata[currentKey])) {
+          metadata[currentKey] = []; // Ensure it's an array
+        }
+        metadata[currentKey].push(line.slice(1).trim());
       }
     }
   }
@@ -63,8 +80,13 @@ export function getDocumentBySlug(slug: string): Document | undefined {
     type: metadata.type,
     source: metadata.source,
     location: metadata.location,
+    authors: metadata.authors,
+    year: parseInt(metadata.year) || 0,
+    transcribedBy: metadata.transcribedBy,
+    transcriptionDate: metadata.transcriptionDate,
     archiveReference: metadata.archiveReference,
     collectionId: parseInt(metadata.collectionId) || 0,
+    lastUpdated: metadata.lastUpdated,
   };
 }
 
@@ -163,8 +185,6 @@ export function getRelatedItemsForSlug(slug: string, entityType: EntityType): Re
     slug: place.slug,
     description: place.description,
   })));
-  console.log("For slug", slug);
-  console.log("relatedItems:", relatedItems);
   return relatedItems;
 }
 
@@ -196,6 +216,11 @@ export function getAllCollections(): Collection[] {
 
 export function getCollectionsLength(): number {
   return Object.keys(collections).length;
+}
+
+export function getCollectionById(collectionId: number): Collection | undefined {
+  const collection = getAllCollections().find(collection => collection.id === collectionId);
+  return collection;
 }
 
 // Get People

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { getDocumentBySlug, getRelatedItemsForSlug } from "@/lib/contentLoader";
+import { getDocumentBySlug, getRelatedItemsForSlug, getCollectionById } from "@/lib/contentLoader";
 import { useRoute } from "wouter";
-import { Document, EntityType, RelatedItem } from "@shared/schema";
+import { Collection, Document, EntityType, RelatedItem } from "@shared/schema";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumb";
 import DocumentViewer from "@/components/document/DocumentViewer";
 import DocumentNav from "@/components/document/DocumentNav";
@@ -35,10 +35,16 @@ const DocumentPage = () => {
   }, [document]);
 
   // Define breadcrumb items
+  let collection: Collection | undefined;
+  if (document?.collectionId) {
+    collection = getCollectionById(document?.collectionId);
+  }
+
   const breadcrumbItems : BreadcrumbItem[] = [
     { label: "Home", href: "/" },
-    document?.collectionId
-      ? { label: "Collections", href: "/collections/letters" }
+    { label: "Collections", href:"/collections" },
+    collection
+      ? { label: collection.title, href: `/collections/${collection.slug}` }
       : { label: "Documents", href: "/documents" },
   ];
 

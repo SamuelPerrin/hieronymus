@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { useRoute } from "wouter";
 import { EntityType, Event } from "@shared/schema";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumb";
@@ -12,7 +11,8 @@ import RelatedItemsCarousel from "@/components/related/RelatedItemsCarousel";
 import { useMediaQuery } from "@/hooks/use-mobile";
 import { motion } from "framer-motion";
 import { prepareJSX } from "@/lib/markdownUtils";
-import { getEventBySlug } from "@/lib/contentLoader";
+import { getEventBySlug, getRelatedItemsForSlug } from "@/lib/contentLoader";
+import { formatDate } from "@/lib/utils";
 
 const EventPage = () => {
   const [match, params] = useRoute("/events/:slug");
@@ -25,10 +25,9 @@ const EventPage = () => {
   isLoadingEvent = !event;
 
   // Fetch related items
-  const { data: relatedItems, isLoading: isLoadingRelated } = useQuery({
-    queryKey: [`/api/event/${slug}/related`],
-    enabled: !!slug,
-  });
+  let isLoadingRelated = true;
+  const relatedItems = getRelatedItemsForSlug(slug, EntityType.event);
+  isLoadingRelated = false;
 
   // Set page title
   useEffect(() => {
@@ -104,7 +103,7 @@ const EventPage = () => {
                         )}
                         {event.startDate && (
                           <Badge variant="outline" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 border-none">
-                            Started: {event.startDate}
+                            {(event.startDate && event.endDate) ? "Started:" : "Date:"} {formatDate(event.startDate)}
                           </Badge>
                         )}
                         {event.endDate && (
@@ -130,9 +129,9 @@ const EventPage = () => {
               </Card>
 
               {/* Related Items Carousel (Mobile Only) */}
-              {/* {isMobile && relatedItems && relatedItems.length > 0 && (
+              {isMobile && relatedItems && relatedItems.length > 0 && (
                 <RelatedItemsCarousel items={relatedItems} />
-              )} */}
+              )}
             </motion.div>
           ) : (
             <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">

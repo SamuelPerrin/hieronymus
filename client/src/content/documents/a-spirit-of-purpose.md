@@ -5,10 +5,13 @@ title: A Spirit of Purpose
 date: 1975-04-20
 year: 1975
 type: speech
+authors: 
+  - William S. Banowsky
 archiveReference: Box 1, Pepperdine University Speeches Collection
 collectionId: 202504251508
 transcribedBy: Sam Perrin
-transcriptionDate: 2025-04-25
+transcriptionDate: 2023-07-15
+lastUpdated: 2025-04-26
 ---
 “A Spirit of Purpose” is a speech delivered by Pepperdine president [[William S. Banowsky]] at the [[Dedication of Seaver College]] on April 20, 1975. It is probably best regarded as a sequel to Banowsky’s earlier speech [[A Spirit of Place]].
 

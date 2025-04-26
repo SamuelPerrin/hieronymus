@@ -166,6 +166,14 @@
   .markdown-content blockquote {
     @apply border-l-4 border-l-gray-200 dark:border-l-gray-600 pl-4 my-6 text-muted-foreground;
   }
+
+  .markdown-content li {
+    @apply relative pl-4;
+  }
+
+  .markdown-content li::before {
+    @apply absolute left-0 text-lg text-gray-600 content-['•'];
+  }
 }
 
 @layer base {

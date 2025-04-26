@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { useRoute } from "wouter";
 import { EntityType, Person } from "@shared/schema";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumb";
@@ -12,7 +11,7 @@ import RelatedItemsCarousel from "@/components/related/RelatedItemsCarousel";
 import { useMediaQuery } from "@/hooks/use-mobile";
 import { motion } from "framer-motion";
 import { prepareJSX } from "@/lib/markdownUtils";
-import { getPersonBySlug } from "@/lib/contentLoader";
+import { getPersonBySlug, getRelatedItemsForSlug } from "@/lib/contentLoader";
 
 const PersonPage = () => {
   const [match, params] = useRoute("/people/:slug");
@@ -25,10 +24,9 @@ const PersonPage = () => {
   isLoadingPerson = !person;
 
   // Fetch related items
-  const { data: relatedItems, isLoading: isLoadingRelated } = useQuery({
-    queryKey: [`/api/person/${slug}/related`],
-    enabled: !!slug,
-  });
+  let isLoadingRelated = true;
+  const relatedItems = getRelatedItemsForSlug(slug, EntityType.person);
+  isLoadingRelated = false;
 
   // Set page title
   useEffect(() => {
@@ -149,9 +147,9 @@ const PersonPage = () => {
               </Card>
 
               {/* Related Items Carousel (Mobile Only) */}
-              {/* {isMobile && relatedItems && relatedItems.length > 0 && (
+              {isMobile && relatedItems && relatedItems.length > 0 && (
                 <RelatedItemsCarousel items={relatedItems} />
-              )} */}
+              )}
             </motion.div>
           ) : (
             <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">

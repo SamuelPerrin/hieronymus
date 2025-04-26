@@ -4,7 +4,7 @@ slug: dedication-of-seaver-college
 name: Dedication of Seaver College
 startDate: 1975-04-20
 ---
-The dedication of Seaver College took place on April 20, 1975, in the [[the amphitheater|Fouch Amphitheater]] on the Malibu campus of Pepperdine University. The event named the undergraduate liberal arts college in Malibu [[Seaver College]] in honor of [[Frank R. Seaver]], whose widow [[Blance Seaver]] had donated to support the college’s construction.
+The dedication of Seaver College took place on April 20, 1975, in the [[the amphitheater|Fouch Amphitheater]] on the Malibu campus of Pepperdine University. The event named the undergraduate liberal arts college in Malibu "[[Seaver College]]" in honor of [[Frank R. Seaver]], whose widow [[Blanche Seaver]] had donated to support the college’s construction.
 
 ## Program
 - The program of the dedication ceremony was overseen by MC [[M. Norvel Young]].
