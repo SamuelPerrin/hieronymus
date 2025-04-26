@@ -63,25 +63,25 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
                   Home
                 </Button>
               </Link>
-              <Link href="/collections/letters">
+              <Link href="/collections">
                 <Button variant="ghost" className={cn("text-accent-700 hover:text-white dark:text-primary-200 dark:hover:text-white",
                   location.startsWith("/collections") && "text-accent-900 dark:text-white")}>
                   Collections
                 </Button>
               </Link>
-              <Link href="/people/alexander-hamilton">
+              <Link href="/people">
                 <Button variant="ghost" className={cn("text-accent-700 hover:text-white dark:text-primary-200 dark:hover:text-white",
                   location.startsWith("/people") && "text-accent-900 dark:text-white")}>
                   People
                 </Button>
               </Link>
-              <Link href="/places/new-windsor">
+              <Link href="/places">
                 <Button variant="ghost" className={cn("text-accent-700 hover:text-white dark:text-primary-200 dark:hover:text-white",
                   location.startsWith("/places") && "text-accent-900 dark:text-white")}>
                   Places
                 </Button>
               </Link>
-              <Link href="/events/american-revolution">
+              <Link href="/events">
                 <Button variant="ghost" className={cn("text-accent-700 hover:text-white dark:text-primary-200 dark:hover:text-white",
                   location.startsWith("/events") && "text-accent-900 dark:text-white")}>
                   Events

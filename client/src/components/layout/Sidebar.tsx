@@ -1,28 +1,50 @@
 import { Link } from "wouter";
-import { RelatedItem, EntityType } from "@shared/schema";
+import { RelatedItem, EntityType, EntityTypeSlug, EntityTypeMap } from "@shared/schema";
 import { User, MapPin, Calendar, FileText, Archive } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getRelatedItemsForSlug } from "@/lib/contentLoader";
+import { capitalize } from "@/lib/utils";
 
 interface SidebarProps {
   entityType: EntityType;
-  slug: string;
+  slug?: string;
+  list?: boolean;
 }
 
-const Sidebar = ({ entityType, slug }: SidebarProps) => {
-  let isLoading = true;
-  const relatedItems = getRelatedItemsForSlug(slug, entityType);
-  isLoading = false;
+interface GroupedItems {
+    people: RelatedItem[];
+    places: RelatedItem[];
+    events: RelatedItem[];
+    documents: RelatedItem[];
+    collections: RelatedItem[];
+}
 
-  const groupedItems = relatedItems
-    ? {
-        people: relatedItems.filter((item) => item.type === EntityType.person),
-        places: relatedItems.filter((item) => item.type === EntityType.place),
-        events: relatedItems.filter((item) => item.type === EntityType.event),
-        documents: relatedItems.filter((item) => item.type === EntityType.document),
-        collections: relatedItems.filter((item) => item.type === EntityType.collection),
-      }
-    : null;
+const Sidebar = ({ entityType, slug, list }: SidebarProps) => {
+  const relatedItems: RelatedItem[] = [];
+  let groupedItems: GroupedItems | null = null;
+  let listsToTease: (string | EntityType)[] = [];
+  let isLoading = true;
+
+  if (slug) {
+    relatedItems.push(...getRelatedItemsForSlug(slug, entityType));
+    isLoading = false;
+  
+    groupedItems = relatedItems
+      ? {
+          people: relatedItems.filter((item) => item.type === EntityType.person),
+          places: relatedItems.filter((item) => item.type === EntityType.place),
+          events: relatedItems.filter((item) => item.type === EntityType.event),
+          documents: relatedItems.filter((item) => item.type === EntityType.document),
+          collections: relatedItems.filter((item) => item.type === EntityType.collection),
+        }
+      : null;
+  } else if (list) {
+    // Get an array of other List pages to tease in the Sidebar, excluding the current page
+    listsToTease = Object.values(EntityType)
+      .filter(val => val !== entityType && val !== EntityType.document)
+      .map(val => EntityType[val]);
+    isLoading = false;
+  }
 
   const getIcon = (type: EntityType) => {
     switch (type) {
@@ -79,6 +101,30 @@ const Sidebar = ({ entityType, slug }: SidebarProps) => {
         </div>
       </div>
     );
+  }
+
+  if (list && !slug) {
+    return (
+      <div className="sticky top-24 bg-white dark:bg-accent rounded-lg shadow-sm p-5 border border-primary-100 dark:border-accent-700">
+        <h3 className="font-serif text-lg font-bold mb-4 text-accent-900 dark:text-white border-b border-primary-100 dark:border-accent-700 pb-2">
+          Related Content
+        </h3>
+        <div className="mb-6">
+          <ul className="space-y-2">
+            {listsToTease.map((page, index) => 
+              (<li key={index} className="">
+                <Link to={`/${EntityTypeMap[page as EntityType]}`}  className="flex items-center hover:bg-primary-50 dark:hover:bg-accent-700 p-1 rounded transition-colors">
+                  {getIcon(page as EntityType)}
+                  <span className="text-accent-700 dark:text-primary-200 hover:text-accent-900 dark:hover:text-white transition-colors">
+                    {capitalize(EntityTypeMap[page as EntityType])}
+                  </span>
+                </Link>
+              </li>)
+            )}
+          </ul>
+        </div>
+      </div>
+    )
   }
 
   if (!groupedItems || Object.values(groupedItems).every((group) => group.length === 0)) {

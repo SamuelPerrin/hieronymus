@@ -18,3 +18,7 @@ export function formatDate(dateString: string) {
 
   return new Intl.DateTimeFormat("en-US", options).format(date);
 }
+
+export function capitalize(str: string) {
+  return str[0].toUpperCase() + str.slice(1);
+}

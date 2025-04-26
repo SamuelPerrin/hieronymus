@@ -78,11 +78,11 @@ export type Event = {
 
 // Entity type for unified handling of different entity types
 export enum EntityType {
-  document,
-  person,
-  place,
-  event,
-  collection
+  document = "document",
+  person = "person",
+  place = "place",
+  event = "event",
+  collection = "collection"
 };
 
 export enum EntityTypeSlug {
@@ -91,6 +91,14 @@ export enum EntityTypeSlug {
   places = 'places',
   events = 'events',
   collections = 'collections'
+};
+
+export const EntityTypeMap: Record<EntityType, EntityTypeSlug> = {
+  [EntityType.collection]: EntityTypeSlug.collections,
+  [EntityType.document]: EntityTypeSlug.documents,
+  [EntityType.event]: EntityTypeSlug.events,
+  [EntityType.person]: EntityTypeSlug.people,
+  [EntityType.place]: EntityTypeSlug.places
 };
 
 export class RelatedItem {
