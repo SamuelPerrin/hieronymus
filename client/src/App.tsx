@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import AppLayout from "@/components/layout/AppLayout";
+import ScrollToTop from "@/components/layout/ScrollToTop";
 import Home from "@/pages/home";
 import Document from "@/pages/document";
 import Collection from "@/pages/collection";
@@ -17,6 +18,7 @@ import About from "@/pages/about";
 function MyRouter() {
   return (
     <Router>
+      <ScrollToTop />
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/documents/:slug" component={Document} />
