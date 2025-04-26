@@ -12,7 +12,7 @@ import { formatDate } from "@/lib/utils";
 import { Link } from "wouter";
 import { User } from "lucide-react";
 
-const ITEMS_PER_PAGE = 10; // Number of items per page
+const ITEMS_PER_PAGE = 10;
 
 const People = () => {
   const isMobile = useMediaQuery("(max-width: 1023px)");
