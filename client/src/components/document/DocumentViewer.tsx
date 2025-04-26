@@ -5,6 +5,8 @@ import { Document } from "@shared/schema";
 import { prepareJSX } from "@/lib/markdownUtils";
 import { formatDate } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { getPersonSlugByName } from "@/lib/contentLoader";
+import { Link } from 'wouter';
 
 interface DocumentViewerProps {
   document: Document;
@@ -62,7 +64,12 @@ const DocumentViewer = ({ document }: DocumentViewerProps) => {
           {document.authors && document.authors.length > 0 && (
             <div className="text-accent-700 dark:text-primary-200 flex items-center space-x-2">
               <UserPen className="h-4 w-4" />
-              <span>{document.authors.join(", ")}</span>
+              {document.authors.map((author, index) => (
+                <span key={index} className="hover:underline">
+                  <Link to={`/people/${getPersonSlugByName(author)}`}>{author}</Link>
+                  {index < document.authors!.length - 1 && ", "}
+                </span>
+              ))}
             </div>
           )}
 

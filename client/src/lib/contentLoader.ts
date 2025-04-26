@@ -255,6 +255,17 @@ export function getPeopleLength(): number {
   return Object.keys(people).length;
 }
 
+export function getPersonSlugByName(name: string): string {
+  const people = getAllPeople();
+  let match: Person | undefined = people.find(person => person.name === name);
+  if (match) return match.slug;
+  
+  match = people.find(person => person.alternateNames?.includes(name));
+  if (match) return match.slug;
+
+  return "";
+}
+
 // Get Events
 export function getEventBySlug(slug: string): Event | undefined {
   const filePath = `../content/events/${slug}.md`;
