@@ -146,7 +146,7 @@ export function getRelatedItemsForSlug(slug: string, entityType: EntityType): Re
   })));
 
   // Get related collections
-  const collections = getAllCollections().filter(collection => entityType == EntityType.document && collection.id === document!.collectionId && collection.slug !== slug);
+  const collections = getAllCollections().filter(collection => entityType == EntityType.document && collection.id === document?.collectionId && collection.slug !== slug);
   relatedItems.push(...collections.map(collection => ({
     id: collection.id,
     type: EntityType.collection,

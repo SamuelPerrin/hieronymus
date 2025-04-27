@@ -184,6 +184,16 @@
   .markdown-content li::before {
     @apply absolute left-1 text-lg text-gray-600 content-['•'];
   }
+
+  /* Hide scrollbar but allow scrolling */
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Edge */
+  }
 }
 
 @layer base {

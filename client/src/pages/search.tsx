@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { useLocation, Link } from "wouter";
-import { Document, Person, Place, Event } from "@shared/schema";
+import { useSearch, Link } from "wouter";
+import { Document, Person, Place, Event, EntityType } from "@shared/schema";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
@@ -10,18 +9,21 @@ import { FileText, User, MapPin, Calendar, ExternalLink } from "lucide-react";
 import SearchBar from "@/components/search/SearchBar";
 import { extractExcerpt } from "@/lib/markdownUtils";
 import { motion } from "framer-motion";
+import { globalSearch, SearchResults } from "@/lib/searchHelpers";
+
+function useQueryParam(param: string): string | null {
+  const search = useSearch();
+  return new URLSearchParams(search).get(param);
+}
 
 const SearchPage = () => {
-  const [location] = useLocation();
-  const searchParams = new URLSearchParams(location.split("?")[1] || "");
-  const queryParam = searchParams.get("q") || "";
+  const queryParam = useQueryParam("q") || "";
   const [activeTab, setActiveTab] = useState("all");
 
   // Fetch search results
-  const { data: results, isLoading } = useQuery({
-    queryKey: [`/api/search?q=${encodeURIComponent(queryParam)}`],
-    enabled: queryParam.length > 0,
-  });
+  let isLoading = true;
+  const results = globalSearch(queryParam);
+  isLoading = false;
 
   // Update title
   useEffect(() => {
@@ -29,13 +31,6 @@ const SearchPage = () => {
       ? `Search: ${queryParam} | Ghost in the Archive`
       : "Search | Ghost in the Archive";
   }, [queryParam]);
-
-  // Count total results
-  const totalResults =
-    (results?.documents?.length || 0) +
-    (results?.people?.length || 0) +
-    (results?.places?.length || 0) +
-    (results?.events?.length || 0);
 
   // Define breadcrumb items
   const breadcrumbItems = [
@@ -70,18 +65,18 @@ const SearchPage = () => {
                 <Skeleton className="h-24 w-full" />
                 <Skeleton className="h-24 w-full" />
               </div>
-            ) : results ? (
+            ) : results.totalResults > 0 ? (
               <div>
                 <div className="mb-6">
                   <p className="text-muted-foreground">
-                    Found {totalResults} result{totalResults !== 1 ? "s" : ""}
+                    Found {results.totalResults} result{results.totalResults !== 1 ? "s" : ""}
                   </p>
                 </div>
 
                 <Tabs value={activeTab} onValueChange={setActiveTab}>
-                  <TabsList className="mb-6">
+                  <TabsList className="mb-6 overflow-x-auto whitespace-nowrap scrollbar-hide">
                     <TabsTrigger value="all">
-                      All Results ({totalResults})
+                      All Results ({results.totalResults})
                     </TabsTrigger>
                     <TabsTrigger value="documents">
                       Documents ({results.documents?.length || 0})
@@ -98,18 +93,10 @@ const SearchPage = () => {
                   </TabsList>
 
                   <TabsContent value="all" className="space-y-6">
-                    {totalResults === 0 ? (
-                      <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">
-                        <CardContent className="pt-6">
-                          <p className="text-accent-700 dark:text-primary-200">
-                            No results found for "{queryParam}".
-                          </p>
-                        </CardContent>
-                      </Card>
-                    ) : (
-                      <>
-                        {results.documents && results.documents.length > 0 && (
-                          <div>
+                    {results.order.map((type) => {
+                      if (type === EntityType.document && results.documents.length > 0) {
+                        return (
+                          <div key="documents">
                             <h2 className="text-lg font-serif font-bold text-accent-900 dark:text-white mb-4 flex items-center">
                               <FileText className="h-5 w-5 mr-2 text-primary" /> Documents
                             </h2>
@@ -117,22 +104,14 @@ const SearchPage = () => {
                               {results.documents.slice(0, 3).map((doc) => (
                                 <SearchResultDocument key={doc.id} document={doc} />
                               ))}
-                              {results.documents.length > 3 && (
-                                <div className="text-right">
-                                  <button
-                                    onClick={() => setActiveTab("documents")}
-                                    className="text-primary hover:text-primary/80 text-sm"
-                                  >
-                                    View all {results.documents.length} documents
-                                  </button>
-                                </div>
-                              )}
                             </div>
                           </div>
-                        )}
+                        );
+                      }
 
-                        {results.people && results.people.length > 0 && (
-                          <div>
+                      if (type === EntityType.person && results.people.length > 0) {
+                        return (
+                          <div key="people">
                             <h2 className="text-lg font-serif font-bold text-accent-900 dark:text-white mb-4 flex items-center">
                               <User className="h-5 w-5 mr-2 text-primary" /> People
                             </h2>
@@ -140,22 +119,14 @@ const SearchPage = () => {
                               {results.people.slice(0, 3).map((person) => (
                                 <SearchResultPerson key={person.id} person={person} />
                               ))}
-                              {results.people.length > 3 && (
-                                <div className="text-right">
-                                  <button
-                                    onClick={() => setActiveTab("people")}
-                                    className="text-primary hover:text-primary/80 text-sm"
-                                  >
-                                    View all {results.people.length} people
-                                  </button>
-                                </div>
-                              )}
                             </div>
                           </div>
-                        )}
+                        );
+                      }
 
-                        {results.places && results.places.length > 0 && (
-                          <div>
+                      if (type === EntityType.place && results.places.length > 0) {
+                        return (
+                          <div key="places">
                             <h2 className="text-lg font-serif font-bold text-accent-900 dark:text-white mb-4 flex items-center">
                               <MapPin className="h-5 w-5 mr-2 text-primary" /> Places
                             </h2>
@@ -163,22 +134,14 @@ const SearchPage = () => {
                               {results.places.slice(0, 3).map((place) => (
                                 <SearchResultPlace key={place.id} place={place} />
                               ))}
-                              {results.places.length > 3 && (
-                                <div className="text-right">
-                                  <button
-                                    onClick={() => setActiveTab("places")}
-                                    className="text-primary hover:text-primary/80 text-sm"
-                                  >
-                                    View all {results.places.length} places
-                                  </button>
-                                </div>
-                              )}
                             </div>
                           </div>
-                        )}
+                        );
+                      }
 
-                        {results.events && results.events.length > 0 && (
-                          <div>
+                      if (type === EntityType.event && results.events.length > 0) {
+                        return (
+                          <div key="events">
                             <h2 className="text-lg font-serif font-bold text-accent-900 dark:text-white mb-4 flex items-center">
                               <Calendar className="h-5 w-5 mr-2 text-primary" /> Events
                             </h2>
@@ -186,93 +149,82 @@ const SearchPage = () => {
                               {results.events.slice(0, 3).map((event) => (
                                 <SearchResultEvent key={event.id} event={event} />
                               ))}
-                              {results.events.length > 3 && (
-                                <div className="text-right">
-                                  <button
-                                    onClick={() => setActiveTab("events")}
-                                    className="text-primary hover:text-primary/80 text-sm"
-                                  >
-                                    View all {results.events.length} events
-                                  </button>
-                                </div>
-                              )}
                             </div>
-                          </div>
-                        )}
-                      </>
-                    )}
-                  </TabsContent>
+                            </div>
+                        );}
+                      })}
+                    </TabsContent>
 
-                  <TabsContent value="documents" className="space-y-4">
-                    {results.documents && results.documents.length > 0 ? (
-                      results.documents.map((doc) => (
-                        <SearchResultDocument key={doc.id} document={doc} />
-                      ))
-                    ) : (
-                      <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">
-                        <CardContent className="pt-6">
-                          <p className="text-accent-700 dark:text-primary-200">
-                            No document results found for "{queryParam}".
-                          </p>
-                        </CardContent>
-                      </Card>
-                    )}
-                  </TabsContent>
+                    <TabsContent value="documents" className="space-y-4">
+                      {results.documents && results.documents.length > 0 ? (
+                        results.documents.map((doc) => (
+                          <SearchResultDocument key={doc.id} document={doc} />
+                        ))
+                      ) : (
+                        <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">
+                          <CardContent className="pt-6">
+                            <p className="text-accent-700 dark:text-primary-200">
+                              No document results found for "{queryParam}".
+                            </p>
+                          </CardContent>
+                        </Card>
+                      )}
+                    </TabsContent>
 
-                  <TabsContent value="people" className="space-y-4">
-                    {results.people && results.people.length > 0 ? (
-                      results.people.map((person) => (
-                        <SearchResultPerson key={person.id} person={person} />
-                      ))
-                    ) : (
-                      <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">
-                        <CardContent className="pt-6">
-                          <p className="text-accent-700 dark:text-primary-200">
-                            No people results found for "{queryParam}".
-                          </p>
-                        </CardContent>
-                      </Card>
-                    )}
-                  </TabsContent>
+                    <TabsContent value="people" className="space-y-4">
+                      {results.people && results.people.length > 0 ? (
+                        results.people.map((person) => (
+                          <SearchResultPerson key={person.id} person={person} />
+                        ))
+                      ) : (
+                        <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">
+                          <CardContent className="pt-6">
+                            <p className="text-accent-700 dark:text-primary-200">
+                              No people results found for "{queryParam}".
+                            </p>
+                          </CardContent>
+                        </Card>
+                      )}
+                    </TabsContent>
 
-                  <TabsContent value="places" className="space-y-4">
-                    {results.places && results.places.length > 0 ? (
-                      results.places.map((place) => (
-                        <SearchResultPlace key={place.id} place={place} />
-                      ))
-                    ) : (
-                      <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">
-                        <CardContent className="pt-6">
-                          <p className="text-accent-700 dark:text-primary-200">
-                            No place results found for "{queryParam}".
-                          </p>
-                        </CardContent>
-                      </Card>
-                    )}
-                  </TabsContent>
+                    <TabsContent value="places" className="space-y-4">
+                      {results.places && results.places.length > 0 ? (
+                        results.places.map((place) => (
+                          <SearchResultPlace key={place.id} place={place} />
+                        ))
+                      ) : (
+                        <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">
+                          <CardContent className="pt-6">
+                            <p className="text-accent-700 dark:text-primary-200">
+                              No place results found for "{queryParam}".
+                            </p>
+                          </CardContent>
+                        </Card>
+                      )}
+                    </TabsContent>
 
-                  <TabsContent value="events" className="space-y-4">
-                    {results.events && results.events.length > 0 ? (
-                      results.events.map((event) => (
-                        <SearchResultEvent key={event.id} event={event} />
-                      ))
-                    ) : (
-                      <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">
-                        <CardContent className="pt-6">
-                          <p className="text-accent-700 dark:text-primary-200">
-                            No event results found for "{queryParam}".
-                          </p>
-                        </CardContent>
-                      </Card>
-                    )}
-                  </TabsContent>
-                </Tabs>
-              </div>
+                    <TabsContent value="events" className="space-y-4">
+                      {results.events && results.events.length > 0 ? (
+                        results.events.map((event) => (
+                          <SearchResultEvent key={event.id} event={event} />
+                        ))
+                      ) : (
+                        <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">
+                          <CardContent className="pt-6">
+                            <p className="text-accent-700 dark:text-primary-200">
+                              No event results found for "{queryParam}".
+                            </p>
+                          </CardContent>
+                        </Card>
+                      )}
+                    </TabsContent>
+                  </Tabs>
+                </div>
             ) : (
               <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">
                 <CardContent className="pt-6">
                   <p className="text-accent-700 dark:text-primary-200">
-                    No results found.
+                    No results found for "{queryParam}".
                   </p>
                 </CardContent>
               </Card>
@@ -319,10 +271,8 @@ const SearchResultDocument = ({ document }: SearchResultDocumentProps) => {
               <Link href={`/documents/${document.slug}`}>{document.title}</Link>
             </CardTitle>
           </div>
-          <Link href={`/documents/${document.slug}`}>
-            <a className="text-primary hover:text-primary/80">
-              <ExternalLink className="h-4 w-4" />
-            </a>
+          <Link href={`/documents/${document.slug}`} className="text-primary hover:text-primary/80">
+            <ExternalLink className="h-4 w-4" />
           </Link>
         </div>
       </CardHeader>
@@ -358,17 +308,15 @@ const SearchResultPerson = ({ person }: SearchResultPersonProps) => {
               <Link href={`/people/${person.slug}`}>{person.name}</Link>
             </CardTitle>
           </div>
-          <Link href={`/people/${person.slug}`}>
-            <a className="text-primary hover:text-primary/80">
-              <ExternalLink className="h-4 w-4" />
-            </a>
+          <Link href={`/people/${person.slug}`} className="text-primary hover:text-primary/80">
+            <ExternalLink className="h-4 w-4" />
           </Link>
         </div>
       </CardHeader>
       <CardContent>
         {person.description && (
           <p className="text-sm text-accent-700 dark:text-primary-300 line-clamp-2">
-            {person.description}
+            {extractExcerpt(person.description)}
           </p>
         )}
       </CardContent>
@@ -399,17 +347,15 @@ const SearchResultPlace = ({ place }: SearchResultPlaceProps) => {
               <Link href={`/places/${place.slug}`}>{place.name}</Link>
             </CardTitle>
           </div>
-          <Link href={`/places/${place.slug}`}>
-            <a className="text-primary hover:text-primary/80">
-              <ExternalLink className="h-4 w-4" />
-            </a>
+          <Link href={`/places/${place.slug}`} className="text-primary hover:text-primary/80">
+            <ExternalLink className="h-4 w-4" />
           </Link>
         </div>
       </CardHeader>
       <CardContent>
         {place.description && (
           <p className="text-sm text-accent-700 dark:text-primary-300 line-clamp-2">
-            {place.description}
+            {extractExcerpt(place.description)}
           </p>
         )}
       </CardContent>
@@ -442,17 +388,15 @@ const SearchResultEvent = ({ event }: SearchResultEventProps) => {
               <Link href={`/events/${event.slug}`}>{event.name}</Link>
             </CardTitle>
           </div>
-          <Link href={`/events/${event.slug}`}>
-            <a className="text-primary hover:text-primary/80">
-              <ExternalLink className="h-4 w-4" />
-            </a>
+          <Link href={`/events/${event.slug}`} className="text-primary hover:text-primary/80">
+            <ExternalLink className="h-4 w-4" />
           </Link>
         </div>
       </CardHeader>
       <CardContent>
         {event.description && (
           <p className="text-sm text-accent-700 dark:text-primary-300 line-clamp-2">
-            {event.description}
+            {extractExcerpt(event.description)}
           </p>
         )}
       </CardContent>

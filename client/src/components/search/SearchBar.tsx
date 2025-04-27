@@ -37,7 +37,7 @@ const SearchBar = ({ initialQuery = "", className = "" }: SearchBarProps) => {
         />
         <Button
           type="submit"
-          className="rounded-l-none bg-primary hover:bg-primary/80"
+          className="rounded-l-none bg-primary ml-2 hover:bg-primary/80"
         >
           <Search className="h-4 w-4 mr-2" />
           Search
