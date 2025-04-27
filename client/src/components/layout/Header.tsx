@@ -17,7 +17,7 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isMobile = useMediaQuery("(max-width: 1024px)");
   const { toast } = useToast();
 
   const toggleSearch = () => {
@@ -56,7 +56,7 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
               </Link>
             </div>
 
-            <div className="hidden md:flex items-center space-x-6">
+            <div className="hidden lg:flex items-center space-x-6">
               <Link href="/">
                 <Button variant="ghost" className={cn("text-accent-700 hover:text-white dark:text-primary-200 dark:hover:text-white", 
                   location === "/" && "text-accent-900 dark:text-white")}>
@@ -96,7 +96,7 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
             </div>
 
             <div className="flex items-center">
-              <DarkModeToggle />
+              {!isMobile && (<DarkModeToggle />)}
               <Button 
                 variant="ghost" 
                 size="icon" 
@@ -107,17 +107,15 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
                 <Search className="h-5 w-5" />
               </Button>
 
-              {isMobile && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={toggleMobileMenu}
-                  aria-label="Open menu"
-                  className="ml-2 text-accent-700 hover:text-accent-900 hover:bg-primary-100 dark:text-primary-200 dark:hover:text-white dark:hover:bg-accent/50"
-                >
-                  <Menu className="h-5 w-5" />
-                </Button>
-              )}
+              {isMobile && (<Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleMobileMenu}
+                aria-label="Open menu"
+                className="ml-2 text-accent-700 hover:text-accent-900 hover:bg-primary-100 dark:text-primary-200 dark:hover:text-white dark:hover:bg-accent/50"
+              >
+                <Menu className="h-5 w-5" />
+              </Button>)}
             </div>
           </div>
 
@@ -148,7 +146,7 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="bg-white shadow-md md:hidden dark:bg-accent">
+        <div className="bg-white shadow-md lg:hidden dark:bg-accent">
           <div className="px-2 pt-2 pb-3 space-y-1">
             <Link href="/">
               <Button 
@@ -204,6 +202,10 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
                 About
               </Button>
             </Link>
+            {/* DarkModeToggle for narrow screens */}
+            <div className="pt-2 ml-4">
+              <DarkModeToggle />
+            </div>
           </div>
         </div>
       )}
