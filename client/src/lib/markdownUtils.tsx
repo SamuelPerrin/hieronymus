@@ -12,7 +12,6 @@ renderer.text = function (text) {
   // Example: [[PageName|DisplayName]] or [[PageName]]
   const pattern = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g;
   return text.raw.replace(pattern, (match, pageName, displayName) => {
-
     // This should match the way slugs are generated from file names in contentLoader.ts
     const slug = pageName.toLowerCase().replace(/\s+/g, "-");
 
@@ -49,13 +48,32 @@ export function renderMarkdown(markdown: string): string | Promise<string> {
   }
   
   try {
-    let adjustedMarkdown = adjustIndentation(markdown);
+    let adjustedMarkdown = adjustMarkdown(markdown);
     // Use the simplest approach to parse markdown to HTML
     return marked.parse(adjustedMarkdown);
   } catch (error) {
     console.error('Error parsing markdown:', error);
     return 'Error rendering content';
   }
+}
+
+/**
+ * Adjust the raw markdown string before parsing
+ */
+function adjustMarkdown(markdown: string): string {
+  return adjustEscaping(adjustIndentation(markdown));
+}
+
+/**
+ * Adjust the escaping of brackets in the markdown
+ * This is a workaround for the fact that the markdown parser
+ * doesn't treat `\[*sic*\]` the way we want.
+ */
+function adjustEscaping(markdown: string): string {
+  // Replace `\[*sic*\]` with `[*sic*]`
+  markdown = markdown.replace(/\\\[/g, "[");
+  markdown = markdown.replace(/\\\]/g, "]");
+  return markdown;
 }
 
 /**
