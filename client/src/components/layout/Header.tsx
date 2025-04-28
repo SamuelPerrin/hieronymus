@@ -157,7 +157,7 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
                 Home
               </Button>
             </Link>
-            <Link href="/collections/letters">
+            <Link href="/collections">
               <Button 
                 variant="ghost" 
                 className={cn("w-full justify-start text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white", 
@@ -166,7 +166,7 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
                 Collections
               </Button>
             </Link>
-            <Link href="/people/alexander-hamilton">
+            <Link href="/people">
               <Button 
                 variant="ghost" 
                 className={cn("w-full justify-start text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white", 
@@ -175,7 +175,7 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
                 People
               </Button>
             </Link>
-            <Link href="/places/new-windsor">
+            <Link href="/places">
               <Button 
                 variant="ghost" 
                 className={cn("w-full justify-start text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white", 
@@ -184,7 +184,7 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
                 Places
               </Button>
             </Link>
-            <Link href="/events/american-revolution">
+            <Link href="/events">
               <Button 
                 variant="ghost" 
                 className={cn("w-full justify-start text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white", 

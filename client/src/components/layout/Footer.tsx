@@ -47,22 +47,22 @@ const Footer = () => {
             <h3 className="font-sans font-semibold text-lg mb-4">Explore</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/collections/letters" className="text-primary-200 hover:text-white transition-colors">
+                <Link href="/collections" className="text-primary-200 hover:text-white transition-colors">
                   Collections
                 </Link>
               </li>
               <li>
-                <Link href="/people/alexander-hamilton" className="text-primary-200 hover:text-white transition-colors">
+                <Link href="/people" className="text-primary-200 hover:text-white transition-colors">
                   People
                 </Link>
               </li>
               <li>
-                <Link href="/places/new-windsor" className="text-primary-200 hover:text-white transition-colors">
+                <Link href="/places" className="text-primary-200 hover:text-white transition-colors">
                   Places
                 </Link>
               </li>
               <li>
-                <Link href="/events/american-revolution" className="text-primary-200 hover:text-white transition-colors">
+                <Link href="/events" className="text-primary-200 hover:text-white transition-colors">
                   Events
                 </Link>
               </li>

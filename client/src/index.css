@@ -161,7 +161,7 @@
   .markdown-content h4,
   .markdown-content h5,
   .markdown-content h6 {
-    @apply font-sans
+    @apply font-sans mt-4
   }
   
   .markdown-content p {

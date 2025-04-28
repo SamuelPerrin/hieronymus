@@ -109,7 +109,7 @@ const Home = () => {
         </h2>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Link href="/collections/letters">
+          <Link href="/collections">
             <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700 hover:shadow-md transition-shadow cursor-pointer">
               <CardContent className="pt-6">
                 <div className="flex items-center mb-4">
@@ -130,7 +130,7 @@ const Home = () => {
             </Card>
           </Link>
           
-          <Link href="/people/alexander-hamilton">
+          <Link href="/people">
             <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700 hover:shadow-md transition-shadow cursor-pointer">
               <CardContent className="pt-6">
                 <div className="flex items-center mb-4">
@@ -151,7 +151,7 @@ const Home = () => {
             </Card>
           </Link>
           
-          <Link href="/places/new-windsor">
+          <Link href="/places">
             <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700 hover:shadow-md transition-shadow cursor-pointer">
               <CardContent className="pt-6">
                 <div className="flex items-center mb-4">
@@ -172,7 +172,7 @@ const Home = () => {
             </Card>
           </Link>
           
-          <Link href="/events/american-revolution">
+          <Link href="/events">
             <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700 hover:shadow-md transition-shadow cursor-pointer">
               <CardContent className="pt-6">
                 <div className="flex items-center mb-4">

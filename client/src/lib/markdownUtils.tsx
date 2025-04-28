@@ -31,11 +31,11 @@ renderer.link = function({href, title, text}) {
 };
 
 // Override the default list renderer to ensure that links in lists are parsed correctly
-renderer.listitem = function({text, task, checked}) {
-  // Ensure `text` is a string before parsing
-  const parsedText = typeof text === "string" ? marked.parseInline(text) : text;
-  return `<li>${parsedText}</li>`;
-};
+// renderer.listitem = function({text, task, checked}) {
+//   // Ensure `text` is a string before parsing
+//   const parsedText = typeof text === "string" ? marked.parseInline(text) : text;
+//   return `<li>${parsedText}</li>`;
+// };
 
 marked.setOptions({ renderer });
 
@@ -49,13 +49,24 @@ export function renderMarkdown(markdown: string): string | Promise<string> {
   }
   
   try {
+    let adjustedMarkdown = adjustIndentation(markdown);
     // Use the simplest approach to parse markdown to HTML
-    return marked.parse(markdown);
+    return marked.parse(adjustedMarkdown);
   } catch (error) {
     console.error('Error parsing markdown:', error);
     return 'Error rendering content';
   }
 }
+
+/**
+ * Double the number of spaces in the indentation of lists
+ * This is a workaround for the fact that the markdown parser
+ * expects four spaces per level of indentation rather than two.
+ */
+function adjustIndentation(markdown: string): string {
+  return markdown.replace(/^(\s{2,})(\*|-|\d+\.)/gm, (_, spaces, bullet) => ' '.repeat(spaces.length * 2) + bullet);
+}
+
 
 /**
  * Convert HTML to JSX
