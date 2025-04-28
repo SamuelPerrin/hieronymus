@@ -7,6 +7,7 @@ import { useMediaQuery } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import DarkModeToggle from "../ui/dark-mode-toggle";
+import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu";
 
 interface HeaderProps {
   title?: string;
@@ -19,6 +20,7 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const isMobile = useMediaQuery("(max-width: 1024px)");
   const { toast } = useToast();
+  const base = process.env.NODE_ENV === "production" ? "/hieronymus" : "";
 
   const toggleSearch = () => {
     setSearchOpen(!searchOpen);
@@ -30,10 +32,15 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
     if (searchOpen) setSearchOpen(false);
   };
 
+  const handleNavigation = (path: string) => {
+    navigate(path);
+    setMobileMenuOpen(false); // Close the menu after navigation
+  };
+
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      handleNavigation(`${base}/search?q=${encodeURIComponent(searchQuery.trim())}`);
       setSearchOpen(false);
     } else {
       toast({
@@ -50,44 +57,44 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
-              <Link href="/" className="flex items-center space-x-2">
+              <Link href={base + "/"} className="flex items-center space-x-2">
                 <Ghost className="h-6 w-6 text-accent-700" />
                 <span className="font-serif text-xl font-bold text-accent-900 dark:text-primary-200">{title}</span>
               </Link>
             </div>
 
             <div className="hidden lg:flex items-center space-x-6">
-              <Link href="/">
+              <Link href={base + "/"}>
                 <Button variant="ghost" className={cn("text-accent-700 hover:text-white dark:text-primary-200 dark:hover:text-white", 
                   location === "/" && "text-accent-900 dark:text-white")}>
                   Home
                 </Button>
               </Link>
-              <Link href="/collections">
+              <Link href={base + "/collections"}>
                 <Button variant="ghost" className={cn("text-accent-700 hover:text-white dark:text-primary-200 dark:hover:text-white",
                   location.startsWith("/collections") && "text-accent-900 dark:text-white")}>
                   Collections
                 </Button>
               </Link>
-              <Link href="/people">
+              <Link href={base + "/people"}>
                 <Button variant="ghost" className={cn("text-accent-700 hover:text-white dark:text-primary-200 dark:hover:text-white",
                   location.startsWith("/people") && "text-accent-900 dark:text-white")}>
                   People
                 </Button>
               </Link>
-              <Link href="/places">
+              <Link href={base + "/places"}>
                 <Button variant="ghost" className={cn("text-accent-700 hover:text-white dark:text-primary-200 dark:hover:text-white",
                   location.startsWith("/places") && "text-accent-900 dark:text-white")}>
                   Places
                 </Button>
               </Link>
-              <Link href="/events">
+              <Link href={base + "/events"}>
                 <Button variant="ghost" className={cn("text-accent-700 hover:text-white dark:text-primary-200 dark:hover:text-white",
                   location.startsWith("/events") && "text-accent-900 dark:text-white")}>
                   Events
                 </Button>
               </Link>
-              <Link href="/about">
+              <Link href={base + "/about"}>
                 <Button variant="ghost" className={cn("text-accent-700 hover:text-white dark:text-primary-200 dark:hover:text-white",
                   location === "/about" && "text-accent-900 dark:text-white")}>
                   About
@@ -146,67 +153,104 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="bg-white shadow-md lg:hidden dark:bg-accent">
-          <div className="px-2 pt-2 pb-3 space-y-1">
-            <Link href="/">
-              <Button 
-                variant="ghost" 
-                className={cn("w-full justify-start text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white", 
-                  location === "/" && "text-accent-900 bg-primary-100 dark:text-white dark:bg-accent")}
-              >
-                Home
-              </Button>
-            </Link>
-            <Link href="/collections">
-              <Button 
-                variant="ghost" 
-                className={cn("w-full justify-start text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white", 
-                  location.startsWith("/collections") && "text-accent-900 bg-primary-100 dark:text-white dark:bg-accent")}
-              >
-                Collections
-              </Button>
-            </Link>
-            <Link href="/people">
-              <Button 
-                variant="ghost" 
-                className={cn("w-full justify-start text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white", 
-                  location.startsWith("/people") && "text-accent-900 bg-primary-100 dark:text-white dark:bg-accent")}
-              >
-                People
-              </Button>
-            </Link>
-            <Link href="/places">
-              <Button 
-                variant="ghost" 
-                className={cn("w-full justify-start text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white", 
-                  location.startsWith("/places") && "text-accent-900 bg-primary-100 dark:text-white dark:bg-accent")}
-              >
-                Places
-              </Button>
-            </Link>
-            <Link href="/events">
-              <Button 
-                variant="ghost" 
-                className={cn("w-full justify-start text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white", 
-                  location.startsWith("/events") && "text-accent-900 bg-primary-100 dark:text-white dark:bg-accent")}
-              >
-                Events
-              </Button>
-            </Link>
-            <Link href="/about">
-              <Button 
-                variant="ghost" 
-                className={cn("w-full justify-start text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white", 
-                  location === "/about" && "text-accent-900 bg-primary-100 dark:text-white dark:bg-accent")}
-              >
-                About
-              </Button>
-            </Link>
-            {/* DarkModeToggle for narrow screens */}
-            <div className="pt-2 ml-4">
-              <DarkModeToggle />
-            </div>
-          </div>
+        <div
+          className="fixed z-50 bg-white shadow-md dark:bg-accent flex justify-end"
+          style={{ top: "72px", right: "10px" }}
+        >
+          <NavigationMenu>
+            <NavigationMenuList className="flex flex-col items-end px-4 pt-6 pb-8 space-y-4">
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
+                    href={base + "/"}
+                    onClick={() => handleNavigation(base + "/")}
+                    className={cn(
+                      "w-full text-right justify-end text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white",
+                      location === "/" && "text-accent-900 bg-primary-100 dark:text-white dark:bg-accent"
+                    )}
+                  >
+                    Home
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
+                    href={base + "/collections"}
+                    onClick={() => handleNavigation(base + "/collections")}
+                    className={cn(
+                      "w-full text-right justify-end text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white",
+                      location.startsWith("/collections") && "text-accent-900 bg-primary-100 dark:text-white dark:bg-accent"
+                    )}
+                  >
+                    Collections
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
+                    href={base + "/people"}
+                    onClick={() => handleNavigation(base + "/people")}
+                    className={cn(
+                      "w-full text-right justify-end text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white",
+                      location.startsWith("/people") && "text-accent-900 bg-primary-100 dark:text-white dark:bg-accent"
+                    )}
+                  >
+                    People
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
+                    href={base + "/places"}
+                    onClick={() => handleNavigation(base + "/places")}
+                    className={cn(
+                      "w-full text-right justify-end text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white",
+                      location.startsWith("/places") && "text-accent-900 bg-primary-100 dark:text-white dark:bg-accent"
+                    )}
+                  >
+                    Places
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
+                    href={base + "/events"}
+                    onClick={() => handleNavigation(base + "/events")}
+                    className={cn(
+                      "w-full text-right justify-end text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white",
+                      location.startsWith("/events") && "text-accent-900 bg-primary-100 dark:text-white dark:bg-accent"
+                    )}
+                  >
+                    Events
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
+                    href={base + "/about"}
+                    onClick={() => handleNavigation(base + "/about")}
+                    className={cn(
+                      "w-full text-right justify-end text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white",
+                      location === "/about" && "text-accent-900 bg-primary-100 dark:text-white dark:bg-accent"
+                    )}
+                  >
+                    About
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              {/* DarkModeToggle for narrow screens */}
+              <NavigationMenuItem>
+                <div className="pt-2">
+                  <DarkModeToggle />
+                </div>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
         </div>
       )}
     </>

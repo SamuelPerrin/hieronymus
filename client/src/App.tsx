@@ -18,6 +18,7 @@ import Event from "@/pages/event";
 import Events from "@/pages/events";
 import Search from "@/pages/search";
 import About from "@/pages/about";
+import Contact from "@/pages/contact";
 
 const base = process.env.NODE_ENV === "production" ? "/hieronymus" : "/";
 
@@ -38,6 +39,7 @@ function MyRouter() {
         <Route path="/events" component={Events} />
         <Route path="/search" component={Search} />
         <Route path="/about" component={About} />
+        <Route path="/contact" component={Contact} />
         <Route component={NotFound} />
       </Switch>
     </Router>

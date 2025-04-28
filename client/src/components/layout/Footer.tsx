@@ -1,8 +1,9 @@
 import { Link } from "wouter";
 import { Ghost } from "lucide-react";
-import { FaTwitter, FaFacebookF, FaInstagram, FaGithub } from "react-icons/fa";
+import { FaTwitter, FaGithub } from "react-icons/fa";
 
 const Footer = () => {
+  const base = process.env.NODE_ENV === "production" ? "/hieronymus" : "";
   return (
     <footer className="bg-accent-900 text-white no-print">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -47,27 +48,27 @@ const Footer = () => {
             <h3 className="font-sans font-semibold text-lg mb-4">Explore</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/collections" className="text-primary-200 hover:text-white transition-colors">
+                <Link href={base + "/collections"} className="text-primary-200 hover:text-white transition-colors">
                   Collections
                 </Link>
               </li>
               <li>
-                <Link href="/people" className="text-primary-200 hover:text-white transition-colors">
+                <Link href={base + "/people"} className="text-primary-200 hover:text-white transition-colors">
                   People
                 </Link>
               </li>
               <li>
-                <Link href="/places" className="text-primary-200 hover:text-white transition-colors">
+                <Link href={base + "/places"} className="text-primary-200 hover:text-white transition-colors">
                   Places
                 </Link>
               </li>
               <li>
-                <Link href="/events" className="text-primary-200 hover:text-white transition-colors">
+                <Link href={base + "/events"} className="text-primary-200 hover:text-white transition-colors">
                   Events
                 </Link>
               </li>
               <li>
-                <Link href="/search" className="text-primary-200 hover:text-white transition-colors">
+                <Link href={base + "/search"} className="text-primary-200 hover:text-white transition-colors">
                   Search
                 </Link>
               </li>
@@ -78,29 +79,14 @@ const Footer = () => {
             <h3 className="font-sans font-semibold text-lg mb-4">Resources</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/about" className="text-primary-200 hover:text-white transition-colors">
+                <Link href={base + "/about"} className="text-primary-200 hover:text-white transition-colors">
                   About the Project
                 </Link>
               </li>
               <li>
-                <a href="#" className="text-primary-200 hover:text-white transition-colors">
-                  Research Methodology
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-primary-200 hover:text-white transition-colors">
-                  How to Cite
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-primary-200 hover:text-white transition-colors">
-                  Contributors
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-primary-200 hover:text-white transition-colors">
+                <Link href={base + "/contact"} className="text-primary-200 hover:text-white transition-colors">
                   Contact
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
