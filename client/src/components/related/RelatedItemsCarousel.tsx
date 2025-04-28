@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { RelatedItem } from "@shared/schema";
+import { RelatedItem } from "@/models/schema";
 import RelatedItemCard from "./RelatedItemCard";
 
 interface RelatedItemsCarouselProps {

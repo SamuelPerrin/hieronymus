@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useRoute, Link } from "wouter";
-import { Collection, Document, EntityType } from "@shared/schema";
+import { Collection, Document, EntityType } from "@/models/schema";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumb";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Calendar, ArrowRight, Archive } from "lucide-react";

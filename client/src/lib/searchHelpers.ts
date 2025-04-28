@@ -1,4 +1,4 @@
-import { Collection, Document, EntityType, Event, Person, Place } from "@shared/schema";
+import { Collection, Document, EntityType, Event, Person, Place } from "@/models/schema";
 import { getAllDocuments, getAllEvents, getAllPeople, getAllPlaces } from "./contentLoader";
 import { formatDate } from "./utils";
 

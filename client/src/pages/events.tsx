@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumb";
 import { useMediaQuery } from "@/hooks/use-mobile";
 import { getAllEvents } from "@/lib/contentLoader";
-import { EntityType } from "@shared/schema";
+import { EntityType } from "@/models/schema";
 import Sidebar from "@/components/layout/Sidebar";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";

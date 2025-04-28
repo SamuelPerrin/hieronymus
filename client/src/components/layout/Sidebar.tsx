@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { RelatedItem, EntityType, EntityTypeSlug, EntityTypeMap } from "@shared/schema";
+import { RelatedItem, EntityType, EntityTypeSlug, EntityTypeMap } from "@/models/schema";
 import { User, MapPin, Calendar, FileText, Archive } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getRelatedItemsForSlug } from "@/lib/contentLoader";

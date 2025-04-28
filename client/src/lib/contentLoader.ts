@@ -1,4 +1,4 @@
-import { Collection, Document, EntityTypeSlug, Event, Person, Place, RelatedItem, EntityType } from "@shared/schema";
+import { Collection, Document, EntityTypeSlug, Event, Person, Place, RelatedItem, EntityType } from "@/models/schema";
 
 // Import all markdown files
 const documents = import.meta.glob("../content/documents/*.md", {

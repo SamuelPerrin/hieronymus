@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { getDocumentBySlug, getRelatedItemsForSlug, getCollectionById } from "@/lib/contentLoader";
 import { useRoute } from "wouter";
-import { Collection, Document, EntityType, RelatedItem } from "@shared/schema";
+import { Collection, Document, EntityType, RelatedItem } from "@/models/schema";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumb";
 import DocumentViewer from "@/components/document/DocumentViewer";
 import DocumentNav from "@/components/document/DocumentNav";

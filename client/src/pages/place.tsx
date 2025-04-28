@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useRoute } from "wouter";
-import { EntityType, Place } from "@shared/schema";
+import { EntityType, Place } from "@/models/schema";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumb";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

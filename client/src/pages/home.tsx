@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "wouter";
-import { Document, Person, Place, Event, Collection } from "@shared/schema";
+import { Document, Person, Place, Event, Collection } from "@/models/schema";
 import { Ghost, Search, User, MapPin, Calendar, ArrowRight, Archive } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";

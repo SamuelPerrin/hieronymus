@@ -1,7 +1,7 @@
 import { Calendar, Download, Share, Printer, FileText, UserPen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Document } from "@shared/schema";
+import { Document } from "@/models/schema";
 import { prepareJSX } from "@/lib/markdownUtils";
 import { formatDate } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";

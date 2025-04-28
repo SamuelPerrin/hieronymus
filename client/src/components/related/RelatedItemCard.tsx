@@ -1,7 +1,6 @@
 import { Link } from "wouter";
 import { User, MapPin, Calendar, FileText, Archive } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { EntityType, RelatedItem } from "@shared/schema";
+import { EntityType, RelatedItem } from "@/models/schema";
 
 interface RelatedItemCardProps {
   item: RelatedItem;
