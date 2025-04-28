@@ -4,7 +4,7 @@ import { plugin as mdPlugin, Mode } from 'vite-plugin-markdown';
 import path from "path";
 
 export default defineConfig({
-  base: "/hieronymus/",
+  base: process.env.NODE_ENV === "production" ? "/hieronymus/" : "/",
   plugins: [
     react(),
     mdPlugin({
@@ -20,7 +20,7 @@ export default defineConfig({
   assetsInclude: ['**/*.md'],
   root: path.resolve(import.meta.dirname, "client"),
   build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
+    outDir: path.resolve(import.meta.dirname, "dist"),
     emptyOutDir: true,
   },
 });
