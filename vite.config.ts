@@ -4,6 +4,7 @@ import { plugin as mdPlugin, Mode } from 'vite-plugin-markdown';
 import path from "path";
 
 export default defineConfig({
+  base: "/hieronymus/",
   plugins: [
     react(),
     mdPlugin({
