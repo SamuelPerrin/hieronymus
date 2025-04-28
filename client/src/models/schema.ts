@@ -32,6 +32,7 @@ export type Document = {
   type: SourceType; // Document type (letter, book, etc.)
   source?: string; // Source 
   authors?: string[]; // Authors of the document
+  recipients?: string[]; // Recipients of the document (for letters)
   location?: string; // Where the document was created
   archiveReference?: string; // Reference number in archive
   collectionId: number;

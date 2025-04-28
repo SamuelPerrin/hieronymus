@@ -81,6 +81,7 @@ export function getDocumentBySlug(slug: string): Document | undefined {
     source: metadata.source,
     location: metadata.location,
     authors: metadata.authors,
+    recipients: metadata.recipients,
     year: parseInt(metadata.year) || 0,
     transcribedBy: metadata.transcribedBy,
     transcriptionDate: metadata.transcriptionDate,
@@ -142,7 +143,10 @@ export function getRelatedItemsForSlug(slug: string, entityType: EntityType): Re
     content?.includes(doc.title) ||
 
     // Check if this person is the author of the document
-    (entityType == EntityType.person && doc.authors?.includes(person!.name))
+    (entityType == EntityType.person && doc.authors?.includes(person?.name || "")) ||
+
+    // Check if this person is the recipient of the document
+    (entityType == EntityType.person && doc.recipients?.includes(person?.name || ""))
   ) && doc.slug !== slug); // Exclude the current document
   relatedItems.push(...documents.map(doc => ({
     id: doc.id,

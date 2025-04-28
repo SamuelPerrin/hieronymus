@@ -67,7 +67,7 @@ const Home = () => {
           <h2 className="font-serif text-2xl font-bold text-accent-900 dark:text-white">
             Recent Transcriptions
           </h2>
-          <Link href="/collections/letters">
+          <Link href="/collections">
             <Button variant="ghost" className="text-primary hover:text-primary/80">
               View all <ArrowRight className="h-4 w-4 ml-2" />
             </Button>

@@ -1,4 +1,4 @@
-import { Calendar, Download, Share, Printer, FileText, UserPen } from "lucide-react";
+import { Calendar, Download, Share, Printer, FileText, UserPen, MailOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Document } from "@/models/schema";
@@ -68,6 +68,18 @@ const DocumentViewer = ({ document }: DocumentViewerProps) => {
                 <span key={index} className="hover:underline">
                   <Link to={`/people/${getPersonSlugByName(author)}`}>{author}</Link>
                   {index < document.authors!.length - 1 && ", "}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {document.recipients && document.recipients.length > 0 && (
+            <div className="text-accent-700 dark:text-primary-200 flex items-center space-x-2">
+              <MailOpen className="h-4 w-4" />
+              {document.recipients.map((recipient, index) => (
+                <span key={index} className="hover:underline">
+                  <Link to={`/people/${getPersonSlugByName(recipient)}`}>{recipient}</Link>
+                  {index < document.recipients!.length - 1 && ", "}
                 </span>
               ))}
             </div>
