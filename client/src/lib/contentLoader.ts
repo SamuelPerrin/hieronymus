@@ -111,6 +111,7 @@ export function getDocumentsByCollectionId(collectionId: number): Document[] {
 export function getRelatedItemsForSlug(slug: string, entityType: EntityType): RelatedItem[] {
   let content: string | undefined;
   let document: Document | undefined;
+  let person: Person | undefined;
   switch (entityType) {
     case EntityType.document:
       document = getDocumentBySlug(slug);
@@ -120,7 +121,8 @@ export function getRelatedItemsForSlug(slug: string, entityType: EntityType): Re
       content = getCollectionBySlug(slug)?.content;
       break;
     case EntityType.person:
-      content = getPersonBySlug(slug)?.description;
+      person = getPersonBySlug(slug);
+      content = person?.description;
       break;
     case EntityType.event:
       content = getEventBySlug(slug)?.description;
@@ -135,7 +137,13 @@ export function getRelatedItemsForSlug(slug: string, entityType: EntityType): Re
   const relatedItems: RelatedItem[] = [];
 
   // Get related documents
-  const documents = getAllDocuments().filter(doc => content?.includes(doc.title) && doc.slug !== slug);
+  const documents = getAllDocuments().filter(doc => (
+    // Check if the document's title is in this entity's content
+    content?.includes(doc.title) ||
+
+    // Check if this person is the author of the document
+    (entityType == EntityType.person && doc.authors?.includes(person!.name))
+  ) && doc.slug !== slug); // Exclude the current document
   relatedItems.push(...documents.map(doc => ({
     id: doc.id,
     type: EntityType.document,
