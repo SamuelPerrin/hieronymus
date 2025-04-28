@@ -19,7 +19,7 @@ import Events from "@/pages/events";
 import Search from "@/pages/search";
 import About from "@/pages/about";
 
-const base = process.env.NODE_ENV === "production" ? "/hieronymus/" : "/";
+const base = process.env.NODE_ENV === "production" ? "/hieronymus" : "/";
 
 function MyRouter() {
   return (
