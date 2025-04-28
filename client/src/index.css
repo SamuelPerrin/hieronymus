@@ -173,7 +173,7 @@
   }
   
   .markdown-content blockquote {
-    @apply border-l-4 border-l-gray-200 dark:border-l-gray-600 pl-4 my-6 text-muted-foreground;
+    @apply border-l-4 border-l-gray-200 dark:border-l-gray-600 pl-4 my-6;
   }
 
   .markdown-content li {
@@ -210,6 +210,45 @@
   
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-serif);
+  }
+}
+
+/* Hide elements that shouldn't appear in the printed version */
+@media print {
+  /* Hide navigation, buttons, and other interactive elements */
+  aside, .no-print, .btn, .dark-mode-toggle {
+    display: none !important;
+  }
+
+  /* Adjust the layout for printing */
+  article {
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+  }
+
+  /* Ensure the document content takes up the full width */
+  .markdown-content {
+    max-width: 100%;
+  }
+
+  /* Adjust font sizes for better readability */
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+
+  /* Remove background colors for better print contrast */
+  * {
+    background: none !important;
+    color: black !important;
+  }
+
+  /* Ensure links are visible in print */
+  a {
+    color: blue !important;
+    text-decoration: underline !important;
   }
 }
 

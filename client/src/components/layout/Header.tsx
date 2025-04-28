@@ -46,7 +46,7 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
 
   return (
     <>
-      <header className="bg-white dark:bg-accent shadow-sm sticky top-0 z-10">
+      <header className="bg-white dark:bg-accent shadow-sm sticky top-0 z-10 no-print">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
