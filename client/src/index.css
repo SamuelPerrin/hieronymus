@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Gelasio:ital,wght@0,400..700;1,400..700&family=Source+Sans+Pro:wght@400;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -134,7 +134,11 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
   
-  h1, h2, h3, h4, h5, h6 {
+  h1 {
+    @apply font-display font-bold;
+  }
+
+  h2, h3, h4, h5, h6 {
     @apply font-serif font-bold;
   }
   
@@ -205,18 +209,23 @@
 }
 
 @layer base {
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:wght@400;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Gelasio:ital,wght@0,400..700;1,400..700&family=Source+Sans+Pro:wght@400;600&display=swap');
   
   :root {
     --font-sans: 'Source Sans Pro', system-ui, sans-serif;
-    --font-serif: 'Playfair Display', serif;
+    --font-serif: 'Gelasio', serif;
+    --font-display: 'Playfair Display', serif;
   }
   
   html {
     font-family: var(--font-sans);
   }
+
+  h1 {
+    font-family: var(--font-display)
+  }
   
-  h1, h2, h3, h4, h5, h6 {
+  h2, h3, h4, h5, h6 {
     font-family: var(--font-serif);
   }
 }
@@ -269,6 +278,10 @@
 
 .font-serif {
   font-family: var(--font-serif);
+}
+
+.font-display {
+  font-family: var(--font-display);
 }
 
 .font-sans {

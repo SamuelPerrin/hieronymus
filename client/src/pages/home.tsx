@@ -42,7 +42,7 @@ const Home = () => {
             transition={{ duration: 0.5 }}
           >
             <Ghost className="h-16 w-16 mx-auto text-primary mb-4" />
-            <h1 className="font-serif text-4xl md:text-5xl font-bold text-accent-900 dark:text-white mb-6">
+            <h1 className="font-display text-4xl md:text-5xl font-bold text-accent-900 dark:text-white mb-6">
               Ghost in the Archive
             </h1>
             <p className="text-xl text-accent-700 dark:text-primary-200 mb-8">

@@ -66,7 +66,7 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
             <div className="flex items-center">
               <Link href={base + "/"} className="flex items-center space-x-2">
                 <Ghost className="h-6 w-6 text-accent-700 dark:text-primary-100" />
-                <span className="font-serif text-xl font-bold text-accent-900 dark:text-primary-200">{title}</span>
+                <span className="font-display text-xl font-bold text-accent-900 dark:text-primary-200">{title}</span>
               </Link>
             </div>
 
