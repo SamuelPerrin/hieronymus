@@ -56,76 +56,77 @@ const Collections = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
-              ></motion.div>
-              <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">
-                <CardHeader>
-                  <div className="flex flex-col md:flew-row md:items-center gap-4">
-                    <div>
-                      <CardTitle className="text-2xl font-serif text-accent-900 dark:text-white">
-                        Collections
-                      </CardTitle>
+              >
+                <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">
+                  <CardHeader>
+                    <div className="flex flex-col md:flew-row md:items-center gap-4">
+                      <div>
+                        <CardTitle className="text-2xl font-serif text-accent-900 dark:text-white">
+                          Collections
+                        </CardTitle>
+                      </div>
                     </div>
-                  </div>
-                </CardHeader>
-                <CardDescription className="text-accent-700 dark:text-accent-200 text-base">
-                  <div className="pl-4 leading-relaxed">
-                    Explore our collections of transcribed archival documents.
-                  </div>
-                </CardDescription>
-                <CardContent>
-                  <Table className="border">
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Description</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {paginatedCollections.map((collection) => (
-                        <TableRow key={collection.id}>
-                          <TableCell>
-                            <Link to={`/collections/${collection.slug}`}>
-                              <div className="flex flex-row items-center">
-                                <div className="bg-orange-100 dark:bg-orange-900 h-7 w-7 rounded-full flex items-center justify-center flex-shrink-0">
-                                  <Archive className="h-4 w-4 text-orange-800 dark:text-orange-200"></Archive>
-                                </div>
-                                <span className="ml-2">{collection.title}</span>
-                              </div>
-                            </Link>
-                          </TableCell>
-                          <TableCell>
-                            {collection.description || "N/A"}
-                          </TableCell>
+                  </CardHeader>
+                  <CardDescription className="text-accent-700 dark:text-accent-200 text-base">
+                    <div className="pl-4 leading-relaxed">
+                      Explore our collections of transcribed archival documents.
+                    </div>
+                  </CardDescription>
+                  <CardContent>
+                    <Table className="border">
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Name</TableHead>
+                          <TableHead>Description</TableHead>
                         </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                  
-                  {/* Pagination */}
-                  {collections.length > ITEMS_PER_PAGE && <Pagination className="mt-4">
-                    <PaginationContent>
-                      <PaginationPrevious
-                        onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                        disabled={currentPage === 1} // Pass disabled prop
-                      />
-                      {Array.from({ length: totalPages }, (_, index) => (
-                        <PaginationItem key={index}>
-                          <PaginationLink
-                            isActive={currentPage === index + 1}
-                            onClick={() => handlePageChange(index + 1)}
-                          >
-                            {index + 1}
-                          </PaginationLink>
-                        </PaginationItem>
-                      ))}
-                      <PaginationNext
-                        onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
-                        disabled={currentPage === totalPages} // Pass disabled prop
-                      />
-                    </PaginationContent>
-                  </Pagination>}
-                </CardContent>
-              </Card>
+                      </TableHeader>
+                      <TableBody>
+                        {paginatedCollections.map((collection) => (
+                          <TableRow key={collection.id}>
+                            <TableCell>
+                              <Link to={`/collections/${collection.slug}`}>
+                                <div className="flex flex-row items-center">
+                                  <div className="bg-orange-100 dark:bg-orange-900 h-7 w-7 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <Archive className="h-4 w-4 text-orange-800 dark:text-orange-200"></Archive>
+                                  </div>
+                                  <span className="ml-2">{collection.title}</span>
+                                </div>
+                              </Link>
+                            </TableCell>
+                            <TableCell>
+                              {collection.description || "N/A"}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                    
+                    {/* Pagination */}
+                    {collections.length > ITEMS_PER_PAGE && <Pagination className="mt-4">
+                      <PaginationContent>
+                        <PaginationPrevious
+                          onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                          disabled={currentPage === 1} // Pass disabled prop
+                        />
+                        {Array.from({ length: totalPages }, (_, index) => (
+                          <PaginationItem key={index}>
+                            <PaginationLink
+                              isActive={currentPage === index + 1}
+                              onClick={() => handlePageChange(index + 1)}
+                            >
+                              {index + 1}
+                            </PaginationLink>
+                          </PaginationItem>
+                        ))}
+                        <PaginationNext
+                          onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                          disabled={currentPage === totalPages} // Pass disabled prop
+                        />
+                      </PaginationContent>
+                    </Pagination>}
+                  </CardContent>
+                </Card>
+              </motion.div>
             </div>
           </div>
         </div>

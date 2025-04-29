@@ -78,7 +78,7 @@ const Home = () => {
             <Card key={doc.id} className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">
               <CardHeader className="pb-2">
                 <CardTitle className="text-lg font-serif hover:text-primary transition-colors">
-                  <Link href={`/documents/${doc.slug}`} className="dark:text-white">
+                  <Link href={`/documents/${doc.slug}`} className="text-black dark:text-white">
                     {doc.title}
                   </Link>
                 </CardTitle>

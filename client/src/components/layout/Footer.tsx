@@ -17,8 +17,9 @@ const Footer = () => {
               A scholarly repository of transcribed historical documents, providing researchers and history enthusiasts with accessible primary sources
             </p>
             <div className="flex space-x-4">
-            <a
+              <a
                 href="https://gogp.substack.com/"
+                target="_blank"
                 aria-label="Substack"
                 className="text-primary-200 hover:text-white transition-colors"
               >
@@ -29,6 +30,7 @@ const Footer = () => {
               </a>
               <a
                 href="https://x.com/Mal_Hibou"
+                target="_blank"
                 aria-label="Twitter"
                 className="text-primary-200 hover:text-white transition-colors"
               >
@@ -36,6 +38,7 @@ const Footer = () => {
               </a>
               <a
                 href="https://github.com/SamuelPerrin/hieronymus"
+                target="_blank"
                 aria-label="GitHub"
                 className="text-primary-200 hover:text-white transition-colors"
               >
