@@ -112,7 +112,7 @@ const PlacePage = () => {
                 <CardContent>
                   {place.description && (
                     <div 
-                    className="text-accent-700 dark:text-primary-200 leading-relaxed markdown-content max-w-prose" 
+                    className="text-accent-700 dark:text-accent-200 leading-relaxed markdown-content max-w-prose" 
                   >
                     {typeof place.description === 'string' 
                         ? prepareJSX(place.description) 

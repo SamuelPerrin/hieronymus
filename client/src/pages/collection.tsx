@@ -98,7 +98,7 @@ const CollectionPage = () => {
                 <CardContent>
                   {collection.content && (
                     <div 
-                    className="text-accent-700 dark:text-primary-200 leading-relaxed markdown-content"
+                    className="text-accent-700 dark:text-accent-200 leading-relaxed markdown-content"
                   >
                     {typeof collection.content === 'string' 
                         ? prepareJSX(collection.content) 
@@ -143,7 +143,7 @@ const CollectionPage = () => {
                         </CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-sm text-accent-700 dark:text-primary-300 line-clamp-3">
+                        <p className="text-sm text-accent-700 dark:text-accent-300 line-clamp-3">
                           {extractExcerpt(doc.content)}
                         </p>
                         <Link href={`/documents/${doc.slug}`} className="inline-flex items-center mt-2 text-primary hover:text-primary/80 text-sm">
@@ -157,7 +157,7 @@ const CollectionPage = () => {
               ) : (
                 <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">
                   <CardContent className="pt-6">
-                    <p className="text-accent-700 dark:text-primary-200">
+                    <p className="text-accent-700 dark:text-accent-200">
                       No documents found in this collection.
                     </p>
                   </CardContent>
@@ -170,7 +170,7 @@ const CollectionPage = () => {
                 <h1 className="text-2xl font-serif font-bold text-accent-900 dark:text-white mb-4">
                   Collection not found
                 </h1>
-                <p className="text-accent-700 dark:text-primary-200">
+                <p className="text-accent-700 dark:text-accent-200">
                   The requested collection could not be found.
                 </p>
               </CardContent>

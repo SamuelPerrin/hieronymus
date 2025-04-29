@@ -149,6 +149,10 @@
   h3 {
     @apply text-lg lg:text-xl;
   }
+
+  a {
+    @apply text-primary-600 dark:text-primary-400 hover:underline;
+  }
   
   /* Markdown content styling */
   .markdown-content {
@@ -173,7 +177,7 @@
   }
   
   .markdown-content a {
-    @apply text-highlight hover:underline;
+    @apply text-primary-600 dark:text-primary-400 hover:underline;
   }
   
   .markdown-content blockquote {
@@ -197,7 +201,7 @@
 
   .scrollbar-hide::-webkit-scrollbar {
     display: none; /* Chrome, Safari, and Edge */
-  }
+  }  
 }
 
 @layer base {
@@ -214,6 +218,13 @@
   
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-serif);
+  }
+}
+
+@layer components {
+  /* Styling for external links */
+  a.external-link {
+    @apply text-primary-300 dark:text-primary-200 hover:underline;
   }
 }
 

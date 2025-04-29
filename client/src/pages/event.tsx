@@ -118,7 +118,7 @@ const EventPage = () => {
                 <CardContent>
                   {event.description && (
                     <div 
-                    className="text-accent-700 dark:text-primary-200 leading-relaxed markdown-content max-w-prose" 
+                    className="text-accent-700 dark:text-accent-200 leading-relaxed markdown-content max-w-prose" 
                   >
                     {typeof event.description === 'string' 
                         ? prepareJSX(event.description) 

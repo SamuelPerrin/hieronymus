@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Link } from "wouter";
+import Link from "@/components/ui/link";
 import { AlertCircle } from "lucide-react";
 
 export default function NotFound() {
@@ -14,7 +14,7 @@ export default function NotFound() {
             </h1>
           </div>
 
-          <p className="mt-4 text-sm text-accent-700 dark:text-primary-200">
+          <p className="mt-4 text-sm text-accent-700 dark:text-accent-200">
             Don't worry! Go <Link to="/" className="text-highlight">home</Link>.
           </p>
         </CardContent>

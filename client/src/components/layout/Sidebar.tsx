@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+import Link from "@/components/ui/link";
 import { RelatedItem, EntityType, EntityTypeSlug, EntityTypeMap } from "@/models/schema";
 import { User, MapPin, Calendar, FileText, Archive } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";

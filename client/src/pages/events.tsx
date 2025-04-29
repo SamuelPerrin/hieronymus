@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { formatDate } from "@/lib/utils";
-import { Link } from "wouter";
+import Link from "@/components/ui/link";
 import { Calendar } from "lucide-react";
 
 const ITEMS_PER_PAGE = 10;
@@ -68,7 +68,7 @@ const Events = () => {
                 </div>
               </div>
             </CardHeader>
-            <CardDescription className="text-accent-700 dark:text-primary-200 text-base">
+            <CardDescription className="text-accent-700 dark:text-accent-200 text-base">
               <div className="pl-4 leading-relaxed">
                 Explore events mentioned in our transcribed archival documents.
               </div>

@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { Link, useLocation } from "wouter";
+import { useState, useEffect } from "react";
+import { useLocation } from "wouter";
+import Link from "@/components/ui/link";
 import { Menu, Search, Ghost } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -50,6 +51,12 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
       });
     }
   };
+  // Close the mobile menu when the hamburger is hidden
+  useEffect(() => {
+    if (!isMobile) {
+      setMobileMenuOpen(false);
+    }
+  }, [isMobile]);
 
   return (
     <>
@@ -58,7 +65,7 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
               <Link href={base + "/"} className="flex items-center space-x-2">
-                <Ghost className="h-6 w-6 text-accent-700" />
+                <Ghost className="h-6 w-6 text-accent-700 dark:text-primary-100" />
                 <span className="font-serif text-xl font-bold text-accent-900 dark:text-primary-200">{title}</span>
               </Link>
             </div>

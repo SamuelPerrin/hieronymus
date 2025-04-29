@@ -1,6 +1,5 @@
 import { useEffect } from "react";
-import { Link } from "wouter";
-import { Document, Person, Place, Event, Collection } from "@/models/schema";
+import Link from "@/components/ui/link";
 import { Ghost, Search, User, MapPin, Calendar, ArrowRight, Archive } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -79,7 +78,7 @@ const Home = () => {
             <Card key={doc.id} className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">
               <CardHeader className="pb-2">
                 <CardTitle className="text-lg font-serif hover:text-primary transition-colors">
-                  <Link href={`/documents/${doc.slug}`}>
+                  <Link href={`/documents/${doc.slug}`} className="dark:text-white">
                     {doc.title}
                   </Link>
                 </CardTitle>
@@ -88,7 +87,7 @@ const Home = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-accent-700 dark:text-primary-300 line-clamp-3">
+                <p className="text-sm text-accent-700 dark:text-accent-200 line-clamp-3">
                   {extractExcerpt(doc.content)}
                 </p>
                 <Link href={`/documents/${doc.slug}`}>
@@ -123,7 +122,7 @@ const Home = () => {
                     </p>
                   </div>
                 </div>
-                <p className="text-accent-700 dark:text-primary-300 text-sm">
+                <p className="text-accent-700 dark:text-accent-200 text-sm">
                   Browse organized collections of related documents and materials.
                 </p>
               </CardContent>
@@ -144,7 +143,7 @@ const Home = () => {
                     </p>
                   </div>
                 </div>
-                <p className="text-accent-700 dark:text-primary-300 text-sm">
+                <p className="text-accent-700 dark:text-accent-200 text-sm">
                   Discover historical figures mentioned in our transcriptions.
                 </p>
               </CardContent>
@@ -165,7 +164,7 @@ const Home = () => {
                     </p>
                   </div>
                 </div>
-                <p className="text-accent-700 dark:text-primary-300 text-sm">
+                <p className="text-accent-700 dark:text-accent-200 text-sm">
                   Explore locations referenced in historical documents.
                 </p>
               </CardContent>
@@ -186,7 +185,7 @@ const Home = () => {
                     </p>
                   </div>
                 </div>
-                <p className="text-accent-700 dark:text-primary-300 text-sm">
+                <p className="text-accent-700 dark:text-accent-200 text-sm">
                   Learn about significant historical events mentioned in our archives.
                 </p>
               </CardContent>

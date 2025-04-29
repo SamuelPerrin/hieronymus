@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "wouter";
+import Link from "@/components/ui/link";
 import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 

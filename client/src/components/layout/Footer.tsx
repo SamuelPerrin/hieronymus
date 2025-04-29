@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+import Link from "@/components/ui/link";
 import { Ghost } from "lucide-react";
 import { FaTwitter, FaGithub } from "react-icons/fa";
 

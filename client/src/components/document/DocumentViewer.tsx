@@ -6,7 +6,7 @@ import { prepareJSX } from "@/lib/markdownUtils";
 import { formatDate } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { getPersonSlugByName } from "@/lib/contentLoader";
-import { Link } from 'wouter';
+import Link from "@/components/ui/link";
 
 interface DocumentViewerProps {
   document: Document;
@@ -132,7 +132,7 @@ const DocumentViewer = ({ document }: DocumentViewerProps) => {
 
       {/* Document Content */}
       <div 
-        className="font-sans text-accent-900 dark:text-primary-200 leading-relaxed markdown-content max-w-prose" 
+        className="font-sans text-accent-900 dark:text-accent-200 leading-relaxed markdown-content max-w-prose" 
       >
         {typeof document.content === 'string'
           ? prepareJSX(document.content)
@@ -144,7 +144,7 @@ const DocumentViewer = ({ document }: DocumentViewerProps) => {
         {/* Source Information */}
         {(document.source || document.location || document.archiveReference || document.transcribedBy) && (
           <div className="bg-primary-50 dark:bg-accent-700 p-4 rounded-md border border-primary-100 dark:border-accent-600 mb-4">
-            <div className="font-sans text-sm dark:text-primary-200">
+            <div className="font-sans text-sm dark:text-accent-200">
               {document.source && (
                 <div className="mb-1">
                   <strong>Source:</strong> {document.source}

@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { formatDate } from "@/lib/utils";
-import { Link } from "wouter";
+import Link from "@/components/ui/link";
 import { User } from "lucide-react";
 
 const ITEMS_PER_PAGE = 10;

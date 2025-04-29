@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useSearch, Link } from "wouter";
+import { useSearch } from "wouter";
+import Link from "@/components/ui/link";
 import { Document, Person, Place, Event, EntityType } from "@/models/schema";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -268,7 +269,7 @@ const SearchResultDocument = ({ document }: SearchResultDocumentProps) => {
               )}
             </div>
             <CardTitle className="text-lg font-serif hover:text-primary transition-colors">
-              <Link href={`/documents/${document.slug}`}>{document.title}</Link>
+              <Link href={`/documents/${document.slug}`} className="dark:text-white">{document.title}</Link>
             </CardTitle>
           </div>
           <Link href={`/documents/${document.slug}`} className="text-primary hover:text-primary/80">
@@ -277,7 +278,7 @@ const SearchResultDocument = ({ document }: SearchResultDocumentProps) => {
         </div>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-accent-700 dark:text-primary-300 line-clamp-2">
+        <p className="text-sm text-accent-700 dark:text-accent-300 line-clamp-2">
           {extractExcerpt(document.content)}
         </p>
       </CardContent>
@@ -305,7 +306,7 @@ const SearchResultPerson = ({ person }: SearchResultPersonProps) => {
               )}
             </div>
             <CardTitle className="text-lg font-serif hover:text-primary transition-colors">
-              <Link href={`/people/${person.slug}`}>{person.name}</Link>
+              <Link href={`/people/${person.slug}`} className="dark:text-white">{person.name}</Link>
             </CardTitle>
           </div>
           <Link href={`/people/${person.slug}`} className="text-primary hover:text-primary/80">
@@ -315,7 +316,7 @@ const SearchResultPerson = ({ person }: SearchResultPersonProps) => {
       </CardHeader>
       <CardContent>
         {person.description && (
-          <p className="text-sm text-accent-700 dark:text-primary-300 line-clamp-2">
+          <p className="text-sm text-accent-700 dark:text-accent-300 line-clamp-2">
             {extractExcerpt(person.description)}
           </p>
         )}
@@ -344,7 +345,7 @@ const SearchResultPlace = ({ place }: SearchResultPlaceProps) => {
               )}
             </div>
             <CardTitle className="text-lg font-serif hover:text-primary transition-colors">
-              <Link href={`/places/${place.slug}`}>{place.name}</Link>
+              <Link href={`/places/${place.slug}`} className="dark:text-white">{place.name}</Link>
             </CardTitle>
           </div>
           <Link href={`/places/${place.slug}`} className="text-primary hover:text-primary/80">
@@ -354,7 +355,7 @@ const SearchResultPlace = ({ place }: SearchResultPlaceProps) => {
       </CardHeader>
       <CardContent>
         {place.description && (
-          <p className="text-sm text-accent-700 dark:text-primary-300 line-clamp-2">
+          <p className="text-sm text-accent-700 dark:text-accent-300 line-clamp-2">
             {extractExcerpt(place.description)}
           </p>
         )}
@@ -385,7 +386,7 @@ const SearchResultEvent = ({ event }: SearchResultEventProps) => {
               )}
             </div>
             <CardTitle className="text-lg font-serif hover:text-primary transition-colors">
-              <Link href={`/events/${event.slug}`}>{event.name}</Link>
+              <Link href={`/events/${event.slug}`} className="dark:text-white">{event.name}</Link>
             </CardTitle>
           </div>
           <Link href={`/events/${event.slug}`} className="text-primary hover:text-primary/80">
@@ -395,7 +396,7 @@ const SearchResultEvent = ({ event }: SearchResultEventProps) => {
       </CardHeader>
       <CardContent>
         {event.description && (
-          <p className="text-sm text-accent-700 dark:text-primary-300 line-clamp-2">
+          <p className="text-sm text-accent-700 dark:text-accent-300 line-clamp-2">
             {extractExcerpt(event.description)}
           </p>
         )}

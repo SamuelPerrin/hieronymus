@@ -111,7 +111,7 @@ const PersonPage = () => {
                 <CardContent>
                   {person.description && (
                     <div 
-                    className="text-accent-700 dark:text-primary-200 leading-relaxed markdown-content max-w-prose" 
+                    className="text-accent-700 dark:text-accent-200 leading-relaxed markdown-content max-w-prose" 
                   >
                     {typeof person.description === 'string' 
                         ? prepareJSX(person.description) 

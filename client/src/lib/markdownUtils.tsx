@@ -103,7 +103,7 @@ export function prepareJSX(markdown: string): React.JSX.Element {
 const transform = (node: any): React.JSX.Element => {
   if (node.type === "tag" && node.name === "a") {
     const href = node.attribs.href;
-    return <Link to={href}>{node.children.map((child: {type: string; data?: string}) => child.type === "text" ? child.data : "")}</Link>
+    return <Link to={href} target={node.attribs.target}>{node.children.map((child: {type: string; data?: string}) => child.type === "text" ? child.data : "")}</Link>
   }
   return node;
 }
