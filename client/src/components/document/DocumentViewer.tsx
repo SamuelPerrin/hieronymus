@@ -181,7 +181,7 @@ const DocumentViewer = ({ document }: DocumentViewerProps) => {
           </div>
 
           <div className="flex space-x-2">
-            <Button
+            {/* <Button
               variant="outline"
               size="sm"
               onClick={handleDownload}
@@ -189,7 +189,7 @@ const DocumentViewer = ({ document }: DocumentViewerProps) => {
             >
               <Download className="h-4 w-4 mr-2" />
               Download PDF
-            </Button>
+            </Button> */}
             <Button
               variant="outline"
               size="sm"

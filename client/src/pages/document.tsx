@@ -117,7 +117,7 @@ const DocumentPage = () => {
           )}
 
           {/* Document Navigation */}
-          {document && (
+          {/* {document && (
             <DocumentNav
               prevDoc={{
                 slug: "hamilton-to-washington-1781",
@@ -128,7 +128,7 @@ const DocumentPage = () => {
                 title: "Washington's Response (April 1781)",
               }}
             />
-          )}
+          )} */}
 
           {/* Related Items Carousel (Mobile Only) */}
           {isMobile && relatedItems && relatedItems.length > 0 && (
