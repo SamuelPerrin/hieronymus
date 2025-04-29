@@ -167,6 +167,10 @@
   .markdown-content p {
     @apply mb-4;
   }
+
+  .markdown-content li p {
+    @apply mb-0;
+  }
   
   .markdown-content a {
     @apply text-highlight hover:underline;

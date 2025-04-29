@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { useRoute, Link } from "wouter";
+import { useRoute } from "wouter";
+import Link from "@/components/ui/link";
 import { Collection, Document, EntityType } from "@/models/schema";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumb";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";

@@ -94,16 +94,12 @@ const PlacePage = () => {
                         {place.name}
                       </CardTitle>
                       <div className="flex flex-wrap gap-2 mt-2">
-                        {place.region && (
-                          <Badge variant="outline" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 border-none">
-                            {place.region}
-                          </Badge>
-                        )}
-                        {place.country && (
-                          <Badge variant="outline" className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 border-none">
-                            {place.country}
-                          </Badge>
-                        )}
+                        {(place.city || place.region || place.country) &&
+                        <span>
+                          {place.city && place.city}
+                          {place.region && (place.city ? `, ${place.region}` : place.region)}
+                          {place.country && ((place.city || place.region) ? `, ${place.country}` : place.country)}
+                        </span>}
                         {place.alternateNames && place.alternateNames.length > 0 && (
                           <Badge variant="outline" className="bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 border-none">
                             Also known as: {place.alternateNames?.join(", ")}

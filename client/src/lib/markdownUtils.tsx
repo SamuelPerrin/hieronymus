@@ -2,7 +2,7 @@ import { marked } from 'marked';
 import { getEntityTypeForSlug } from './contentLoader';
 import parse from 'html-react-parser';
 import React from 'react';
-import { Link } from 'wouter';
+import Link  from '@/components/ui/link';
 
 const renderer = new marked.Renderer();
 
@@ -30,11 +30,11 @@ renderer.link = function({href, title, text}) {
 };
 
 // Override the default list renderer to ensure that links in lists are parsed correctly
-// renderer.listitem = function({text, task, checked}) {
-//   // Ensure `text` is a string before parsing
-//   const parsedText = typeof text === "string" ? marked.parseInline(text) : text;
-//   return `<li>${parsedText}</li>`;
-// };
+renderer.listitem = function({ text, task, checked }) {
+  const tokens = marked.lexer(text); // Tokenize the Markdown
+  const parsedText = marked.parser(tokens); // Parse without auto-wrapping in <p>
+  return `<li>${parsedText}</li>`;
+};
 
 marked.setOptions({ renderer });
 

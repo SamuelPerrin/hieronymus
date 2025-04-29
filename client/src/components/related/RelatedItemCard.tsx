@@ -1,6 +1,8 @@
 import { Link } from "wouter";
 import { User, MapPin, Calendar, FileText, Archive } from "lucide-react";
 import { EntityType, RelatedItem } from "@/models/schema";
+import { extractExcerpt } from "@/lib/markdownUtils";
+import { formatDate } from "@/lib/utils";
 
 interface RelatedItemCardProps {
   item: RelatedItem;
@@ -68,13 +70,16 @@ const RelatedItemCard = ({ item }: RelatedItemCardProps) => {
           </Link>
         </h4>
       </div>
-      <div className="p-4">
+      <div className="p-4 pt-0">
         {item.date && (
-          <p className="text-sm text-accent-700 dark:text-primary-300 mt-1">{item.date}</p>
+          <div className="flex items-center">
+            <Calendar className="h-4 w-4 text-accent-500 dark:text-primary-300 mr-2" />
+            <p className="text-sm text-accent-700 dark:text-primary-300 mt-1">{formatDate(item.date)}</p>
+          </div>
         )}
         {item.description && (
           <p className="text-sm text-accent-600 dark:text-primary-400 mt-2 line-clamp-3">
-            {item.description.replace(/[#*_~`]/g, '')}
+            {extractExcerpt(item.description)}
           </p>
         )}
       </div>
