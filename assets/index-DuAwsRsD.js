@@ -225,878 +225,878 @@ ${t}</tr>
 `}tablecell(t){const n=this.parser.parseInline(t.tokens),r=t.header?"th":"td";return(t.align?`<${r} align="${t.align}">`:`<${r}>`)+n+`</${r}>
 `}strong({tokens:t}){return`<strong>${this.parser.parseInline(t)}</strong>`}em({tokens:t}){return`<em>${this.parser.parseInline(t)}</em>`}codespan({text:t}){return`<code>${ln(t,!0)}</code>`}br(t){return"<br>"}del({tokens:t}){return`<del>${this.parser.parseInline(t)}</del>`}link({href:t,title:n,tokens:r}){const i=this.parser.parseInline(r),s=Mv(t);if(s===null)return i;t=s;let o='<a href="'+t+'"';return n&&(o+=' title="'+ln(n)+'"'),o+=">"+i+"</a>",o}image({href:t,title:n,text:r}){const i=Mv(t);if(i===null)return ln(r);t=i;let s=`<img src="${t}" alt="${r}"`;return n&&(s+=` title="${ln(n)}"`),s+=">",s}text(t){return"tokens"in t&&t.tokens?this.parser.parseInline(t.tokens):"escaped"in t&&t.escaped?t.text:ln(t.text)}}class Xp{strong({text:t}){return t}em({text:t}){return t}codespan({text:t}){return t}del({text:t}){return t}html({text:t}){return t}text({text:t}){return t}link({text:t}){return""+t}image({text:t}){return""+t}br(){return""}}class Lt{constructor(t){ce(this,"options");ce(this,"renderer");ce(this,"textRenderer");this.options=t||hi,this.options.renderer=this.options.renderer||new lc,this.renderer=this.options.renderer,this.renderer.options=this.options,this.renderer.parser=this,this.textRenderer=new Xp}static parse(t,n){return new Lt(n).parse(t)}static parseInline(t,n){return new Lt(n).parseInline(t)}parse(t,n=!0){var i,s;let r="";for(let o=0;o<t.length;o++){const a=t[o];if((s=(i=this.options.extensions)==null?void 0:i.renderers)!=null&&s[a.type]){const u=a,d=this.options.extensions.renderers[u.type].call({parser:this},u);if(d!==!1||!["space","hr","heading","code","table","blockquote","list","html","paragraph","text"].includes(u.type)){r+=d||"";continue}}const l=a;switch(l.type){case"space":{r+=this.renderer.space(l);continue}case"hr":{r+=this.renderer.hr(l);continue}case"heading":{r+=this.renderer.heading(l);continue}case"code":{r+=this.renderer.code(l);continue}case"table":{r+=this.renderer.table(l);continue}case"blockquote":{r+=this.renderer.blockquote(l);continue}case"list":{r+=this.renderer.list(l);continue}case"html":{r+=this.renderer.html(l);continue}case"paragraph":{r+=this.renderer.paragraph(l);continue}case"text":{let u=l,d=this.renderer.text(u);for(;o+1<t.length&&t[o+1].type==="text";)u=t[++o],d+=`
 `+this.renderer.text(u);n?r+=this.renderer.paragraph({type:"paragraph",raw:d,text:d,tokens:[{type:"text",raw:d,text:d,escaped:!0}]}):r+=d;continue}default:{const u='Token with "'+l.type+'" type was not found.';if(this.options.silent)return console.error(u),"";throw new Error(u)}}}return r}parseInline(t,n=this.renderer){var i,s;let r="";for(let o=0;o<t.length;o++){const a=t[o];if((s=(i=this.options.extensions)==null?void 0:i.renderers)!=null&&s[a.type]){const u=this.options.extensions.renderers[a.type].call({parser:this},a);if(u!==!1||!["escape","html","link","image","strong","em","codespan","br","del","text"].includes(a.type)){r+=u||"";continue}}const l=a;switch(l.type){case"escape":{r+=n.text(l);break}case"html":{r+=n.html(l);break}case"link":{r+=n.link(l);break}case"image":{r+=n.image(l);break}case"strong":{r+=n.strong(l);break}case"em":{r+=n.em(l);break}case"codespan":{r+=n.codespan(l);break}case"br":{r+=n.br(l);break}case"del":{r+=n.del(l);break}case"text":{r+=n.text(l);break}default:{const u='Token with "'+l.type+'" type was not found.';if(this.options.silent)return console.error(u),"";throw new Error(u)}}}return r}}class mo{constructor(t){ce(this,"options");ce(this,"block");this.options=t||hi}preprocess(t){return t}postprocess(t){return t}processAllTokens(t){return t}provideLexer(){return this.block?Ot.lex:Ot.lexInline}provideParser(){return this.block?Lt.parse:Lt.parseInline}}ce(mo,"passThroughHooks",new Set(["preprocess","postprocess","processAllTokens"]));class MO{constructor(...t){ce(this,"defaults",Up());ce(this,"options",this.setOptions);ce(this,"parse",this.parseMarkdown(!0));ce(this,"parseInline",this.parseMarkdown(!1));ce(this,"Parser",Lt);ce(this,"Renderer",lc);ce(this,"TextRenderer",Xp);ce(this,"Lexer",Ot);ce(this,"Tokenizer",ac);ce(this,"Hooks",mo);this.use(...t)}walkTokens(t,n){var i,s;let r=[];for(const o of t)switch(r=r.concat(n.call(this,o)),o.type){case"table":{const a=o;for(const l of a.header)r=r.concat(this.walkTokens(l.tokens,n));for(const l of a.rows)for(const u of l)r=r.concat(this.walkTokens(u.tokens,n));break}case"list":{const a=o;r=r.concat(this.walkTokens(a.items,n));break}default:{const a=o;(s=(i=this.defaults.extensions)==null?void 0:i.childTokens)!=null&&s[a.type]?this.defaults.extensions.childTokens[a.type].forEach(l=>{const u=a[l].flat(1/0);r=r.concat(this.walkTokens(u,n))}):a.tokens&&(r=r.concat(this.walkTokens(a.tokens,n)))}}return r}use(...t){const n=this.defaults.extensions||{renderers:{},childTokens:{}};return t.forEach(r=>{const i={...r};if(i.async=this.defaults.async||i.async||!1,r.extensions&&(r.extensions.forEach(s=>{if(!s.name)throw new Error("extension name required");if("renderer"in s){const o=n.renderers[s.name];o?n.renderers[s.name]=function(...a){let l=s.renderer.apply(this,a);return l===!1&&(l=o.apply(this,a)),l}:n.renderers[s.name]=s.renderer}if("tokenizer"in s){if(!s.level||s.level!=="block"&&s.level!=="inline")throw new Error("extension level must be 'block' or 'inline'");const o=n[s.level];o?o.unshift(s.tokenizer):n[s.level]=[s.tokenizer],s.start&&(s.level==="block"?n.startBlock?n.startBlock.push(s.start):n.startBlock=[s.start]:s.level==="inline"&&(n.startInline?n.startInline.push(s.start):n.startInline=[s.start]))}"childTokens"in s&&s.childTokens&&(n.childTokens[s.name]=s.childTokens)}),i.extensions=n),r.renderer){const s=this.defaults.renderer||new lc(this.defaults);for(const o in r.renderer){if(!(o in s))throw new Error(`renderer '${o}' does not exist`);if(["options","parser"].includes(o))continue;const a=o,l=r.renderer[a],u=s[a];s[a]=(...d)=>{let h=l.apply(s,d);return h===!1&&(h=u.apply(s,d)),h||""}}i.renderer=s}if(r.tokenizer){const s=this.defaults.tokenizer||new ac(this.defaults);for(const o in r.tokenizer){if(!(o in s))throw new Error(`tokenizer '${o}' does not exist`);if(["options","rules","lexer"].includes(o))continue;const a=o,l=r.tokenizer[a],u=s[a];s[a]=(...d)=>{let h=l.apply(s,d);return h===!1&&(h=u.apply(s,d)),h}}i.tokenizer=s}if(r.hooks){const s=this.defaults.hooks||new mo;for(const o in r.hooks){if(!(o in s))throw new Error(`hook '${o}' does not exist`);if(["options","block"].includes(o))continue;const a=o,l=r.hooks[a],u=s[a];mo.passThroughHooks.has(o)?s[a]=d=>{if(this.defaults.async)return Promise.resolve(l.call(s,d)).then(f=>u.call(s,f));const h=l.call(s,d);return u.call(s,h)}:s[a]=(...d)=>{let h=l.apply(s,d);return h===!1&&(h=u.apply(s,d)),h}}i.hooks=s}if(r.walkTokens){const s=this.defaults.walkTokens,o=r.walkTokens;i.walkTokens=function(a){let l=[];return l.push(o.call(this,a)),s&&(l=l.concat(s.call(this,a))),l}}this.defaults={...this.defaults,...i}}),this}setOptions(t){return this.defaults={...this.defaults,...t},this}lexer(t,n){return Ot.lex(t,n??this.defaults)}parser(t,n){return Lt.parse(t,n??this.defaults)}parseMarkdown(t){return(r,i)=>{const s={...i},o={...this.defaults,...s},a=this.onError(!!o.silent,!!o.async);if(this.defaults.async===!0&&s.async===!1)return a(new Error("marked(): The async option was set to true by an extension. Remove async: false from the parse options object to return a Promise."));if(typeof r>"u"||r===null)return a(new Error("marked(): input parameter is undefined or null"));if(typeof r!="string")return a(new Error("marked(): input parameter is of type "+Object.prototype.toString.call(r)+", string expected"));o.hooks&&(o.hooks.options=o,o.hooks.block=t);const l=o.hooks?o.hooks.provideLexer():t?Ot.lex:Ot.lexInline,u=o.hooks?o.hooks.provideParser():t?Lt.parse:Lt.parseInline;if(o.async)return Promise.resolve(o.hooks?o.hooks.preprocess(r):r).then(d=>l(d,o)).then(d=>o.hooks?o.hooks.processAllTokens(d):d).then(d=>o.walkTokens?Promise.all(this.walkTokens(d,o.walkTokens)).then(()=>d):d).then(d=>u(d,o)).then(d=>o.hooks?o.hooks.postprocess(d):d).catch(a);try{o.hooks&&(r=o.hooks.preprocess(r));let d=l(r,o);o.hooks&&(d=o.hooks.processAllTokens(d)),o.walkTokens&&this.walkTokens(d,o.walkTokens);let h=u(d,o);return o.hooks&&(h=o.hooks.postprocess(h)),h}catch(d){return a(d)}}}onError(t,n){return r=>{if(r.message+=`
-Please report this to https://github.com/markedjs/marked.`,t){const i="<p>An error occurred:</p><pre>"+ln(r.message+"",!0)+"</pre>";return n?Promise.resolve(i):i}if(n)return Promise.reject(r);throw r}}}const ri=new MO;function X(e,t){return ri.parse(e,t)}X.options=X.setOptions=function(e){return ri.setOptions(e),X.defaults=ri.defaults,wS(X.defaults),X};X.getDefaults=Up;X.defaults=hi;X.use=function(...e){return ri.use(...e),X.defaults=ri.defaults,wS(X.defaults),X};X.walkTokens=function(e,t){return ri.walkTokens(e,t)};X.parseInline=ri.parseInline;X.Parser=Lt;X.parser=Lt.parse;X.Renderer=lc;X.TextRenderer=Xp;X.Lexer=Ot;X.lexer=Ot.lex;X.Tokenizer=ac;X.Hooks=mo;X.parse=X;X.options;X.setOptions;X.use;X.walkTokens;X.parseInline;Lt.parse;Ot.lex;const IO=`---
-id: 202504281028
-slug: a-spirit-of-place
-title: A Spirit of Place
-date: 1970-05-23
-year: 1970
-type: speech
-authors:
-  - William S. Banowsky
-archiveReference: Box 1, Pepperdine University Speeches Collection
-collectionId: 202504251508
-transcribedBy: Sam Perrin
-transcriptionDate: 2023-07-15
-lastUpdated: 2025-04-28
----
-“A Spirit of Place” is a speech delivered by Pepperdine chancellor [[William S. Banowsky]] at the dedication of the Malibu campus on May 23, 1970. The address is among the most highly regarded speeches in the history of Pepperdine; it was subsequently published as a pamphlet. The speech was delivered just weeks after student protests roiled university campuses across the country in response to the US invasion of Cambodia and the shootings at Kent State.
-
-> # "A SPIRIT OF PLACE"
-> Inaugural Address
-> of
-> Dr. William S. Banowsky
-> as
-> Founding Chancellor of
-> Pepperdine College at Malibu
-> 
-> These remarks, delivered on May 23, 1970, at the dedication ceremonies for the new campus of Pepperdine College at Malibu, are published as a statement of the philosophy of the College.
-> 
-> PUBLISHED BY PERPPERDINE COLLEGE
-> JUNE 1970
-> 
-> ## "A SPIRIT OF PLACE"
-> Today we dedicate this new campus in the midst of the saddest semester perhaps in the history of American higher education.
-> 
-> In recent days, the issues which rend and tear our nation have focused upon the college campus with terrible force. Six students have died in the violent clash of consciences; campus scenes of tear gas and bayonets are often featured on evening telecasts; scores of colleges have been closed. As polarization accelerates, voices on both sides of the confrontation warn that the worst is yet to come.
-> 
-> Why is our nation seeming to come apart at the seams? Whatever happened to the great American dream? When one surveys the years between 1900 and 1970, the despair arises over the vast difference between where now are and where we were supposed to have been by now. Our century started on such a high note of optimism. Men were saying that just given a little more time and education — and all the problems which plague mankind would be solved. On my shelves, for instance, is a book, published in 1907, which conclusively proves that war is a relic from man's barbaric past that will never again be necessary.
-> 
-> ### The Cult of Progress
-> And the magic carpet which was to carry us to this utopia was education. More event than in the promises of religion, twentieth century man placed his confidence in the efficacy of education. And perhaps the high priest of this cult of progress was the brilliant philosopher, John Dewey.
-> 
-> But the glorious American dream seems now to have become a nightmare. Historians may one day express amazement that the optimistic credo of John Dewey was written in the same century with the pessimistic musings of existential philosophers such as Jean Paul Sartre or Albert Camus. Sartre's sad dictum is that, "There is no escape from the human dilemma." Today the boys who will die in Vietnam are the grandsons of men who marched off in 1917 to fight the war to end all wars.
-> 
-> When one considers how much confidence our society had placed in education, one understands why we are now disillusioned with the whole process. Education has not come through on its lofty promises. On one hand, the students complain of the bigness, the irrelevance, the impersonality of the education establishment; on the other hand, the older generation looks on in bewilderment, frequently attributing the problem to permissiveness and compromise by those in authority. But on one thing everybody is agreed: something is wrong in higher education.
-> 
-> ### Why Another College?
-> There is, of course, nothing new about problems, and our generation would be naive to imagine that all of our challenges are novel. What causes our particular futility is the realization that after half a century of the most extensive program of mass education in all history, and after building more than 2,300 colleges and universities, we are yet agonizing over the same, ancient human problems.
-> 
-> Why, then, start another college? Why have we chosen to launch this ambitious new project at the very time when some would advise retrenchment?
-> 
-> It is because we do not plan to build just another college. The distinctive institution we envision will minister directly to the central human questions, hence to the basic challenge of our day.
-> 
-> Perhaps we have not chosen this time so much as the time has chosen us. For the contribution we seek to make can best be described in terms of the two basic convictions we hold about liberal arts education. First, that it must be value-centered; and secondly, that it must be person-centered.
-> 
-> ### The Value Vacuum
-> Much of the business of education has been conducted in what might best be called a value vacuum. Understandably upset by the past excesses of religious sectarianism, academe has adopted a stance of detached neutrality. Eschewing value judgments as too subjective, professors have often envisioned their task as simply "sticking to the facts."
->
-> The result has been a serious confusion in the area of values — the very area that matters most. This confusion has produced a loss of meaning that threatens every aspect of society, particularly by undermining zest among the young, where zest for life should be strongest. America's youth is wondering why doing this is any better than doing that, or why doing either one is better than doing nothing at all. Sadly, suicide is now the second highest cause of death among American college students.
-> 
-> Young people are asking what relevance the facts and dates have to the ultimate issues of life and death. Millions now militantly question the possibility, in the pursuit of knowledge, of any such detached neutrality. One lesson graphically to be learned from the campus turmoil is that education cannot be dispensed like so many goods across the counter.
-> 
-> ### A Rich Tradition
-> We are determined to bring together on these hills a community of scholars who hold distinctive spiritual beliefs. Since its founding in 1937, Pepperdine College's deepest convictions have always centered upon spiritual realities. As we create this new campus at Malibu and expand the Pepperdine dream toward University status, we commit ourselves anew to value-centered education. While the waters about us churn with confusion, there has never been a time in which we have been more certain that the course of Christian education was the right course for Pepperdine College.
-> 
-> In taking this position we stand in a rich tradition, stretching back to the very earliest times in America. In 1638, over a century and a half before the founding of this nation, America's first college was established at Cambridge, Massachusetts. Significantly, it was a small, liberal arts, church-related institution. Following [[Harvard]], seven of the eight colleges founded in colonial times were Christian institutions of higher learning. For instance, Kings College, later to become [[Columbia|Columbia University]], placed an advertisement in the New York newspapers in 1754 stating: "The chief thing that is arrived at in this college is to teach young people to know God in Christ Jesus, and . . . to train them in virtuous habits . . . as may render them creditable to their families, ornaments to their country, and useful to the public weal in our generation."
-> 
-> But in time, many church-related colleges began to drift from these founding purposes. This erosion was one reason which motivated [[George Pepperdine|George]] and [[Helen Pepperdine]] to found a Christian college in central Los Angeles. Thirty-five years ago, on a day much like this one, Mr. Pepperdine said in his [[dedicatory address|founder's statement]]: "If we educate a man's mind but do not educate his heart, we make a dangerous man."
-> 
-> ### Advancing the Changeless
-> Mr. Pepperdine was a lifelong member of the church of Christ, and we are especially grateful to our fraternal relationship with this religious group. Although we are completely independent and under no church board, these non-denominational congregations form our closest constituency. And unlike the pattern of most church-related colleges, in our era of growth and expansion we intend to strengthen, not loosen, these ties with our own brethren.
-> 
-> But as we unashamedly put Christian values at the heart of the whole educational process, we will resist any sectarian spirit. We will do nothing to stifle full and open academic inquiry nor shall we pose as an institution which knows all truth. What we affirm is that while our vision of truth is always limited, ultimate truth actually exists. We affirm that the universe is undergirded by an objective moral order. We will continue to keep pace with change; but our main purpose, in this place, will be to discover what is not changing. And our central conviction has been, is today, and will be that Jesus Christ is the same yesterday, today and forever.
-> 
-> ### The Person-Centered College
-> Secondly, we will bring into life, at this place, a type of education which focuses personal attention upon each student as an individual. The central crisis in our time is a crisis in the quality of life for the individual. Man is steadily being dehumanized, and the process is nowhere more apparent than in our mechanized, impersonalized approach to education. Who doesn't sympathize a bit with the student carrying the protest poster: "I am a human being; please do not fold, spindle or mutilate."
-> 
-> It was Jesus' idea that one person is of greater worth than all the material world combined. In that spirit we shall enroll each student as a sacred trust. There is in our complex age clearly a place for the multiversity, with its research orientation, massive student body, and specialized faculty. But there has perhaps never been a greater need for the small, person-centered college.
-> 
-> Throughout American history, such colleges have produced more than their proportionate share of outstanding leaders in science, politics, business and religion. Surely there is something powerful about an academic atmosphere in which a professor knows the students personally and is personally known by the students; in which he is available to the students, not only as a lecturer, but as a person.
-> 
-> I am frequently asked how colleges like Pepperdine avoid some of the problems now confronting higher education. The secret lies in the faculty, who know and are with the students daily, and who, by giving a high degree of personal attention, let off the pressures before they build to a breaking point. The exciting thing to happen in this place, then, will be the thing which happens to the students. We are by no means fed up with today's students. In fact, we are building this new college in large measure because of our faith in young people.
-> 
-> Our commitment to *values* and *persons* is more than a creedal statement. We know that we will eventually be judged in terms of practice. Thus even in matters such as the design of our buildings and the details of our curriculum, this philosophy has been central. Our curriculum, built along interdisciplinary lines, has been carefully conceived with the unity of knowledge presupposed. The faculty offices will be constructed in such a way that warm, interpersonal counseling can occur. Most importantly, our selection of personnel, both in the past and in the future, will fulfil our commitment to value-centered and person-centered education.
-> 
-> ### The Soul of the College
-> And so, what we hope to build is much more than a beautiful campus. it will, as you can sense, be that. But if that is all we shall have accomplished, we shall have failed. What we hope to create here, in these hills, is *a spirit of place*. A place where minds will be opened, where lives will be changed, where lasting relationships will be formed. A college is, after all, something like a human being in that both must have a soul of some kind. My deepest concern, in this hour of dedication, is for the soul of the college.
-> 
-> I would like, in the final analysis, for our work to be judged on the basis of what we have believed, and on how we have put that faith into action.
-> 
-> It is in this spirit that we hallow this ground and accept this challenge. These historic acres along the rim of the Malibu will, from this day, never again be the same. From this day forward let it be known that, in this place, “We look not at the things that are seen, but at the things that are unseen; for the things that are seen are temporal, but the things that are unseen are eternal.”`,DO=Object.freeze(Object.defineProperty({__proto__:null,default:IO},Symbol.toStringTag,{value:"Module"})),OO=`---
-id: 202504251501
-slug: a-spirit-of-purpose
-title: A Spirit of Purpose
-date: 1975-04-20
-year: 1975
-type: speech
-authors:
-  - William S. Banowsky
-archiveReference: Box 1, Pepperdine University Speeches Collection
-collectionId: 202504251508
-transcribedBy: Sam Perrin
-transcriptionDate: 2023-07-15
-lastUpdated: 2025-04-26
----
-“A Spirit of Purpose” is a speech delivered by Pepperdine president [[William S. Banowsky]] at the [[Dedication of Seaver College]] on April 20, 1975. It is probably best regarded as a sequel to Banowsky’s earlier speech [[A Spirit of Place]].
-
-> # "A SPIRIT OF PURPOSE"
->
-> The Address
-> of
-> DR. WILLIAM S. BANOWSKY
-> President, Pepperdine University
->
-> at the Dedication of
-> FRANK R. SEAVER COLLEGE
-> April 20, 1975
->
-> These remarks, delivered on April 20, 1975, at the dedication ceremonies for Frank R. Seaver College, Pepperdine University's new Liberal Arts College at Malibu, are published as a statement of the philosophy of the University.
->PUBLISHED BY PEPPERDINE UNIVERSITY, APRIL, 1975
->
-> ## "A SPIRIT OF PURPOSE" 
-> We are assembled here as participants in the making of history. Forty years ago, [[George Pepperdine|George]] and [[Helen Pepperdine]] established a small college on a 33-acre campus at the edge of Los Angeles. Today, the Pepperdine dream has grown into a multi-campus university enrolling almost 8,000 students in several colleges and professional schools. In coming years, we shall doubtless witness formal dedication of other academic components which, taken together, comprise the University—the [[Caruso School of Law|School of Law]], the [[Graziadio Business School|School of Business and Management]], the Graduate School, the [[School of Education]], perhaps even a School of Theology, of Public Administration, of Behavioral Science. These several parts will be a university, a unified whole under the Pepperdine banner, because each will reflect, in its own best way, the Pepperdine philosophy of Christian Education.
->
-> Today, we are convened to dedicate the first such school to be fully established since Pepperdine achieved university status in 1971. This college has already become the cornerstone of the University. The central core of the whole academic enterprise, it is the classic undergraduate college around which the professional and graduate schools of the University will be clustered. From this day forward, it shall be known as the Frank R. Seaver College.
->
-> Even as the University enrollment expands into the thousands, Frank R. Seaver College will remain small. Its maximum enrollment will be 1800. The academic integrity and special identity of Seaver College will be fiercely guarded. Its curriculum will be the sciences, arts, and letters. It will feature close personal relationships between faculty and students. The Seaver College faculty are men and women of the highest academic training. They are devoted primarily to the ministry of teaching, since Seaver College is essentially a teaching, as opposed to a research, institution. The students at Seaver College are extremely bright. For instance, the Scholastic Achievement Tests for the founding freshman class here in 1972 were 200 points higher than the usual pattern throughout Pepperdine's entire history. Young people will enroll in Seaver College as full-time students. Along with academic excellence, they will maintain the highest standards of personal conduct. Rather than commuting in and out for classes, most will live on this beautiful campus. Frank R. Seaver College will, above all else, make a deep, indelible impact upon the minds and hearts of its students.
->
-> Created by [[William Pereira|William L. Pereira]], the facilities of Seaver College are two-thirds completed. With construction of a fine arts center, an [[Smothers Theatre|auditorium]], an [[Thornton Administrative Center|administration building]], and additional housing for both married and single students as well as for faculty, an ideally designed liberal arts, coeducational, undergraduate, residential campus for 1800 students will be accomplished.
->
-> Along with the land required for the Seaver College campus, we have been extremely fortunate in acquiring a total of 650 acres of this magnificent Malibu coastline. Our property stretches from Pacific Coast Highway to the pinnacle of the Santa Monica Mountains and beyond. This enables us to consolidate other University schools in these hills, each with its own identity and autonomy, without any crowding or erosion of the rugged natural beauty. But as Pepperdine University develops at Malibu, the crown jewel in this blending of mountain and ocean and sky, and the academic heart of the entire University, will always be Seaver College.
->
-> George Pepperdine, who launched the dream, and [[Frank R. Seaver]], who gave it dramatic acceleration, were contemporaries. They were acquainted during the time Mr. Pepperdine was expanding his [[Western Auto Supply Agency|Western Auto Supply]] Stores and Mr. Seaver was creating his great [[Hydril Co.|Hydril Company]]. Rugged individualists, inventive, long-range thinkers, astute businessmen—they were cut from the same stout cloth. Both were deeply patriotic Americans. They were profoundly Christian. Both believed that the best investment for the future was to provide a value-centered education for young people. Both were devoted husbands who shared their lives and their philanthropy with the two remarkable women who grace our presence today.
->
-> Mr. Seaver, son of a pioneering California family, graduated in 1905 from [[Pomona College]], an institution of similar type to this one which now bears his name along the Malibu. His alma mater was one of the formative forces of his life. What Pomona College did for Frank Seaver is what Seaver College hopes to accomplish in the lives of young people across the decades to come. Augmenting his strong family training, Pomona College taught him integrity, discipline, self-responsibility, hard work, thrift. He left college with a sense of purpose in life and great faith in God. For Frank Seaver, the most important college experience was the regular Chapel service. When Frank Seaver succeeded in business, in an act of profound obligation, he gave back to his alma mater the monumental Seaver Science Center. By the time of his passing in 1964, Mr. Seaver had helped many institutions, including a small college called Pepperdine, whom he included among the beneficiaries of his last will and testament.
->
-> The surest evidence of Frank Seaver's remarkable good judgment was exhibited on September 16, 1916, when, in the North Shore Church in Chicago, he was married to [[Blanche Seaver|Blanche Ellen Theodora Ebert]]. The tenth child of a loving couple who had immigrated from Bergen, Norway, Blanche was the perfect partner for Frank Seaver. She gave up her promising musical career to make her life one with his. Together, they have perhaps contributed as generously to the cause of independent education as any family in the history of California. In addition to many gifts at Pomona, we believe Mrs. Seaver is the most generous donor in the history of the [[USC|University of Southern California]]. There are Seaver buildings at [[Loyola Marymount University|Loyola University]], Rockford College, Freedom's Foundation at Valley Forge, the Harvard School, the Pilgrim School, along with support to Don Bosco Technical Institute and Claremont Men's College.
->
-> Some lives can best be characterized by biographical details, but Blanche Seaver's is not one of those. The biography is, of course, impressive: composer of more than two dozen original musical compositions, including the internationally loved prayer, "[[Just for Today]]"; *Los Angeles Times* Woman of the Year; member of ten Boards of Trustees, including Pomona College, the University of Southern California, the Hollywood Bowl, the Music Center, the Los Angeles Philharmonic and Children's Hospital; and holder of six honorary doctor's degrees.
->
-> But knowing these facts about an important public figure is not the same as knowing Blanche. One of the private stories I now is that long ago, as a little girl, Blanche was allowed to assist in her father's paint and supply store. What she relished most was tailor cutting the pieces of glass which were ordered by her father's customers. What she is proudest of is that she never broke even one piece of glass. She was so dependable that she got to use her father's diamond-point glass cutter. "Bill," she recently said to me, "please don't let them call me a philanthropist! I hate that word. I don't feel the least bit like a philanthropist. I just feel like a little glass cutter." It is Blanche Seaver's essential purity of heart, not these external credentials, which makes her character worthy of emulation. She embodies qualities of spirit and mind to which we hope young people in this college will always be pointed. Given the circumstances of wealth and ceremony which have surrounded her life, it is a tribute to her that she has remained such a natural, unaffected person.
-> 
-> Mrs. Seaver has a tremendous capacity for love, a great appreciation of beauty. She is capable of dignity and decency which are the finest tradition of Western civilization. She is a tireless worker with a voracious zest for life, and she is a person of transparent sincerity. As we all know, Blanche is not a shrinking violet who leaves us in doubt about her convictions. What is most important, she has the courage of her convictions. She not only stands up and speaks out when it is popular to do so, but is just as militant when she is a minority of one. Long ago she adopted for her life the stirring motto of Father James Keller: "What *one* person can do!"
-> 
-> [[Ronald Reagan|Governor Reagan]], our distinguished speaker today, will forgive me if I share with a story known only to him and Blanche and me. On a Sunday afternoon in the winter of 1972, I took Blanche to the Governor's Pacific Palisades residence to get his help. For reason of conscience, Blanche had chosen for the first time in her life to bolt the political party she and Mr. Seaver had encouraged for decades. Although most of her life-long friends were doing so, she was absolutely refusing to serve as an honorary delegate to the National Convention. My only concern was that it could eventually prove awkward to her to isolate herself in this way, but I had failed to make any headway whatsoever. Accordingly, I sought reinforcement from Governor Reagan. I can only say that after two hours of very persuasive arguments, Blanche replied to the Governor: "Ron, I know I may be the only one who feels this way, but I must live with my conscience." When the slate of honorary delegates, including most of the distinguished Republican leaders in California was drawn, Blanche Seaver's name was conspicuous by its absence. In retrospect, her conscientious stand seems not an embarrassment, but a compliment. And she had stood up against a couple of pretty persuasive guys that she liked a lot.
-> 
-> I should add a special word about her capacity for loyalty. So fierce is her loyalty that [[Richard Seaver]] once observed wryly, "Aunt Blanche's enemies have no virtues, but her friends have no vices." Her great patriotism is really a product of her deep loyalty. So is her continuing devotion to Frank Seaver. He died in October, 1964. For more than a decade, Mrs. Seaver has executed her work in his name and every Sunday afternoon, week after week and year after year, she has visited his grave at Forest Lawn.
-> 
-> Underlying all of these qualities is a fundamental spirituality. Leaders of religion—Dr. [[James Fifield|James W. Fifield]], [[Rabbi Magnin]], [[James Francis McIntyre|Cardinal McIntyre]]—are the most intimate friends at the center of her life. An incredibly non-materialistic philosophy of life has been the basis for her generosity. She knows that life does not consist in the abundance of possessions. She not only has neither a cottage in Carmel nor a home in Palm Springs, but she and Mr. Seaver have never even owned their family residence. She still rents the mellow old house at [[20 Chester Place]]. She wears no jewelry, neglects her wardrobe, appears for the annual banquets year after year in the same familiar gowns.
-> 
-> Her joy is not in getting but in giving, and I have never met a person who gets more joy out of giving. Not just big buildings, but a bouquet of roses for a wedding anniversary, a candygram at Christmastime, Vitamin C tablets to her friends with the sniffles, a bottle of wheat germ for those who look anemic—always, the simple contagious joy of giving and giving and giving again.
->
-> It has taken great faith and boldness to give away these many millions. We can name others who have been as materially blessed, but most people are more materialistic than Blanche. They lack the courage to give away those material things which define their very security. It is enormously inspiring to me that Blanche Seaver has never defined her security in material terms, and, for that reason, she is profoundly secure.
-> 
-> Mrs. Seaver clearly knows the difference between this brick and mortar and the soul of the college. Five years ago, on May 23, 1970, as we broke the first ground for Seaver College, we pledged "to bring together on these hills a community of scholars who hold distinctive spiritual beliefs." Our purpose in this College is primarily spiritual. Mr. Pepperdine was a lifelong member of the Church of Christ, and our continuing relationship with this religious group creates the core of our spiritual stance. Hence, unlike the pattern of most church-related institutions, in this era of expansion we seek to strengthen even further the ties with our own brethren.
-> 
-> As we keep Christian values at the heart of the whole educational process, we will resist any sectarian spirit. We shall encourage full and open academic inquiry. We shall not pose as an institution which knows all truth. What we affirm is that while our vision of truth is limited, ultimate truth actually exists. We affirm that the universe is undergirded by an objective moral order. We will continue to keep pace with change; but our main purpose, in this place, will be to discover what is not changing. And our central conviction will be that Jesus Christ is the same yesterday, today and forever.
-> 
-> What we do here today, then, is of permanent importance. Perhaps no other institution of human creation is of such enduring quality as an institution of higher learning. Even nations and civilizations rise and fall while universities and colleges survive. Among the oldest continuing human creations are the great universities at Paris, Oxford and Cambridge which stretch back across the centuries to the 1100s. [[Harvard|Harvard University]] was established in 1636, 140 years before the founding of the United States of America. During World War II when most of Germany was leveled by allied artillery, not one bomb was dropped on the beautiful city of Heidelberg because of its university. We believe that Seaver College of Pepperdine University will serve young people for centuries to come.
-> 
-> In 1938, George Pepperdine chose as the [[Pepperdine motto|motto of this university]] a verse of scripture: "Freely ye received, freely give." (Matthew 10:8). No person has more powerfully lived that truth than Blanche Ellen Theodora Ebert Seaver. Her middle name, Theodora, is my favorite. Of Greek derivation, it means, "the gift of God." I believe it is by the providence of God that Mrs. Seaver was brought into our lives.
-> 
-> Therefore, on this 20th day of April, 1975: By authority of the Board of Trustees of Pepperdine University, I do hereby proclaim this the [[Seaver College|Frank R. Seaver College]], dedicating it for all time to come to the glory of God and the service of mankind.`,LO=Object.freeze(Object.defineProperty({__proto__:null,default:OO},Symbol.toStringTag,{value:"Module"})),FO=`---
-id: 202504281033
-slug: pepperdine-university's-relationship-to-churches-of-christ
-title: Pepperdine University's Relationship to Churches of Christ
-year: 1978
-type: essay
-archiveReference: Box 3, Shirley Roper papers
-collectionId: 202504281034
-transcribedBy: Sam Perrin
-transcriptionDate: 2024-11-01
----
-“Pepperdine University’s Relationship to Churches of Christ” is an essay summarizing the nature of Pepperdine’s relationship with the Churches of Christ. It is unsigned and undated, but I suspect it was written by president [[William S. Banowsky]]. References in the text allow us to assign it a date between July 1977 and April 1978.
-
->PEPPERDINE UNIVERSITY’S RELATIONSHIP TO CHURCHES OF CHRIST
->Since its founding in 1937, Pepperdine University has maintained an [[Pepperdine and the Churches of Christ|affiliation with the Churches of Christ]]. This religious body has no structure or hierarchy beyond that of each individual congregation. Each congregation is a separate self-governing entity which elects its own leaders who are not responsible to any higher authority within the Churches of Christ. Further, there are no meetings, conferences, or other gatherings or representatives of Churches of Christ for the purpose of passing resolutions, writing creeds or statements of belief, or in any other manner working to express the views of the Churches of Christ so as to be binding on others. There are no such meetings in any local community, any state, or any nation. Each congregation is independent.
->
->The above facts notwithstanding, Churches of Christ maintain a vigorous and active fellowship in the United States and around the world. A wide range of educational and social services are provided, such as schools, colleges and universities, orphanages, homes for unwed mothers, and homes for the aged. If the maintenance of any of these services requires an organization other than a local congregation, the institution is established under its own board of directors. Various individuals and congregations may then contribute as they see fit, but there is no denominational machinery to compel such contributions.
->
->Among the institutions of higher education maintained by members of Churches of Christ are the following:
->
->  [[Abilene Christian University]], Abilene, Texas
->  [[Lipscomb University|David Lipscomb College]], Nashville, Tennessee
->  [[Freed-Hardeman|Freed–Hardeman College]], Henderson, Tennessee
->  [[Harding University|Harding College]], Searcy, Arkansas
->  [[Faulkner University|Alabama Christian College]], Montgomery, Alabama
->  [[Northeastern Christian College]], Villanova, Pennsylvania
->  [[York College]], York, Nebraska
->  [[Rochester University|Michigan Christian College]], Rochester, Michigan
->  [[Columbia Christian College]], Portland, Oregon
->  [[Oklahoma Christian University|Oklahoma Christian College]], Oklahoma City, Oklahoma
->  
->Each of these institutions is organized along lines very similar to Pepperdine University in that each operates under its own board of directors. in the same way that the individual congregations maintain fellowship with each other, they maintain relations with these schools, as the schools do with each other. The important principle is that the association is entirely voluntary and that there is no general corporate structure that can claim at any one time to speak for everybody else. The independence of each congregation and of each school, orphanage, or whatever, is a cardinal religious tenet of the Churches of Christ. The doctrinal basis for this is that authority belongs only to God and not to organizations of people.
->
->It is highly significant that Churches of Christ do not themselves maintain theological seminaries, and therefore colleges such as those named above have traditionally filled a leading role in training missionaries, ministers, and other church workers. Approximately 1,400 missionaries from Churches of Christ are serving around the world with the support of local congregations in the United States. The majority of these received their training in one or the other of such schools as those listed above. Most of the ministers who are serving the numerous Churches of Christ around the nation also received their training in such schools.
->
->Without attempting to be exhaustive or definitive, following are some of the indications of the relationship that Pepperdine University has with Churches of Christ:
->1. The [[Articles of Incorporation]] of the University require that “at least sixty percent (60%) of the actual number of members serving shall be members of the Church of Christ.” (Article VI.) The Articles further specify that upon the liquidation or winding-up of the corporation of Pepperdine University, its assets shall be distributed either to nonprofit educational and religious purposes as specified by the Board, or in default of such determination, “to the Churches of Christ.” (Article VIII.)
->2. The [[Bylaws]] of the University require: “A majority of the members of the Executive Committee shall be members of the Church of Christ.” (p. 4.)
->3. In keeping with the Articles of Incorporation, The Bylaws state: “In view of those distinctive characteristics of the University which are attributable to the relationship it enjoys with Churches of Christ, at least sixty percent (60%) of the actual number of Regents serving shall be members of the Church of Christ.”  (p. 5.) At the present time, there are forty Regents, of whom twenty-four are members of the Church of Christ.
->4. The Bylaws provide for a standing committee, known as the [[Religious Standards Committee]], to which is delegated full and exclusive authority to regulate spiritual and religious programs such as chapel assembly, religion courses, faculty and staff selection, standards for campus life and conduct, special convocations and lectureships “to insure a continuing and meaningful relationship with the Churches of Christ,” and to select the person to fill any vacancy in the Office of President. (p. 12.)
->5. The Bylaws provide that “the Chairman of the Board of Regents shall be a member of the Church of Christ.” (p. 21.)
->6. Numerous bulletins, brochures, and catalogs published by the University assert either its church relationship or its Christian mission and emphasis. It is characteristic both of Churches of Christ and of Pepperdine University to affirm a nonsectarian approach to Christianity and to assert independence of ecclesiastical control.
->7. The legal notices inserted in our catalogs indicate the seriousness of our concerns about religion in such statements as the following: “Pepperdine University does not discriminate on the basis of sex except where necessitated by specific religious tenets held by the affiliated religious body.”
->8. The student handbook for Seaver College, which is the liberal arts college of the University and which is, therefore, responsible for training the younger students of the University, lists various activities that are distinctive of a church-related institution. Among these is the Wednesday convocation, required of every student. This convocation, commonly known as chapel, “is a visible unifying experience for affirming the University’s founding base of faith through corporate worship and programs stimulating spiritual development.” The requirement to attend chapel is a long-standing traditional part of church-related institutions in the United States. The student handbook further states that “worship programs each Sunday and during the week are sponsored on or near the campus by members of the Churches of Christ, whose plea is for nondenominational New Testament Christianity.” Campus rules regarding conduct and discipline are those one would expect to find in a church-related institution, with reference to such matters as gambling, drinking, smoking, personal appearance, prohibition of dancing on campus, and avoidance of coeducational housing.
->9. All but one of the seven executive officers of the University are members of the Church of Christ. Church members include the following:
->	Dr. [[William S. Banowsky]], President
->	Dr. [[Howard A. White]], Executive Vice President
->	Mr. [[Warren Dillard|Warren M. Dillard]], Senior Vice President--Finance
->	Dr. [[John Nicks|John D. Nicks]], Jr., Vice President for Academic Affairs
->	Dr. [[Bob Thomas|Robert H. Thomas]], Vice President for Administrative Affairs
->	Dr. [[James Wilburn|James R. Wilburn]], Vice President for University Affairs
->  Of twenty-one additional general administrative officers of the University, all but two are members of the Church of Christ. The faculty of Seaver College, where the University expects to have its greatest impact in fulfilling its religious commitment, has a total of seventy-three members, forty-three of whom are members of the Church of Christ, for a percentage of 58.9 percent. The University total of 226 faculty members numbers seventy-eight members of the Church of Christ, which is 34.5 percent of the total.
->10. The Pepperdine University policy of nondiscrimination and program of affirmative action contains the following statement: “The free exercise of religion guaranteed by the Constitution of the United States includes the right to establish and maintain religious educational institutions. Pepperdine University is chartered as a Christian institution, its founder having provided that the school maintain a special relationship with the Churches of Christ. Federal guidelines clearly recognize the right of a church-related institution to seek personnel who will support the goals of the institution, including the right to give preference in hiring and promotion of faculty and staff to members of the church to which the institution is related (Section VI-1.5 of Federal Executive Order 11246 of the Civil Rights Act of 1964). Therefore, the University will continue to give such preference to members of the Churches of Christ and also to others whose lives exhibit respect for and support of the goals of Christian education. Except for these special concerns, it is the established policy of Pepperdine University to select the most qualified persons available for University positions without regard to race, color, religious creed, national origin, ancestry, physical handicap, age, sex, or prior military service.”
->11. The official statement for a bond issue authorized by the California Educational Facilities Authority of July 29, 1977, contains the following statement: “Since its inception, the University has maintained a continuing affiliation with the Churches of Christ. This Protestant body is comprised of a loosely related group of independent congregations and does not have either a centralized hierarchy or an official statement of doctrinal principles. Notwithstanding the University’s affiliation with the Churches of Christ, persons of all religious persuasion are welcome at the University as members of the student body and faculty.”
->12. With the possible exception of the visit of Gerald R. Ford in September, 1975, the largest gathering of any kind in the history of Pepperdine University has been in connection with the annual [[Pepperdine Bible Lectures|Bible Lectureships]] that are planned explicitly for the Churches of Christ, and whose speakers are almost altogether ministers of the Churches of Christ. The largest gathering of the members of the Churches of Christ west of the Rocky Mountains are these lectureships that are held annually by Pepperdine University. The Lectureship for 1978 will begin on April 16, when it is expected that more than 5,000 members of the Churches of Christ will gather in the Firestone Fieldhouse to hear Dr. [[Ira North]], prominent minister from Nashville, Tennessee and former member of the Pepperdine University Board of Regents.
->13. The University maintains a department of Church Relations headed by Dr. [[Carl Mitchell]], who is also the Chairman of the [[Religion and philosophy division|Religion Division]]. Quite a number of activities are held under his direction each year, including a Thanksgiving Youth Christian fellowship, a workshop for preachers and elders, and sessions for religious counselors. Also included under Dr. Mitchell’s direction is the annual tour of the Pepperdine University A Cappella Chorus, which during the current year will visit a number of Churches of Christ in our region. (A copy of the itinerary is attached.)
->14. The Associated Women of Pepperdine is the support group composed of women who are members of the Churches of Christ in various parts of California. For many years this group has functioned as an auxiliary for service in the University and has contributed a total of well over a million dollars to the University. This group maintains a scholarship fund which is restricted to members of the Churches of Christ, and the amount of scholarships given to students during the current year is approximately $45,000.
->15. The University is very concerned about its relationship with Churches of Christ. During the current academic year, President William S. Banowsky has made numerous preaching and visiting trips to various churches to discuss the work of the University and to encourage attendance at the spring Bible Lectureship.
->16. A leading advisory group for the University is the [[Chancellor’s Council]], composed entirely of members of Churches of Christ and most of whose members are ministers. This Council meets on a regular basis with the Chancellor to discuss ways and means of promoting effective relationships between the University and the Church.
->17. To a very high degree, Pepperdine University meets the standard of church-relatedness published in a study headed by Merrimon Cuninggim, President of Salem College, which study was sponsored by the National Council of Churches, with assistance from the Ford Foundation. (A copy is attached.)`,BO=Object.freeze(Object.defineProperty({__proto__:null,default:FO},Symbol.toStringTag,{value:"Module"})),$O=`---
-id: 202504281146
-slug: ronald-reagan-speech-delivered-at-seaver-dedication
-title: Ronald Reagan speech delivered at Seaver Dedication
-date: 1975-04-20
-year: 1975
-type: speech
-authors:
-  - Ronald Reagan
-archiveReference: Box 2, Seaver papers
-collectionId: 202504281148
-transcribedBy: Sam Perrin
-transcriptionDate: 2025-04-02
-lastUpdated: 2025-04-28
----
-This is the text of a speech delivered by former California governor [[Ronald Reagan]], at the [[Dedication of Seaver College]] on April 20, 1975.
-
->Text of Ronald Reagan speech delivered at Seaver Dedication, April 20, 1975.
->
->[[Blanche Seaver|Mrs. Seaver]], [[M. Norvel Young|Dr. Young]], [[William S. Banowsky|Dr. Banowsky]], members of the Administration, the faculty, the [[Board of Regents|Board]], Friends of Pepperdine and students who might be here: After listening to all of those credits in that introduction, I’m not quite sure just what role I’m playing here today. I have no placards with me; I will not ask you to get up and march. On hearing that I was reminded of a very great team that was in the American theatre for many, many years. They would not only play on Broadway in the great theatres there, but tour the country on many occasions. At one point, experienced as they were, there was a blow-up in lines. They couldn’t remember and the prompter in the wings whispered the line. They edged their way, ad-libbing, over closer because they couldn’t hear. They got closer and they still couldn’t hear. Finally he said the line so loud that even the audience could hear it and with that the star turned and said, “We know the line, which one of us says it?”
->
->As you know, it is a pleasure to be here in this most beautiful setting and when I think of students here, laboring and toiling to get an education in this particular setting, if Dr. Banowsky will forgive me, I am reminded of a visit I made some years ago to an industrial plant in the middlewest \\[*sic*\\]. It was of a newer type that had bee made similar to a campus, surrounded by beauty, with a beautiful grove of trees. Walking across this campus-like place, I said to the manager of the plant, how many work here? And he said “Roughly half.”
->
->Now, you all have been reminded of my interest in higher education a number of times in the last eight years. Sometimes I wish you hadn’t been, but seriously, I am interested in education, particularly in the preservation of our traditional, independent school and college type of education. I think it is our greatest guarantee of academic freedom. And I have seen nothing in these last eight years that didn’t strengthen my convictions that we must preserve it at all costs. I think the small intimate campus, if it disappears, some day we may find that while I have great respect for the great public educational institutions in our country and know the necessity for them, but without this particular type of school, we may find ourselves some day reduced to giant behemoth campuses that are literally assembly-line diploma mills.
->
->I have been interested to note in the last several weeks that some members of the University of California are beginning to refer to me as the spendthrift governor. But I am honored and delighted to be here and particularly on this occasion. In a world that seems to be in so much turmoil when old and valued traditions are being challenged that haven’t been challenged since the cynics of ancient Rome raised their scornful voices, there is a special joy in seeing a new college come into being: a place where the values that have been tested by time will be passed along to generations yet unborn. What is being dedicated today was made possible in large measure by the genius, the work, the thrift, and the unselfishness of a man who used to call himself just a plain old duffer who kept his nose to the grindstone. Some duffer!! [[Frank R. Seaver]] left his mark, and a good mark it was on American Industry, on aviation, on Los Angeles County, on California, and on the future. And he had a partner. A life-long partner in his work, his life and his love. And that partner is with us here today -- [[Blanche Seaver]]. Because of her and her willingness to carry on the great humanitarianism which characterized their partnership, we dedicate this college today. It is the latest in a dozen of \\[*sic*\\] so educational institutions, science centers and buildings on California campuses. All have been brought about and contributed by this partnership, so devoted to service. Now, if Frank were here, he’d be embarrased \\[*sic*\\] by now. He was modest, unassuming, a gentleman who shunned the spotlight. His interest was not in collecting accolades but in making it possible for others to grow and expand and thus extend the cycle of benefits of this American dream. The Seaver gifts were given with no strings attached. Once Frank and Blanche determined that a project merited their support, they also determined that it was of sufficient integrity to seek its own course. One of the very few times when Blanche did make a request involving a gift, it had to do with another building at another university. She was convinced that the architects had made the doors -- well, they weren’t expensive enough. She said “The doors should be open. They should be wide and free so that people could enter in.” And so, the door was redesigned.
->
->Frank was pretty much of a self-taught attorney. He was admitted to the bar before he went to the [[Harvard]] Law School -- which doesn’t cause me any unhappiness at all. He was an inventor, even though he was never an engineer. He was a generous and compassionate employer and he was a smart business man \\[*sic*\\]. Twenty years ago, back in the late ‘40s, when very few autos were equipped with air conditioning, Frank had it installed in the cars driven by his [[Hydril Co.]] salesmen. And when in the dead of summer they were up around Bakersfield and Taft and those other places and they would drop by they would find plenty of oil workers waiting for that air conditioned car to climb in and of course a little business was done at the same time.
->
->He had another love which he shared with Blanche. It was a love for government by free men. He was on the first board of free-voters of Los Angeles County, and back in 1912 he played an important role in writing this County’s first charter. And a significant 46 years later when they got around to re-writing the County Charter to bring it up to date in 1958, he was appointed as a member of the revision committee. After 8 months of study the commission decided that it could not improve on the original charter and adjourned with the recommendation that the citizens leave it the way it is. I think it is no exaggeration to say that some of the wisdom, some of the thinking of the founding fathers who wrote the Declaration of Independence was manifest in his own wisdom and the works of Frank R. Seaver.
->
->The other part of the Seaver equation, this gentle woman who is with us here today, the youngest of ten children, has received so many honors in her lifetime that together with her husband, has given so much to so many young men and women the opportunity in particular that she never had -- to get a college education. She serves on the Boards of Trustees of colleges and universities, she is the recipient of the Jane Addams metal for distinguished service twice, she is a member of boards of countless hospitals and orphanages and nurseries -- all bench marks in a lifetime of service. One of her accomplishments, one of many in her multi-faceted life, on which might come as a surprise to some of you if you hadn’t read the program very carefully, is that all told she has had some 20 songs published. And one of them will be sung for us here today. It was first recorded years ago by [[John McCormack|John McCormick]]. It is entitled “[[Just for Today]].” “Lord, for tomorrow and its needs I do not pray, Let me both diligently work and pray, Let me be kind in word and deed, Just for today. Keep me, guide and love me Lord, Just for today.” And so from this, these lives of diligence and love and prayer has come this liberal arts college. How will it serve? Not just as a university in this golden state. How will it serve mankind? A university is not simply a vending machine which dispenses pre-packaged knowledge. It must also be a repository and distribution center for a certain kind of wisdom. We stand in awe as man encapsulates some of his species and sends them speeding through space to land on the moon. We are amazed as man probes the inner universe and discovers molecular structures which are indespensible \\[*sic*\\] in understanding the physical life process. The computer science has promised whole new worlds of processing and transmitting information. The potential good for all mankind is enormous. But such developments can be thwarted, neutralized, and even turned against us if we don’t match them with significant and perhaps even greater social advances. The scriptures warn that though we have this power to move mountains and have the knowledge to understand all mysteries, without love we have nothing. We wait with more than idle curiosity to learn some day if there’s intelligent life on some other planet. And at times we wonder if there is intelligent life on earth. You know, it was never a part of the American dream that we evolve into a robot society run by computers, centralized thought and values and action. It was not what the Boston tea party was all about or Valley Forge or Appomattox. And we’d better match our technological advances with social understanding of the dynamics of free men, so that the machines and the energies and the data banks bring not only material well being, but more important a greater personal freedom, more versatility, unfettered skills, incentive and creativity in living. Perhaps I’m presumptive but also I exhort those who teach and those who learn, who research and apply, to couple their work with reason and conscience and heart. It will be at such seats of learning as this that the balance between the solid state of matter and the inner state of man would be redressed. It is most appropriate that Blanche and Frank Seaver have contributed furthering research in great science centers which they have provided, enriching the technological side of our society. It is equally appropriate today that in her partner’s name Blanche Seaver has made it possible for this institution to be devoted to the humanities. There is a belief that we’re creatures of the spirit born with a God-given right to be recognized, not as faceless ciphers but as individuals with dignity and freedom to choose. Many voices today are raised challenging such beliefs. With great inconsistency they march under a banner of so called liberalism while they strive ceaselessly for social reforms that are totally materialistic with no thought of what they might be doing, if they succeed, to the spirit of man. Lacking faith in the people they would substitute rule and regulation for the free rhythm of the marketplace and they do so in the sincere belief that they are benefitting mankind. But if they had their way, we will one day live in a society where everything that isn’t compulsary \\[*sic*\\] is prohibited.
->
->[[John Kenneth Galbraith|John Kenneth Galbreath]], who in my opinion is living proof that economics is an inexact science, has authored a new book, entitled “Economics and the Public Purpose”. He asserts that the market arrangements of our economic system have given us inadequate housing, terrible mass-transit, poor health care and a host of other miseries, all of which have to do with the material side of man. And then finally, he comes out for the first time to my knowledge from behind the white shield of liberalism and tells us that only socialism can solve the problems that beset us. He deals in fairy tales. Why is it so impossible for some to abandon theory, and hold up instead for a practical comparison, the two great examples that we have in the world today of two different ways of life. There is another nation greater in territory than our own, rich in natural resources, populated with some 250 million capable people. They have had more than a half a century to fully implement and put into practice socialism. And we could be just like them. But it would take a little doing on our part. We’d have to cut our paychecks by 80 percent, and move 33 million workers back to the farm, destroy 59 million television sets, tear up 14 out of 15 miles of highway, junk 19 out of 20 automobiles, tear up two-thirds of our railroad track, rip out nine tenths of our telephones, tear down 15 percent of our houses and then all we’d have to do is find a capitalist country willing to sell us wheat on credit so we wouldn’t starve.
->
->By contrast, look what has been done in a single lifetime here in this blessed land. My own lifetime. I’ve already lived, thanks to the research and the development, most of it privately subsidized in health, I’ve lived ten years longer than my life expectancy when I was born. A source of annoyance to a number of people. When I was born, 90 percent of the people lived below what we call the poverty line and two-thirds lived in substandard housing. Today, both figures are less than10 percent. 95 percent of all the people in our land have the minimum daily intake of nutrients essential to maintain health, 99 percent of our homes have gas or electric appliances, 96 percent have television sets, and we own 120 million automobiles and trucks, all of which will be down on the Coast Highway when you leave here today. But that’s on the material side. on another side, we have had time to become truly the most generous people on earth. We’ve shared our wealth more widely than any society heretofore known to man. We have more churches and libraries, we support with voluntary contributions more institutions like this, more symphonies, more operas, more non-profit theatres, and publish more books than all the rest of the world put together. One third of the young people in the world getting a college education are getting it in the United States, and we have more doctors and hospitals in proportion to population than any other nation.
->
->Back many, many years ago before this nation came into being, on the deck of the tiny Arabella off the wind-swept coast of Massachusetts, John Winthrop gathered the little band of Pilgrims there on the deck of the ship and he told them before they landed what it would be like. He said “We shall be as a city upon a hill,” but he said, “If we betray our God and do not fulfill his destiny for us we shall become a by-word for thousands of years for all mankind.”
->
->Well, today, because two Americans believe so strongly in [[Pepperdine and the American Way|this unique way of ours]], we have the Frank R. Seaver College of Liberal Arts as part of a University which itself exists because others shared that same devotion to that same dream and that dream is our heritage if we have the courage to keep it.
->
->Thank you.
->
->mb`,zO=Object.freeze(Object.defineProperty({__proto__:null,default:$O},Symbol.toStringTag,{value:"Module"})),VO=`---
-id: 202504281051
-slug: the-case-for-malibu
-title: The Case for Malibu
-date: 1968-03
-year: 1968
-type: letter
-authors:
-  - William S. Banowsky
-recipients:
-  - M. Norvel Young
-archiveReference: Box 62, William S. Banowsky papers
-collectionId: 202504281055
-transcribedBy: Sam Perrin
-transcriptionDate: 2024-11-01
-lastUpdated: 2025-04-29
----
-“The Case for Malibu” is an essay arguing that Pepperdine should accept the Adamson family’s offer of a plot of land in Malibu. It was written by [[William S. Banowsky]], who would soon become executive vice president of Pepperdine University. The essay is included in a letter to Pepperdine president [[M. Norvel Young]].
-
-If this is the five-page letter mentioned on page 80 of Banowsky’s memoir *The Malibu Miracle*, the original letter may have been written October 26, 1967.
-
-This document may be the origin of a long history of people using the word “distinctive” to characterize Pepperdine, a trend that resulted in David Baird’s 2016 history of the university being titled “Quest for Distinction.”
-
->COPY
->March 1968
->
->To: Dr. M. Norvel Young
->From: William S. Banowsky
->
->It is my judgment that the Malibu site is greatly superior to the Westlake proposition (and to all others previously considered). I will set forth basic reasons which lead me toward this conclusion.
->
->The key lies in the uniqueness and distincitiveness \\[*sic*\\] of the Malibu site. The only chance our kind of college will have for greatness--and perhaps even for survival--in the next quarter century must come from its _distinctiveness_. We will never be able to compete with USC in size, with UCLA in facilities, with Occidental in academic excellence, with [[El Camino College|El Camino]] in inexpensiveness to the student. Why should there even be a Pepperdine College? Many would say that Pepperdine could close its doors next fall and the work of education in Southern California would continue unchanged with such institutions as those named above easily assuming _most_ of the work being done by Pepperdine. Our response would be, "Yes, _most_ but not _all_ of the work." In this claim, our _raison d'etre_ must be established.
->
->Of course, our contention is that when the work of USC, UCLA, Occidental, El Camino, etc. has been finished, there is still _something_ being offered by Pepperdine which none of them quite matches. How does one describe that _something_? Perhaps, a composite description is needed:
->
->1. Pepperdine's bold Christian claims undergirding all academic work.
->2. Pepperdine's non-sectarian stance.
->3. Pepperdine's effort to create a truly spiritual campus atmosphere.
->4. Pepperdine's emphasis on personal attention to individual students.
->5. Pepperdine's high academic effort within a spiritual framework.
->6. Pepperdine's ability to maintain basic American ideals tempered by a dynamic willingness to change and experiment.
->7. Pepperdine's emphasis on human values in the midst of a vast and mechanized society.
->8. Pepperdine's independence from state, federal, church, or political control.
->
->In all of these and other areas Pepperdine claims its _right to be_ on the premise of distinctiveness. Pepperdine is different! Distinctive education is our only hope. And campus location is important in maintaining this distinction. You have been courageous to take your time and move with slow, deliberate steps to secure a geographic spot to fully match and dynamically expand the college's claims to distinctiveness. I now urge you to see in the proposed Malibu site the full realization of this goal.
->
->Does mere geographic location make so much difference? Perhaps not to UCLA (though Westwood is obviously able to do something which Maywood could never do) because the government can put up sufficient funds to overwhelm the matter of location. But to an operation like ours, mere location can make the difference between mediocrity or excellence, between success or failure.
->
->While the Westlake site is a splendid one, and the college is to be complimented by such an offer, it is seriously _lacking in distinctiveness_. I actually think the Calabasas site would be more _distinctive_ and more capable of preserving the uniqueness of the college across the years. On the other hand, if it were down to a decision between these two, I would have no serious objection to going for Westlake over Calabasas on the basis of more acres, more buildable land, location in the midst of such a fantastic city development, etc. But Westlake, in my judgment, would probably never be as _distinctive_ a location in the minds of Los Angeles peopleas \\[*sic*\\] Calabasas. I took the time to read a special magazine section and a brochure on Westlake and have seen the truly remarkable features of their master plan for the entire city with lakes, golf courses, imposing homes, etc. But Westlake City will tend to become just that, a self-contained little city without distinctive or dynamic ties with Los Angeles. The whole atmosphere could tend to make Pepperdine look like any other suburban college. It seems to me that Westlake would be the kind of place where the state of California would choose to put one of their neighborhood junior colleges. But Pepperdine must not be willing to accept classification along with such neighborhood colleges.
->
->On the other hand, there is now and always will be _only_ _one_ _Malibu_. A college built at Malibu will forever have an edge in distinctiveness on the weight of location alone! I would favor Calabasas over Westlake on the strength of distinctiveness, but would yield to Westlake because the difference could be outweighed by other advantages at Westlake. _But I would regard losing Malibu for Westlake to be a tragedy of the greatest proportions._
->I would prefer to have forty acres at Malibu over 250 acres at Westlake for the following reasons:
->
->_Distinctive Ties with Los Angeles_
->9. Malibu has always been and is now closely identified with Los Angeles.
->10. Malibu is geographically closer to Los Angeles than either of the other sites. (We actually timed it from Topanga Canyon to the Civic Center in twenty "easy" minutes.)
->11. You can actually see the complete harbor from Malibu and all the way from Zuma to Palos Verdes and even Catalina Island. There is the sensation that you are still very much in Los Angeles.
->12. The Los Angeles business community can be challenged to help financially.
->
->_Distinctive in Reputation_
->13. Malibu has a legendary past going all the way back to the Spanish explorers.
->14. Its name is known throughout the world.
->15. Its image is plus all the way.
->
->_Distinctive in Beauty and Aesthetic Quality_
->16. The beauty of the location is unsurpassed.
->17. The combination of the magnificent view of the ocean, the beach front, and the rugged mountains behind is a winner.
->18. It is close to Los Angeles, yet removed with an atmosphere of relaxation.
->
->_Distinctive in Climate_
->19. No climate in the world is really superior to it. With a high of 80 and a low of 54, an average humidity of 60 per cent, a water temperature of 70 degrees in the summer.
->20. The location will always be absolutely smog free.
->
->_Distinctive in Protection and Changelessness_
->21. While change is inevitable everywhere, Malibu has unusual protection against normal urban and suburban deterioration.
->22. The ocean will never change, it is today just as it was at creation.
->23. The severely rugged mountains behind will also change very little, and are today absolutely unspoiled.
->24. With the buffer provided by the ocean and the mountains, and the freeway to come in front of the campus, we will be locating the college at a site which will maintain its uniqueness for hundreds of years.
->
->_Distinctive Appeal to Students_
->25. The very name "Malibu" has a magic ring all over the nation to young people. It will not sound like an exclusive resort area but a place "where the action is."
->26. We can be very effective in recruiting day students from Los Angeles.
->27. Most importantly, we need desperately to increase the percentage of our boarding students to as much as 2 to 1. Malibu will provide this opportunity.
->28. The tuition level we must change will be entirely consistent with such a location and academic atmosphere.
->
->_Distinctive Appeal to Faculty_
->29. The task of recruiting and maintaining the kind of faculty we need will be a cinch with this location.
->
->_Distinctive in its Appeal to Donors_
->30. People capable of making the unusually large gifts which we need are looking for the unusual, the extraordinary, the different. All of the assets of the Malibu location can be drawn into an impelling case for large contributions.
->31. Los Angeles, Westwood, Beverly Hills, Santa Monica, Hollywood, Pacific Palisades--these impressive cities will be our near neighbors.
->
->_Distinctive as an Educational Site_
->32. We will be closer to UCLA from Malibu than Pepperdine now is.
->33. We can draw the discriminating kind of student who lives in Westwood, Santa Monica, Pacific Palisades, Hollywood, Beverly Hills, etc., now attending UCLA.
->34. Some recent California state colleges have been located on or very near the ocean.
->
->Malibu has that intangible something which distinguishes it from more ordinary sites as Westlake.
->
->May I urge you to be very decisive in pushing for Malibu.
->
->Malibu has the capacity to excite. It excites me greatly.
->
->\\[signed William S. Banowsky\\]`,UO=Object.freeze(Object.defineProperty({__proto__:null,default:VO},Symbol.toStringTag,{value:"Module"})),HO=`---
-id: 202504292045
-slug: trent-devenney-to-dan-mcmichael-1973-04-20
-title: Trent Devenney to Dan McMichael, 1973-04-20
-date: 1973-04-20
-year: 1973
-type: letter
-authors:
-  - Trent Devenney
-recipients:
-  - Dan McMichael
-archiveReference: Mrs. Harnish file, Box 56, Howard A. White papers
-collectionId: 202504281112
-transcribedBy: Sam Perrin
-transcriptionDate: 2025-02-12
-lastUpdated: 2025-04-29
----
-This is a letter from Pepperdine alumnus [[Trent Devenney]] to [[Dan McMichael]], an associate of Pepperdine donor [[Richard Scaife]]. In the letter, Devenney explains what has come to be known as the [[Trent Devenney affair]].
-
->April 20, 1973
->
->Mr. Dan McMichael
->Scaife Family Charitable Trust
->Oliver Building
->Pittsburgh, Pennsylvania 15322
->
->Dear Mr. McMichael:
->
->I want to thank you for giving me so much of your time on the telephone last Tuesday. I would have normally written to you in order to give you an explaination \\[*sic*\\] of my purposes prior to such an extended discussion, but it was impossible. I had just come from a 5 hour meeting with [[George Benson|George S. Benson]], and he told me that I should not waste any time trying to reach you. Therefore, I called you immediately.
->
->It  is important for you to understand that I came to you primarily because I know that your continued confidence in Pepperdine University is essential if that institution is ultimately destined to serve a constructive purpose in our community. I can say, without equivocation, that Pepperdine will not survive the coming months without your continued support.
->
->As you know I am an alumnus of Pepperdine University, having graduated in 1964. You must understand, however, that I represent diverse interests in my current efforts to strengthen the University.
->
->The first person to retain my services in this work was [[Gordon Del Faro|a donor]] who is a businessman with deep involvements in California politics. He feels (correctly) that [[William S. Banowsky|William Banowsky]] is an opportunist and that he is a phoney \\[*sic*\\] conservative; therefore, his interest is to see that Dr. Banowsky’s political aspirations do not conflict with the aspirations of men whose sincerity is proven by their achievements.
->
->The next man to retain my services in this work is [[Archie Luper|a member of the University Board]]. His only interest is to see that constructive educational purposes are fulfilled within the structure of the University. He has long been aware that the institution is monolythically \\[*sic*\\] liberal internally.
->
->Finally, I represent [[Ira Rice|certain prominent members]] of the Church of Christ who feel that the religious orientation of the University is “un-orthodox”.
->
->I do not technically represent [[Helen Pepperdine|Mrs. Pepperdine]] as her legal counsel in this matter. She has no attorney. It is true, however, that I have been advising her and that she has done what I have asked in certain strategic matters.
->
->You should understnad \\[*sic*\\] that Mrs. Pepperdine is a very worried and a very confused woman at the present time. She feels that the University is in a situation where it will collapse, and will be lost to her, unless the proper actions are taken. Unfortunately, she is being given conflicting advice.
->
->To make matters worse, the Administration moved a woman into Mrs. Pepperdine’s home just on the heels of my advising her to seek the assistance of George S. Benson. This requires some explaination \\[*sic*\\].
->
->Mrs. Pepperdine turned her entire estate over to Pepperdine University at some time within the past 3 years. She receives an annuity in return. No longer having any money to give to the University, the Administration lost interest in her and failed to show her any attention. They even avoided giving her invitations to certain events on the grounds that there just weren’t enough seats to supply the demand. This caused Mrs. Pepperdine to be free from the day-to-day influence of the Administration and she began to look around for herself. She didn’t like what she was seeing and, over a period of the past year, she called special meetings of the [[Board of Regents|Board of Trustees]] to try to correct the problems. She failed.
->
->I came into the picture and advised her to go to Dr. Benson and, immediately, the Administration has become “attentive”. I think they fear George Benson more than they fear the Devil. Anyway, the Administration advised Mrs. Pepperdine to allow [[Charles Runnels|Charlie Runnels]]’ secretary move into her home so that she wouldn’t be “lonely” and so that she would have a chauffeur when she needed to go out. The result has been that she stays confused most of the time.
->
->Prior to this woman moving into her home, Mrs. Pepperdine was beginning to stear \\[*sic*\\] a steady, direct course toward solving the problems at Pepperdine. Now she will have a conference with me, and will come to agree on the situation and its solution, and then she goes home and gets confused.
->
->I simply don’t have the heart to try to dispell \\[*sic*\\] her confidence in the woman who has moved into her home. This is for two reasons: first, this woman is an old friend and, second, Mrs. Pepperdine is very lonely and she needs to think that this woman’s interest is genuine. There’s a third reason too. I don’t have someone to replace this woman with (i.e. I can’t point to someone and say, “Mrs. Pepperdine, there is a real friend for you.).
->
->I want you to understand that this is an enormously sad situation. Mrs. Pepperdine has been “taken” by family friends, by young men that she and Mr. Pepperdine put through school and even by Elders in her own church. It’s simply outrageous and, at her age, I don’t really know how she has the courage to face up to the facts that she has already faced.
->
->I am attempting to set up a meeting between Mrs. Pepperdine and [[Jerene Appleby Harnish|Jerene Harnish]] because Mrs. Harnish is a woman who knows how to bring order out of chaos. Mrs. Harnish is fully aware of the extent of the problems at Pepperdine and has indicated a desire to see them corrected. She is an enormously strong woman and she could give Mrs. Pepperdine the courage and the certainty that she needs.
->
->I was hoping that I could look to your interests to support Mrs. Pepperdine at this troublesome stage.
->
->I must raise another important point in this letter, and I don’t think I covered it sufficiently in our brief conversation. It is the political implication of the problems at Pepperdine.
->
->The [[Gordon Del Faro|businessman]] who first retained my services has a strong desire to see that Dr. Banowsky will not be competing with sound conservative politicians in the future. This is really his only interest in my work; although, I am certain that he would like for conservatives to have control over Pepperdine University.
->
->I am being compelled by this man to take my information to the Office of the Attorney General and to request that the Trust Department begin an [[Attorney General investigation|investigation]] of Pepperdine University. I must make an appointment with the [[Evelle Younger|Attorney General]] on Monday, April 23, 1973.
->
->I have advised against this move continuously and my advice has been followed until today. The reason for the change of attitude in this businessman is that George Putnam announced, last night on his evening news cast, that William Banowsky would announce his candidacy for the U.S. Senate against [[Alan Cranston|Allen Cranston]]. This has precipitated a demand that I take some immediate action to see that strong forces demand an accounting from the Board of Trustees and that this be done thoroughly. I have a certain amount of evidence that there are “irregularities”.
->
->I am certain that the situation at Pepperdine is far worse than we can really imagine. Mrs. Pepperdine has admitted that it is far worse than I, personally, am aware, but she will not elaborate.
->
->This campaign will give Dr. Banowsky an opportunity to leave Pepperdine before in \\[*sic*\\] all falls down on him (thereby ruining him positively) and he will have the “advantage” of being able to label his critics as “politically motivated”. It also shows, however, how really thoughtless of Pepperdine University he really is. His move into politics will put the University into the situation like a political battlefield. Every “transgression” will be resurrected to use against him.
->
->Bill saw the handwriting on the wall in January when he tried to get the job at [[San Francisco State]], but he was stopped. Someone probably got to [[Glenn S. Dumke|Dumpke]] and warned him. But this campaign may be his only means of escape and he has apparently chosen it. Incidentally, he has done this in spite of the fact that he has consistently people that his only interest was in Pepperdine.
->
->As I indicated, I am concerned that an investigation by the Attorney General will turn the campus into a political battlefield. If it’s true that the situation is extremely bad financially, then the institution could have a tarnished image for years to come. This could cause it to be lost for the purposes of conservative education.
->
->If you could find any possible legal means, your interests should step into this situation immediately. Otherwise, all of our investments in the University could be lost. I think that if we try to clean it up internally we could insure public confidence in the institution.
->
->I have notified Mrs. Pepperdine that I would like to address the next meeting of the Board of Trustees, and she indicated that they may have to call a special meeting of the Board for this purpose. They don’t have many regular meetings! I think that my appearance will be within 1 month.
->
->Incidentally, I have sent you 2 reports on Pepperdine University. One was done by [[Doyle Swain]] and the other by myself. They are both in rough draft form and will be rewritten prior to the Board meeting.
->
->I will send you a report of exhibits which I have gathered, but I will have to prepare an explaination \\[*sic*\\] for them. I had intended to show them to you personally and to explain them myself. This report will contain more financial information than the 2 reports already sent.
->
->Sincerely yours,
->\\[signed\\] Trent C. Devenney
->Trent C. Devenney
->Associate
->
->TCD:aw`,WO=Object.freeze(Object.defineProperty({__proto__:null,default:HO},Symbol.toStringTag,{value:"Module"})),GO=`---
-id: 202504292033
-slug: trent-devenney-to-mrs.-seaver-1973-09-12
-title: Trent Devenney to Mrs. Seaver, 1973-09-12
-date: 1973-09-12
-year: 1973
-type: letter
-authors:
-  - Trent Devenney
-recipients:
-  - Blanche Seaver
-archiveReference: Devenney Affair #1 file, Box 11, Young papers
-collectionId: 202504292040
-transcribedBy: Sam Perrin
-transcriptionDate: 2025-02-20
-lastUpdated: 2025-04-29
----
-This is a letter from Pepperdine alumnus [[Trent Devenney]] to donor [[Blanche Seaver]] dated September 12, 1973. In the letter, Devenney tells Seaver that Pepperdine needs more conservative professors if it is going to achieve her goals.
-
->September 12, 1973
->
->[[Blanche Seaver|Mrs. Frank Seaver]]
->20 Chester Place
->Los Angeles, Calif.
->
->Dear Mrs. Seaver,
->
->I was very happy to see you at the Pro-America luncheon on Wednesday; although, I didn’t have an opportunity to speak with you. I came late and left early because of a trial in which I was engaged.
->
->[[Dick Vetterli]] was a professor of mine at Pepperdine, and I know that there has never been a better man on the faculty of the University than himself. He was enormously popular with students and they were sorry to see him leave Pepperdine.
->
->You and I had an opportunity to talk together several months ago when we met at the Wilshire Country Club, and we spoke of the need for quality, conservative faculty members to be located at Pepperdine. I know that we will ultimately achieve that objective.
->
->I don’t think that there has ever been a more generous and, at the same time, a more right-thinking donor to any college or university in our country. Your purposes and your objectives are not only clear and definite, but they are timely. You have made your gifts during a period in our history when our country needs such gifts and also at a time when our people are beginning to recognize that need.
->
->Your objectives and your purposes will ultimately be achieved in Pepperdine and your investments will prove to be the wisest that have been made in our generation. Many of us will continue to work to see that gifts, such as your own, are not subverted by people who may have deceptive designs. Pepperdine University will, one day soon, become a strong light in the darkness of our country.
->
->With kindest regards, I am
->Sincerely yours,
->\\[signed\\] Trent Devenney
->
->13910 Northwest Passage
->Marina Del Rey, CA 90291
-`,KO=Object.freeze(Object.defineProperty({__proto__:null,default:GO},Symbol.toStringTag,{value:"Module"})),YO=`---
-id: 202504281117
-slug: white-to-file-1974-02-16
-title: White to file, 1974-02-16
-date: 1974-02-16
-year: 1974
-type: memo
-authors:
-  - Howard A. White
-archiveReference: Church Relations Major Items Feb. 1974 file, Box 63, Howard A. White papers
-collectionId: 202504281112
-transcribedBy: Sam Perrin
-transcriptionDate: 2024-10-08
-lastUpdated: 2025-04-28
----
-This is a memo to file, written by Pepperdine executive vice president [[Howard A. White]], dated February 16, 1974. In the memo, White speculates about why president [[William S. Banowsky]] rejected an offer to be president of Lubbock Christian College.
-
-Typos in the original are reproduced with \\[*sic*\\], but some typos (like spacing errors) have been silently corrected.
-
->February 16, 1974
->
->Yesterday after the University Coordinating Council meeting, [[William S. Banowsky|Bill]] talked to [[Jerry Hudson]] and me for about two hours in my office. He said he had had a religious experience that made him wish to devote the rest of his life to doing the work of God and that he was finished with politics.
->
->There was nothing new in his statement that he was quitting politics--he has said that so many times that it is a broken record. The religious experience was a new development. As a result of it, he said he wishes to take Pepperdine away from the narrow, sectarian approach of the Churches of Christ and make the school somewhat like [[Westmont]] or [[Wheaton]], with an interdenominational flavor. Since this will not get [[M. Norvel Young|Dr. Young]]'s approval, he said he (Bill) would accept the offer to become president of [[Lubbock Christian University|Lubbock Christian College]].
->
->Bill said Lubbock is rinky-dink, small, and would pay only $22,500 in salary, whereas he made $98,000 last year at Pepperdine, counting speaking engagements. Nevertheless, he said Lubbock has a chance to "make it" for the future, whereas Pepperdine cannot unless it cuts loose from the Churches of Christ.
->
->I asked Bill if he were willing to take steps that would cause all of us who stay at Pepperdine to be regarded as Benedict Arnolds in the church, and he said he is. I told him I am unwilling to do that, which in effect would be to say to the Churches of Christ that we hold them in contempt and wish to leave them. I told him that this is our heritage, that the church is our mother, and I am unwilling to call her a whore and turn my back on her. (Probably a good many of my associates at Pepperdine would call me narrowly sectarian, for I believe strongly in the [[Restoration Movement|Restoration]] plea. While the Churches of Christ, composed of human beings, are guilty of many faults and of a sectarian spirit, I still believe in the ideal that we profess to follow the Scriptures. If we cannot do that, or should not do that, then to me religion becomes a humanistic enterprise that holds no great interest).
->
->Bill said that [[M. Norvel Young|Norvel]] would really like to have an interdenominational school, but just does not have the nerve. I think he is wrong about Norvel, whose views may be much more liberal than mine, but who in my opinion sincerely wishes to hold on to the church. I feel strongly that [[Helen Mattox Young|Helen]] (Mrs. Young) does.
->
->Tuesday, February 19, is the day Bill says he must give Lubbock an answer. Of course he can move the deadline around any way he wishes. That little school is short of cash and of leadership, and he can probably dictate anything to them that he wishes, so far as timing is concerned.
->
->The biggest problem in his resigning now or later would be the probability of losing the interest and money of [[Blanche Seaver|Mrs. Frank R. Seaver]], who has given Pepperdine so much because of Bill. She has agreed to make her trust to Pepperdine irrevocable as of October of this year, but for tax reasons involving her relative, [[Richard Seaver]], she cannot do it now without his risking the loss of 5 of \\[*sic*\\] millions in inheritance taxes.
->
->In our conversation, Bill said if he stays at Pepperdine, "Then next Wednesday morning I will be president of Pepperdine for the first time." He means he and not Norvel would really have control. I am still convinced that this whole series of events is an effort on Bill's part to seize power, and he now says he has a divine mandate to do so. To talk of chaning \\[*sic*\\] Pepperdine so as to repudiate the church or, failing that, to move to Lubbock Christian, reveals to me a complete lack of basic conviction about either one.
->
->I talked to Norvel on the phone an hour this morning. I think he is standing firm.`,qO=Object.freeze(Object.defineProperty({__proto__:null,default:YO},Symbol.toStringTag,{value:"Module"})),QO=`---
-id: 202504281126
-slug: white-to-file-1977-01-27
-title: White to file, 1977-01-27
-date: 1977-01-27
-year: 1977
-type: memo
-authors:
-  - Howard A. White
-archiveReference: "Jan. 1977" file, Box 63, Howard A. White papers
-collectionId: 202504281112
-transcribedBy: Sam Perrin
-transcriptionDate: 2024-10-08
-lastUpdated: 2025-04-28
----
-This is a memo to file, written by Pepperdine executive vice president [[Howard A. White]], dated January 27, 1977. In the memo, White recounts a plan by [[William S. Banowsky|Bill Banowsky]] and [[M. Norvel Young|Norvel Young]] to alter the membership of the university’s governing Board of Regents.
-
-Typos in the original are reproduced with \\[*sic*\\], but some typos have been silently cleaned up.
-
->January 27, 1977
->
->Several days ago [[M. Norvel Young|Norvel Young]] told me that [[William S. Banowsky|Bill]] is planning to enlarge the [[Board of Regents]] again with more non-church members. The rationale would probably be that we need more men with money to bolster that organization. To date we have not seen that the ones we have already added are giving any more money than formerly, although of course they may give more later.
->
->Bill has had a particularly difficult time with the [[Hydril Co.|Hydril]] stock, in which case Pepperdine’s holdings would have brought a large sum, variously estimated in reports I have heard to be about $70 million. Bill even has had [[Leonard Straus]], of Thrifty Drug Stores, to work with Lehman Brothers in New York toward boying \\[*sic*\\] Pepperdine’s interest in Hydril, but that could lead to [[Richard Seaver|Richard]]’s losing control, which of course he does not wish to do. He has been perturbed enough by Pepperdine’s efforts to sell the stock that his year-end gift in 1976 was only $150,000. Bill attributed this amount that was given instead of the $500,000 or so that usually comes in to Richard’s displeasure about the stock. Bill has, in my opinion, not only been motivated by the wish to get the money, but also by his wish to cultivate Leonard Straus in the hope of getting the Jewish vote if Bill decides later to run for some public office.
->
->So we hold stock that with other stock that we will inherit from [[Blanche Seaver|Mrs. Seaver]] that could ultimately be worth $130,000,000. Until we can get some or all of that money, cash will be tight, but the future of the school is in the long run fairly well assured.
->
->This would be a great opportunity for Bill to preside over a Christian school that would have more assets than any of our schools have ever had, to make it truly Christian but independent and without provincialism or sectarianism. In giving what she has donated, Mrs. Seaver has well understood the [[Pepperdine and the Churches of Christ|church relationship]], although her knowledge of the churches of Christ may be limited. She has long attended [[Inglewood Church of Christ|Inglewood church]] with [[Charles Runnels]], and by no stretch of the imagination could it be fairly stated that Bill’s determination to bring about the ultimate separation or \\[*sic*\\] the institution from its church relationship is based on the desires of Mrs. Seaver or any other large donor. Their money has been given to Pepperdine __with__ its Christian commitment and not with the promise that the commitment would be forsaken. It is only fair to state that Mrs. Seaver has given her money largely out of her admiration for Bill himself. He deserves full credit for all he has raised, but Norvel has also raised a very large part of what Pepperdine has. (The morality of courting Mrs. Seaver and flattering her to get her money is another question. Bill would not give her the time of day without her money as a consideration, just as he pays virtually no attention to Mrs. Pepperdine. Another aspect of the morality of all this is seen in a recent meeting of the Executive Committee of the Board of Regents that I attended. In connection with financing the construction of the [[Caruso School of Law|Law School]], some of the regents were discussing the irrevocable trust of Mr. [[Odell McConnell]], who has pledged about 3 or 4 million dollars. In coarse jokes they speculated on the time of his demise so that we could get the money, and it is noteworthy that they did not even get his surname right--they called him “O’Donnell.”)
->
->[[Jerry Hudson]] was in town last week. We had dinner Thursday night, and I took him to the airport Sunday. He said Bill offered him the post of provost at Pepperdine, but not the presidency. Jerry is not interested in being provost. He said Bill told him he planned to change the rule that the chairman of the Executive Committee of the Board must be a member of the church or that a majority of the members of that committee must be members. Jerry also reported that when he asked Bill who would choose the next president if Bill were to die in a plane crash and that Bill said it would be people such as [[John Vaughn]] and [[Leonard Straus]].
->
->Time was when I fervently hoped that Jerry Hudson would return as president, and for the sake of my personal relations with him, I would rather have him than anybody I can think of who has any chance at getting the job, but I must sadly conclude that unless he has a change of heart, he would do no more for our Christian commitment than Bill is doing, and it may be that we are now in such a state of spiritual deterioration that nobody could do very much to reverse it.
->
->Yesterday afternoon I talked with Norvel about 2 hours at the [[Adamson House|Beach House]]. He asked me to talk with him about a proposal to get Bill to give about $10 million in assets to form a separate corporation of our church constituency to control an institute or other organization separate from [[Seaver College]]. This body would offer religion courses, choose its own faculty, and run its own affairs with credit being given by Seaver College, or in case of advanced degrees, maybe in its own right.
->
->Norvel prefaced all this by saying that Bill intended to move soon to name additional non-church member regents (especially if Mrs. Seaver does not recover from the fall that has hospitalized her). Norvel said that Bill is considering installing dancing by next September. By itself this in my opinion is not one of our most crucial issues, but in the context of other moves we are making, this will be regarded as another signal that Pepperdine disdains its affilation \\[*sic*\\] with church of Christ. Norvel agrees that we are now moving fairly fast in the direction of severing church ties.
->
->I told him I would cooperate in any move that would be a genuine and valid approach to having the Bible taught by faithful teachers, but that I did not wish to be part of a charade or camouflage that would keep the opposition quiet while Bill proceeds with his plans that would ultimately negate any attempt to have the Bible taught. I told Norvel I had the following reservations:
->1. Bill would not agreed \\[*sic*\\] to dedicate the financial resources
->2. Even if he did, the pressure from the rest of Seaver College would eventually lead to denying credit to courses that were conservatively oriented.
->
->Therefore I would rather have no institute or religion center than to have one that pushes the views of such as [[Royce Clark]].
->
->Bill continues to be an enigma. He sends his children to a Baptist school, which indicates he wants to have the advantages of rather conservative religious training. But with no real pushing from the regents, he can hardly wait to end Pepperdine’s connect \\[*sic*\\] with the church. Richard Seaver is ashamed of our “fundamentalism” etc., and I think Bill is too. While he does not use the word on himself, I think Bill’s proper position is that of an agnostic. He told me recently that he regards my metaphysics as rather odd.
->
->While I shall always admire Bill’s ability and always be grateful for the many ways he has shown confidence in me and given me a challenging work to do, I also resent the fact that he has exploited me to help keep the peace while he goes forward with his plans. My resignation would not have stopped him, but could have made it more difficult for him to proceed. I consider it most immoral to break the ties with the church and go contrary to the wishes of our founder, no matter how much money has been piled on top of the original donation of Mr. Pepperdine.`,XO=Object.freeze(Object.defineProperty({__proto__:null,default:QO},Symbol.toStringTag,{value:"Module"})),JO=`---
-id: 202504281112
-slug: howard-a.-white-papers
-title: Howard A. White papers
-description: The files of Pepperdine president Howard A. White
-createdAt: 2013-06-01
----
-The Howard A. White papers is an archival collection containing the files of [[Howard A. White]], the fifth president of Pepperdine University. The collection is held at Pepperdine University Special Collections and University Archives (SCUA). The finding aid for this collection can be found at [OAC](https://oac.cdlib.org/findaid/ark:/13030/c8sb4531).
-
-Howard A. White was president of Pepperdine between 1978 and 1985. Before his presidency he served as dean of various programs, then as executive vice president. The papers cover White’s time at Pepperdine, and they benefit from the historical consciousness White developed as a professor of history.`,ZO=Object.freeze(Object.defineProperty({__proto__:null,default:JO},Symbol.toStringTag,{value:"Module"})),eL=`---
-id: 202504251508
-slug: pepperdine-university-speeches-collection
-title: Pepperdine University Speeches Collection
-description: Transcripts of archival speeches given at Pepperdine University
-createdAt: 2013-01-01
-updatedAt: 2013-07-01
----
-The Pepperdine University Speeches Collection is an archival collection of important speeches delivered at Pepperdine University between 1937 and 2005. The collection is held at Pepperdine University Special Collections and University Archives (SCUA). The finding aid for this collection can be found at [OAC](https://oac.cdlib.org/findaid/ark:/13030/c80r9q1n).`,tL=Object.freeze(Object.defineProperty({__proto__:null,default:eL},Symbol.toStringTag,{value:"Module"})),nL=`---
-id: 202504281148
-slug: seaver-papers
-title: Seaver papers
-description: The files of Blanche and Frank Seaver
-createdAt: 2002
-updatedAt: 2012-07-01
----
-The Seaver papers is an archival collection containing files relating to [[Blanche Seaver|Blanche]] and [[Frank R. Seaver]], donors to Pepperdine University. The collection is held at Pepperdine University Special Collections and University Archives (SCUA). The finding aid for this collection can be found at [OAC](https://oac.cdlib.org/findaid/ark:/13030/c8g44pm3).
-
-The collection contains papers relating to the Seavers’ involvement with Pepperdine, as well as Blanche’s career as a musician and Frank’s career in business, particularly with his [[Hydril Company]].`,rL=Object.freeze(Object.defineProperty({__proto__:null,default:nL},Symbol.toStringTag,{value:"Module"})),iL=`---
-id: 202504281034
-slug: shirley-roper-papers
-title: Shirley Roper papers
-description: The professional files of Pepperdine administrator Shirley Roper
-createdAt: 2014-03-01
----
-The Shirley Roper papers is an archival collection of the files of [[Shirley Roper]], a Pepperdine University administrator. The collection is held at Pepperdine University Special Collections and University Archives (SCUA). The finding aid for this collection can be found at [OAC](https://oac.cdlib.org/findaid/ark:/13030/c8v98h3z).
-
-Shirley Roper held a variety of positions throughout a 49-year career at Pepperdine, including many years serving under presidents [[Howard A. White]], [[David Davenport]], and [[Andrew Benton]]. Following her retirement, her vast and orderly system of files was transferred to the University Archives, where they have been processed and are available to researchers. Her papers provide researchers invaluable insight into the inner workings of the university for many decades. `,sL=Object.freeze(Object.defineProperty({__proto__:null,default:iL},Symbol.toStringTag,{value:"Module"})),oL=`---
-id: 202504281055
-slug: william-s.-banowsky-papers
-title: William S. Banowsky papers
-description: The professional files of Pepperdine president William S. Banowsky
-createdAt: 2012-07-01
----
-The William S. Banowsky papers is an archival collection of the files of [[William S. Banowsky]], the fourth president of Pepperdine University. The collection is held at Pepperdine University Special Collections and University Archives (SCUA). The finding aid for this collection can be found at [OAC](https://oac.cdlib.org/findaid/ark:/13030/c8d50m80).
-
-The collection provides extensive coverage of Banowsky’s time as president, including boxes of correspondence, publicity, minutes of the Board of Regents, etc. The papers also cover Banowsky’s career after Pepperdine, including his time as president of the University of Oklahoma.`,aL=Object.freeze(Object.defineProperty({__proto__:null,default:oL},Symbol.toStringTag,{value:"Module"})),lL=`---
-id: 202504292040
-slug: young-papers
-title: Young papers
-description: The collected papers of M. Norvel and Helen M. Young
-createdAt: 2012-03
----
-The Young papers is an archival collection of the files of Pepperdine’s third president M. Norvel Young and his wife Helen Mattox Young. The collection is held at Pepperdine University Special Collections and University Archives (SCUA). The finding aid for this collection can be found at [OAC](https://oac.cdlib.org/findaid/ark:/13030/c82z13xh).
-
-The collection provides extensive coverage of the Youngs’ time at Pepperdine as well as their involvement with the Churches of Christ more broadly.`,cL=Object.freeze(Object.defineProperty({__proto__:null,default:lL},Symbol.toStringTag,{value:"Module"})),uL=`---
-id: 202504251450
-slug: dedication-of-seaver-college
-name: Dedication of Seaver College
-startDate: 1975-04-20
----
-The dedication of Seaver College took place on April 20, 1975, in the [[the amphitheater|Fouch Amphitheater]] on the Malibu campus of Pepperdine University. The event named the undergraduate liberal arts college in Malibu "[[Seaver College]]" in honor of [[Frank R. Seaver]], whose widow [[Blanche Seaver]] had donated to support the college’s construction.
-
-## Program
-- The program of the dedication ceremony was overseen by MC [[M. Norvel Young]].
-- Donor [[Fritz Huntsinger]] led the pledge of allegiance.
-- Mrs. Seaver’s minister [[James Fifield]] read scripture.
-- Pepperdine executive vice president [[Howard A. White]] led a prayer.
-- The Pepperdine choir sang “Sweet, Sweet Spirit” and “Just For Today,” the latter of which was a composition by Mrs. Seaver.
-- Former California governor [[Ronald Reagan]] was introduced by Mrs. Seaver’s nephew [[Richard Seaver]], before delivering an [[Reagan's Seaver dedication speech|address]].
-- A second address (this one titled “[[A Spirit of Purpose]]”) was delivered by Pepperdine president [[William S. Banowsky]].
-- Donor [[Blanche Seaver]] spoke to formally offer the college to the university.
-- [[Jerry Hudson]], dean of Seaver College, formally accepted the college on behalf of the university.
-- [[Helen Pepperdine]], the wife of the university’s founder, gave Mrs. Seaver a copy of *[[Faith Is My Fortune]]*, a biography of her late husband [[George Pepperdine]].
-- Also present on the platform were Pepperdine vice chancellor [[Charles Runnels]], Seaver chemistry professor [[Warren Kilday]], U.S. Senator [[George Murphy]] (D.-Calif.), and nuclear physicist [[Edward Teller]].
-
-## Related writings
-- Sam Perrin, “[The second founding](https://gogp.substack.com/p/the-second-founding),” *Ghost of George Pepperdine*, 18 April 2025.
-`,dL=Object.freeze(Object.defineProperty({__proto__:null,default:uL},Symbol.toStringTag,{value:"Module"})),hL=`---
-id: 202504292052
-slug: trent-devenney-affair
-name: Trent Devenney affair
-startDate: 1973-01-20
-endDate: 1976-04-18
-startYear: 1973
-endYear: 1976
----
-The Trent Devenney affair was a series of events at Pepperdine University in the mid-1970s, initiated by disgruntled alumnus Trent Devenney, who sought to remake the university as a solidly conservative institution. What began as a letter-writing campaign evolved into a [[Attorney General investigation|state attorney general investigation]] concerning the university’s executive compensation. No charges were filed, but practices were changed.
-
-## Dramatis personæ
-### Devenney & Co.
-- [[Trent Devenney]], Pepperdine alumnus, attorney, instigator
-- [[Doyle Swain]], (former) Pepperdine employee
-- [[Bill Robertson]], former Pepperdine accountant
-- [[Gordon Del Faro]], small donor and Republican businessman
-- [[Ira Rice]], Church of Christ preacher and editor of *Contending for the Faith*
-- [[Archie Luper]], Ventura restaurateur and Church of Christ member
-### Pepperdiners
-- [[William S. Banowsky]], president
-- [[M. Norvel Young]], chancellor
-- [[University Planning Consultants]]
-### Other
-- [[Evelle Younger]], California attorney general
-- [[Lawrence R. Tapper]], deputy attorney general overseeing the Pepperdine investigation
-- [[Denny Walsh]], reporter for the *Sacramento Bee*
-
-## Sources
-- Sam Perrin, “[Devenney; or, the modern Elpenor](https://gogp.substack.com/p/devenney-or-the-modern-elpenor),” *Ghost of George Pepperdine*, 28 Feb. 2025.
-- W. David Baird, “The Trent Devenney Affair,” *Quest for Distinction*, Pepp. Univ. Press (2016): 337–348.
-### In *The Graphic*
-- Neva Hash, “[[Pepperdine critics exposed]],” *The Graphic*, 1975-03-21: 3.
-- Mark Harvis, “[Pep investigation brings changes](https://pepperdine.quartexcollections.com/Documents/Detail/the-graphic/110839?item=111069),” *The Graphic*, 1976-06-25: 4.
-### Archival sources
-- [[Trent Devenney to Dan McMichael, 1973-04-20]]
-- [[Trent Devenney to Mrs. Seaver, 1973-09-12]]`,fL=Object.freeze(Object.defineProperty({__proto__:null,default:hL},Symbol.toStringTag,{value:"Module"})),pL=`---
-id: 202504281137
-slug: blanche-seaver
-name: Blanche Seaver
-alternateNames:
-  - Blanche Ellen Theodora Ebert
-  - Blanche Ebert Seaver
-  - Blanche E. Seaver
-birthDate: 1891-09-15
-deathDate: 1994-04-09
----
-Blanche Seaver was a philanthropist and a major donor to Pepperdine University, where she funded the construction of Seaver College, which was named in honor of her late husband [[Frank R. Seaver]].
-
-## Timeline
-- She was born the youngest of ten children of Norwegian immigrants to Chicago, on September 15, 1891.
-- She married [[Frank R. Seaver|Frank Roger Seaver]] on September 16, 1916.
-- She was added to Pepperdine’s [[Board of Trustees]] as a Founder Trustee on April 19, 1975.
-- She attended the [[Dedication of Seaver College]] on April 20, 1975.
-- She was baptized by [[William S. Banowsky]] at the [[Inglewood Church of Christ]] on April 30, 1978.
-- She died on April 9, 1994.
-	- Her funeral was officiated by [[William S. Banowsky]] at the [[First Congregational Church of Los Angeles]].`,mL=Object.freeze(Object.defineProperty({__proto__:null,default:pL},Symbol.toStringTag,{value:"Module"})),gL=`---
-id: 202504251428
-slug: howard-a.-white
-name: Howard A. White
-alternateNames:
-  - Howard Ashley White
-  - Howard White
-birthDate: 1913-09-28
-deathDate: 1991-02-01
----
-Howard A. White (1913–1991) was the fifth president of [[Pepperdine University]], serving from 1913 to 1991.
-
-## Timeline
-- He was born on September 28, 1913 in Cloverdale, Alabama.
-- He did his undergraduate work at [[Lipscomb University|David Lipscomb College]].
-- He received his master’s degree and PhD from Tulane University, the latter in 1953.
-	- While in New Orleans, White preached at the Carrolton Avenue Church of Christ between 1941 and 1953.
-- He taught in the history department at Lipscomb from 1953.
-- He followed [[M. Norvel Young]] to Pepperdine College in 1958, serving as chair of the social sciences division.
-- From 1958 to 1967, he served as director (and later dean) of the graduate program at Pepperdine.
-- From 1967, he served as dean of the undergraduate program at Pepperdine.
-- He served as executive vice president of Pepperdine from 1970 to 1978.
-- He served as president of Pepperdine from 1978 to 1985.
-- He died on February 1, 1991.
-	- His service was held February 7, 1991 in the [[Stauffer Chapel]], where the eulogy was delivered by [[Jerry Rushford]].
-
-## Personal
-- His full name was Howard Ashley White.
-### Family
-- His wife was [[Maxcine Feltman White]], with whom he had two sons.
-
-## Sources
-- His [[Howard A. White Papers|papers]] are held in Pepperdine University Special Collections.`,yL=Object.freeze(Object.defineProperty({__proto__:null,default:gL},Symbol.toStringTag,{value:"Module"})),vL=`---
-id: 202504281132
-slug: jerry-hudson
-name: Jerry Hudson
-alternateNames:
-  - Jerry E. Hudson
-birthDate: 1938-03-03
-deathDate: 2024-03-09
----
-Jerry Hudson was a professor and academic administrator at Pepperdine University from 1962 to 1975.
-
-## Timeline
-- He was born on March 3, 1938.
-- He married Myra Ann Jared, a fellow student, on June 11, 1957.
-- He earned a bachelor’s degree in history from [[David Lipscomb College]] in 1959, and a PhD in history from Tulane University.
-- He was hired as a history professor at Pepperdine College in 1962.
-- He served as provost for the Malibu campus from 1971 to 1975, and as dean of what would become Seaver College, departing in September 1975 to become president of Hamline University.
-- In 1980, he left Hamline to become president of Williamette University, where he served for 17 years.
-- Hudson died on March 9, 2024.
-`,xL=Object.freeze(Object.defineProperty({__proto__:null,default:vL},Symbol.toStringTag,{value:"Module"})),wL=`---
-id: 202504281214
-slug: m.-norvel-young
-name: M. Norvel Young
-alternateNames:
-  - Matt Norvel Young
-  - Norvel Young
-birthDate: 1915-10-05
-deathDate: 1998-02-17
----
-M. Norvel Young was the third president of Pepperdine University, serving from 1957 through the end of 1970. From 1971 to 1985, he served as chancellor of Pepperdine. He was chair of the [[Board of Trustees]] from 1971 to 1973.
-
-## Timeline
-- He was born October 5, 1915 in Nashville, Tennessee.
-- He received an associate's degree from [[Lipscomb University|David Lipscomb College]] in 1934.
-- He received a bachelor's degree from [[Abilene Christian University|Abilene Christian College]] in 1936.
-- He received a master's degree from [[Vanderbilt]] in 1937.
-- He went on a trip around the world with his cousin [[James O. Baird]] beginning in June 1937.
-- He taught history at George Pepperdine College from 1938 to 1941.
-- He married [[Helen Mattox Young|Helen Mattox]] on August 31, 1939.
-- He received his PhD from [[George Peabody]] in Nashville.
-- He preached at the [[Broadway Church of Christ]] from 1944 to 1957.
-- He was president of Pepperdine College between 1957 and 1970.
-- He was chancellor of Pepperdine from 1971 to 1985, after which he was chancellor emeritus.
-- He died February 17, 1998.
-	- His funeral was held at [[Firestone Fieldhouse]]; the eulogy was delivered by [[Jerry Rushford]].
-
-## Personal
-- His father was Matt Norvel Young, Sr., and his mother was Ruby Morrow.
-- His wife was [[Helen Mattox Young]]. They had three daughters and a son.
-
-## Sources
-- His [[Young papers|collected papers]] are held in Pepperdine University Special Collections.`,bL=Object.freeze(Object.defineProperty({__proto__:null,default:wL},Symbol.toStringTag,{value:"Module"})),kL=`---
-id: 202504291110
-slug: trent-devenney
-name: Trent Devenney
-alternateNames:
-  - Trent C. Devenney
-birthDate: 1941-06-20
-deathDate: 1991-03-26
----
-Trent Devenney was an alumnus of Pepperdine College, graduating in 1964 with a degree in political science. In the 1970s, he instigated what has come to be known as the [[Trent Devenney affair]].
-
-## Timeline
-- He was born on June 20, 1941.
-- He attended Bakersfield Junior College.
-- In 1961, he attended Pepperdine’s third annual Freedom Forum, where he heard a speech by senator Barry Goldwater and decided to transfer to Pepperdine.
-- He was a political columnist for *The Graphic* beginning in the fall of 1961, and president of the California Young Republican College Federation in 1963.
-- He received a BA in political science from Pepperdine in 1964.
-- He received a JD from Hastings College in 1969.
-- He was a deputy in the Los Angeles city attorney’s office in the fall of 1973.
-- He wrote a long report about Pepperdine’s alleged failings in January 1973.
-- He prompted the [[Attorney General investigation]] of Pepperdine in April 1973.
-- He began a letter-writing campaign to Pepperdine donors in the fall of 1973.
-- He moved back to Bakersfield to practice law around 1975.
-- He died on March 26, 1991.`,SL=Object.freeze(Object.defineProperty({__proto__:null,default:kL},Symbol.toStringTag,{value:"Module"})),CL=`---
-id: 202504251413
-slug: william-s.-banowsky
-name: William S. Banowsky
-alternateNames:
-  - William Slater Banowsky
-  - Bill Banowsky
-birthDate: 1936-03-04
-deathDate: 2019-04-28
----
-William S. Banowsky (1936–2019) was the fourth president of [[Pepperdine University]], serving from 1971 to 1978.
-
-## Timeline
-- He was born on March 4, 1936 and raised in Fort Worth, Texas.
-- He earned a BA in history and speech from [[Lipscomb University|David Lipscomb College]].
-- He received a master’s in speech from the University of New Mexico.
-- He worked at George Pepperdine College as an assistant to president [[M. Norvel Young]] between 1959 and 1963.
-- He received a PhD in speech from USC in 1963.
-- He served as minister at the [[Broadway Church of Christ]] in Lubbock, TX from 1963 to 1968.
-	- He had a highly publicized debate against Anson Mount, the editor of *Playboy*, October 8, 1967.
-- He returned to Pepperdine as executive vice president in June 1968.
-	- He had a debate against Bishop James Pike at UCSB on January 3, 1969.
-- He served as president of Pepperdine University from January 1971 to September 1978.
-	- In July 1975, he nearly became an undersecretary at the US Department of the Interior.
-- He became president of the University of Oklahoma, serving from 1978 to 1982.
-	- For six weeks in 1982 he was president of the Los Angeles Chamber of Commerce.
-	- He quickly returned to Oklahoma, where he served as president through 1984.
-- He held other jobs, including some years at Gaylord Broadcasting in the 1980s and at National Medical Enterprises.
-- In 2010, he published his memoir *[[The Malibu Miracle]]* on [[Pepperdine University Press]].
-- He died on April 28, 2019.
-
-## Personal
-- His full name was William Slater Banowsky.
-### Family
-- His father was [[Richard H. Banowsky]].
-- His wife was [[Gay Banowsky]], with whom he had four sons.
-
-## Sources
-- His [[William S. Banowsky papers|collected papers]] are held in Pepperdine University Special Collections.`,TL=Object.freeze(Object.defineProperty({__proto__:null,default:CL},Symbol.toStringTag,{value:"Module"})),PL=`---
-id: 202504251441
-slug: stauffer-chapel
-name: Stauffer Chapel
-city: Malibu
-region: California
-country: United States
----
-Stauffer Chapel is a little white chapel with large stained-glass windows on the [[Malibu campus]] of [[Pepperdine University]], named for donor [[Beverly Stauffer]]. The chapel was designed by architect [[John Sheridan]] and the windows were done by Robert and Bette Donovan.
-
-## Timeline
-- Construction of the chapel was completed in 1973.
-- The chapel was dedicated on November 4, 1973 in a ceremony featuring Mrs. Stauffer and her chaplain, [[Benjamin Hawkes|Msgr. Benjamin Hawkes]].
-- Some panes of stained glass were broken by windstorms in February and December of 1974.
-	- The windows were glazed with a second plate of tougher, clear glass for protection in 1975.
-- The chapel has hosted many weddings over the years, and some funerals, including the funeral of [[Howard A. White]] on February 7, 1991.
+Please report this to https://github.com/markedjs/marked.`,t){const i="<p>An error occurred:</p><pre>"+ln(r.message+"",!0)+"</pre>";return n?Promise.resolve(i):i}if(n)return Promise.reject(r);throw r}}}const ri=new MO;function X(e,t){return ri.parse(e,t)}X.options=X.setOptions=function(e){return ri.setOptions(e),X.defaults=ri.defaults,wS(X.defaults),X};X.getDefaults=Up;X.defaults=hi;X.use=function(...e){return ri.use(...e),X.defaults=ri.defaults,wS(X.defaults),X};X.walkTokens=function(e,t){return ri.walkTokens(e,t)};X.parseInline=ri.parseInline;X.Parser=Lt;X.parser=Lt.parse;X.Renderer=lc;X.TextRenderer=Xp;X.Lexer=Ot;X.lexer=Ot.lex;X.Tokenizer=ac;X.Hooks=mo;X.parse=X;X.options;X.setOptions;X.use;X.walkTokens;X.parseInline;Lt.parse;Ot.lex;const IO=`---\r
+id: 202504281028\r
+slug: a-spirit-of-place\r
+title: A Spirit of Place\r
+date: 1970-05-23\r
+year: 1970\r
+type: speech\r
+authors:\r
+  - William S. Banowsky\r
+archiveReference: Box 1, Pepperdine University Speeches Collection\r
+collectionId: 202504251508\r
+transcribedBy: Sam Perrin\r
+transcriptionDate: 2023-07-15\r
+lastUpdated: 2025-04-28\r
+---\r
+“A Spirit of Place” is a speech delivered by Pepperdine chancellor [[William S. Banowsky]] at the dedication of the Malibu campus on May 23, 1970. The address is among the most highly regarded speeches in the history of Pepperdine; it was subsequently published as a pamphlet. The speech was delivered just weeks after student protests roiled university campuses across the country in response to the US invasion of Cambodia and the shootings at Kent State.\r
+\r
+> # "A SPIRIT OF PLACE"\r
+> Inaugural Address\r
+> of\r
+> Dr. William S. Banowsky\r
+> as\r
+> Founding Chancellor of\r
+> Pepperdine College at Malibu\r
+> \r
+> These remarks, delivered on May 23, 1970, at the dedication ceremonies for the new campus of Pepperdine College at Malibu, are published as a statement of the philosophy of the College.\r
+> \r
+> PUBLISHED BY PERPPERDINE COLLEGE\r
+> JUNE 1970\r
+> \r
+> ## "A SPIRIT OF PLACE"\r
+> Today we dedicate this new campus in the midst of the saddest semester perhaps in the history of American higher education.\r
+> \r
+> In recent days, the issues which rend and tear our nation have focused upon the college campus with terrible force. Six students have died in the violent clash of consciences; campus scenes of tear gas and bayonets are often featured on evening telecasts; scores of colleges have been closed. As polarization accelerates, voices on both sides of the confrontation warn that the worst is yet to come.\r
+> \r
+> Why is our nation seeming to come apart at the seams? Whatever happened to the great American dream? When one surveys the years between 1900 and 1970, the despair arises over the vast difference between where now are and where we were supposed to have been by now. Our century started on such a high note of optimism. Men were saying that just given a little more time and education — and all the problems which plague mankind would be solved. On my shelves, for instance, is a book, published in 1907, which conclusively proves that war is a relic from man's barbaric past that will never again be necessary.\r
+> \r
+> ### The Cult of Progress\r
+> And the magic carpet which was to carry us to this utopia was education. More event than in the promises of religion, twentieth century man placed his confidence in the efficacy of education. And perhaps the high priest of this cult of progress was the brilliant philosopher, John Dewey.\r
+> \r
+> But the glorious American dream seems now to have become a nightmare. Historians may one day express amazement that the optimistic credo of John Dewey was written in the same century with the pessimistic musings of existential philosophers such as Jean Paul Sartre or Albert Camus. Sartre's sad dictum is that, "There is no escape from the human dilemma." Today the boys who will die in Vietnam are the grandsons of men who marched off in 1917 to fight the war to end all wars.\r
+> \r
+> When one considers how much confidence our society had placed in education, one understands why we are now disillusioned with the whole process. Education has not come through on its lofty promises. On one hand, the students complain of the bigness, the irrelevance, the impersonality of the education establishment; on the other hand, the older generation looks on in bewilderment, frequently attributing the problem to permissiveness and compromise by those in authority. But on one thing everybody is agreed: something is wrong in higher education.\r
+> \r
+> ### Why Another College?\r
+> There is, of course, nothing new about problems, and our generation would be naive to imagine that all of our challenges are novel. What causes our particular futility is the realization that after half a century of the most extensive program of mass education in all history, and after building more than 2,300 colleges and universities, we are yet agonizing over the same, ancient human problems.\r
+> \r
+> Why, then, start another college? Why have we chosen to launch this ambitious new project at the very time when some would advise retrenchment?\r
+> \r
+> It is because we do not plan to build just another college. The distinctive institution we envision will minister directly to the central human questions, hence to the basic challenge of our day.\r
+> \r
+> Perhaps we have not chosen this time so much as the time has chosen us. For the contribution we seek to make can best be described in terms of the two basic convictions we hold about liberal arts education. First, that it must be value-centered; and secondly, that it must be person-centered.\r
+> \r
+> ### The Value Vacuum\r
+> Much of the business of education has been conducted in what might best be called a value vacuum. Understandably upset by the past excesses of religious sectarianism, academe has adopted a stance of detached neutrality. Eschewing value judgments as too subjective, professors have often envisioned their task as simply "sticking to the facts."\r
+>\r
+> The result has been a serious confusion in the area of values — the very area that matters most. This confusion has produced a loss of meaning that threatens every aspect of society, particularly by undermining zest among the young, where zest for life should be strongest. America's youth is wondering why doing this is any better than doing that, or why doing either one is better than doing nothing at all. Sadly, suicide is now the second highest cause of death among American college students.\r
+> \r
+> Young people are asking what relevance the facts and dates have to the ultimate issues of life and death. Millions now militantly question the possibility, in the pursuit of knowledge, of any such detached neutrality. One lesson graphically to be learned from the campus turmoil is that education cannot be dispensed like so many goods across the counter.\r
+> \r
+> ### A Rich Tradition\r
+> We are determined to bring together on these hills a community of scholars who hold distinctive spiritual beliefs. Since its founding in 1937, Pepperdine College's deepest convictions have always centered upon spiritual realities. As we create this new campus at Malibu and expand the Pepperdine dream toward University status, we commit ourselves anew to value-centered education. While the waters about us churn with confusion, there has never been a time in which we have been more certain that the course of Christian education was the right course for Pepperdine College.\r
+> \r
+> In taking this position we stand in a rich tradition, stretching back to the very earliest times in America. In 1638, over a century and a half before the founding of this nation, America's first college was established at Cambridge, Massachusetts. Significantly, it was a small, liberal arts, church-related institution. Following [[Harvard]], seven of the eight colleges founded in colonial times were Christian institutions of higher learning. For instance, Kings College, later to become [[Columbia|Columbia University]], placed an advertisement in the New York newspapers in 1754 stating: "The chief thing that is arrived at in this college is to teach young people to know God in Christ Jesus, and . . . to train them in virtuous habits . . . as may render them creditable to their families, ornaments to their country, and useful to the public weal in our generation."\r
+> \r
+> But in time, many church-related colleges began to drift from these founding purposes. This erosion was one reason which motivated [[George Pepperdine|George]] and [[Helen Pepperdine]] to found a Christian college in central Los Angeles. Thirty-five years ago, on a day much like this one, Mr. Pepperdine said in his [[dedicatory address|founder's statement]]: "If we educate a man's mind but do not educate his heart, we make a dangerous man."\r
+> \r
+> ### Advancing the Changeless\r
+> Mr. Pepperdine was a lifelong member of the church of Christ, and we are especially grateful to our fraternal relationship with this religious group. Although we are completely independent and under no church board, these non-denominational congregations form our closest constituency. And unlike the pattern of most church-related colleges, in our era of growth and expansion we intend to strengthen, not loosen, these ties with our own brethren.\r
+> \r
+> But as we unashamedly put Christian values at the heart of the whole educational process, we will resist any sectarian spirit. We will do nothing to stifle full and open academic inquiry nor shall we pose as an institution which knows all truth. What we affirm is that while our vision of truth is always limited, ultimate truth actually exists. We affirm that the universe is undergirded by an objective moral order. We will continue to keep pace with change; but our main purpose, in this place, will be to discover what is not changing. And our central conviction has been, is today, and will be that Jesus Christ is the same yesterday, today and forever.\r
+> \r
+> ### The Person-Centered College\r
+> Secondly, we will bring into life, at this place, a type of education which focuses personal attention upon each student as an individual. The central crisis in our time is a crisis in the quality of life for the individual. Man is steadily being dehumanized, and the process is nowhere more apparent than in our mechanized, impersonalized approach to education. Who doesn't sympathize a bit with the student carrying the protest poster: "I am a human being; please do not fold, spindle or mutilate."\r
+> \r
+> It was Jesus' idea that one person is of greater worth than all the material world combined. In that spirit we shall enroll each student as a sacred trust. There is in our complex age clearly a place for the multiversity, with its research orientation, massive student body, and specialized faculty. But there has perhaps never been a greater need for the small, person-centered college.\r
+> \r
+> Throughout American history, such colleges have produced more than their proportionate share of outstanding leaders in science, politics, business and religion. Surely there is something powerful about an academic atmosphere in which a professor knows the students personally and is personally known by the students; in which he is available to the students, not only as a lecturer, but as a person.\r
+> \r
+> I am frequently asked how colleges like Pepperdine avoid some of the problems now confronting higher education. The secret lies in the faculty, who know and are with the students daily, and who, by giving a high degree of personal attention, let off the pressures before they build to a breaking point. The exciting thing to happen in this place, then, will be the thing which happens to the students. We are by no means fed up with today's students. In fact, we are building this new college in large measure because of our faith in young people.\r
+> \r
+> Our commitment to *values* and *persons* is more than a creedal statement. We know that we will eventually be judged in terms of practice. Thus even in matters such as the design of our buildings and the details of our curriculum, this philosophy has been central. Our curriculum, built along interdisciplinary lines, has been carefully conceived with the unity of knowledge presupposed. The faculty offices will be constructed in such a way that warm, interpersonal counseling can occur. Most importantly, our selection of personnel, both in the past and in the future, will fulfil our commitment to value-centered and person-centered education.\r
+> \r
+> ### The Soul of the College\r
+> And so, what we hope to build is much more than a beautiful campus. it will, as you can sense, be that. But if that is all we shall have accomplished, we shall have failed. What we hope to create here, in these hills, is *a spirit of place*. A place where minds will be opened, where lives will be changed, where lasting relationships will be formed. A college is, after all, something like a human being in that both must have a soul of some kind. My deepest concern, in this hour of dedication, is for the soul of the college.\r
+> \r
+> I would like, in the final analysis, for our work to be judged on the basis of what we have believed, and on how we have put that faith into action.\r
+> \r
+> It is in this spirit that we hallow this ground and accept this challenge. These historic acres along the rim of the Malibu will, from this day, never again be the same. From this day forward let it be known that, in this place, “We look not at the things that are seen, but at the things that are unseen; for the things that are seen are temporal, but the things that are unseen are eternal.”`,DO=Object.freeze(Object.defineProperty({__proto__:null,default:IO},Symbol.toStringTag,{value:"Module"})),OO=`---\r
+id: 202504251501\r
+slug: a-spirit-of-purpose\r
+title: A Spirit of Purpose\r
+date: 1975-04-20\r
+year: 1975\r
+type: speech\r
+authors:\r
+  - William S. Banowsky\r
+archiveReference: Box 1, Pepperdine University Speeches Collection\r
+collectionId: 202504251508\r
+transcribedBy: Sam Perrin\r
+transcriptionDate: 2023-07-15\r
+lastUpdated: 2025-04-26\r
+---\r
+“A Spirit of Purpose” is a speech delivered by Pepperdine president [[William S. Banowsky]] at the [[Dedication of Seaver College]] on April 20, 1975. It is probably best regarded as a sequel to Banowsky’s earlier speech [[A Spirit of Place]].\r
+\r
+> # "A SPIRIT OF PURPOSE"\r
+>\r
+> The Address\r
+> of\r
+> DR. WILLIAM S. BANOWSKY\r
+> President, Pepperdine University\r
+>\r
+> at the Dedication of\r
+> FRANK R. SEAVER COLLEGE\r
+> April 20, 1975\r
+>\r
+> These remarks, delivered on April 20, 1975, at the dedication ceremonies for Frank R. Seaver College, Pepperdine University's new Liberal Arts College at Malibu, are published as a statement of the philosophy of the University.\r
+>PUBLISHED BY PEPPERDINE UNIVERSITY, APRIL, 1975\r
+>\r
+> ## "A SPIRIT OF PURPOSE" \r
+> We are assembled here as participants in the making of history. Forty years ago, [[George Pepperdine|George]] and [[Helen Pepperdine]] established a small college on a 33-acre campus at the edge of Los Angeles. Today, the Pepperdine dream has grown into a multi-campus university enrolling almost 8,000 students in several colleges and professional schools. In coming years, we shall doubtless witness formal dedication of other academic components which, taken together, comprise the University—the [[Caruso School of Law|School of Law]], the [[Graziadio Business School|School of Business and Management]], the Graduate School, the [[School of Education]], perhaps even a School of Theology, of Public Administration, of Behavioral Science. These several parts will be a university, a unified whole under the Pepperdine banner, because each will reflect, in its own best way, the Pepperdine philosophy of Christian Education.\r
+>\r
+> Today, we are convened to dedicate the first such school to be fully established since Pepperdine achieved university status in 1971. This college has already become the cornerstone of the University. The central core of the whole academic enterprise, it is the classic undergraduate college around which the professional and graduate schools of the University will be clustered. From this day forward, it shall be known as the Frank R. Seaver College.\r
+>\r
+> Even as the University enrollment expands into the thousands, Frank R. Seaver College will remain small. Its maximum enrollment will be 1800. The academic integrity and special identity of Seaver College will be fiercely guarded. Its curriculum will be the sciences, arts, and letters. It will feature close personal relationships between faculty and students. The Seaver College faculty are men and women of the highest academic training. They are devoted primarily to the ministry of teaching, since Seaver College is essentially a teaching, as opposed to a research, institution. The students at Seaver College are extremely bright. For instance, the Scholastic Achievement Tests for the founding freshman class here in 1972 were 200 points higher than the usual pattern throughout Pepperdine's entire history. Young people will enroll in Seaver College as full-time students. Along with academic excellence, they will maintain the highest standards of personal conduct. Rather than commuting in and out for classes, most will live on this beautiful campus. Frank R. Seaver College will, above all else, make a deep, indelible impact upon the minds and hearts of its students.\r
+>\r
+> Created by [[William Pereira|William L. Pereira]], the facilities of Seaver College are two-thirds completed. With construction of a fine arts center, an [[Smothers Theatre|auditorium]], an [[Thornton Administrative Center|administration building]], and additional housing for both married and single students as well as for faculty, an ideally designed liberal arts, coeducational, undergraduate, residential campus for 1800 students will be accomplished.\r
+>\r
+> Along with the land required for the Seaver College campus, we have been extremely fortunate in acquiring a total of 650 acres of this magnificent Malibu coastline. Our property stretches from Pacific Coast Highway to the pinnacle of the Santa Monica Mountains and beyond. This enables us to consolidate other University schools in these hills, each with its own identity and autonomy, without any crowding or erosion of the rugged natural beauty. But as Pepperdine University develops at Malibu, the crown jewel in this blending of mountain and ocean and sky, and the academic heart of the entire University, will always be Seaver College.\r
+>\r
+> George Pepperdine, who launched the dream, and [[Frank R. Seaver]], who gave it dramatic acceleration, were contemporaries. They were acquainted during the time Mr. Pepperdine was expanding his [[Western Auto Supply Agency|Western Auto Supply]] Stores and Mr. Seaver was creating his great [[Hydril Co.|Hydril Company]]. Rugged individualists, inventive, long-range thinkers, astute businessmen—they were cut from the same stout cloth. Both were deeply patriotic Americans. They were profoundly Christian. Both believed that the best investment for the future was to provide a value-centered education for young people. Both were devoted husbands who shared their lives and their philanthropy with the two remarkable women who grace our presence today.\r
+>\r
+> Mr. Seaver, son of a pioneering California family, graduated in 1905 from [[Pomona College]], an institution of similar type to this one which now bears his name along the Malibu. His alma mater was one of the formative forces of his life. What Pomona College did for Frank Seaver is what Seaver College hopes to accomplish in the lives of young people across the decades to come. Augmenting his strong family training, Pomona College taught him integrity, discipline, self-responsibility, hard work, thrift. He left college with a sense of purpose in life and great faith in God. For Frank Seaver, the most important college experience was the regular Chapel service. When Frank Seaver succeeded in business, in an act of profound obligation, he gave back to his alma mater the monumental Seaver Science Center. By the time of his passing in 1964, Mr. Seaver had helped many institutions, including a small college called Pepperdine, whom he included among the beneficiaries of his last will and testament.\r
+>\r
+> The surest evidence of Frank Seaver's remarkable good judgment was exhibited on September 16, 1916, when, in the North Shore Church in Chicago, he was married to [[Blanche Seaver|Blanche Ellen Theodora Ebert]]. The tenth child of a loving couple who had immigrated from Bergen, Norway, Blanche was the perfect partner for Frank Seaver. She gave up her promising musical career to make her life one with his. Together, they have perhaps contributed as generously to the cause of independent education as any family in the history of California. In addition to many gifts at Pomona, we believe Mrs. Seaver is the most generous donor in the history of the [[USC|University of Southern California]]. There are Seaver buildings at [[Loyola Marymount University|Loyola University]], Rockford College, Freedom's Foundation at Valley Forge, the Harvard School, the Pilgrim School, along with support to Don Bosco Technical Institute and Claremont Men's College.\r
+>\r
+> Some lives can best be characterized by biographical details, but Blanche Seaver's is not one of those. The biography is, of course, impressive: composer of more than two dozen original musical compositions, including the internationally loved prayer, "[[Just for Today]]"; *Los Angeles Times* Woman of the Year; member of ten Boards of Trustees, including Pomona College, the University of Southern California, the Hollywood Bowl, the Music Center, the Los Angeles Philharmonic and Children's Hospital; and holder of six honorary doctor's degrees.\r
+>\r
+> But knowing these facts about an important public figure is not the same as knowing Blanche. One of the private stories I now is that long ago, as a little girl, Blanche was allowed to assist in her father's paint and supply store. What she relished most was tailor cutting the pieces of glass which were ordered by her father's customers. What she is proudest of is that she never broke even one piece of glass. She was so dependable that she got to use her father's diamond-point glass cutter. "Bill," she recently said to me, "please don't let them call me a philanthropist! I hate that word. I don't feel the least bit like a philanthropist. I just feel like a little glass cutter." It is Blanche Seaver's essential purity of heart, not these external credentials, which makes her character worthy of emulation. She embodies qualities of spirit and mind to which we hope young people in this college will always be pointed. Given the circumstances of wealth and ceremony which have surrounded her life, it is a tribute to her that she has remained such a natural, unaffected person.\r
+> \r
+> Mrs. Seaver has a tremendous capacity for love, a great appreciation of beauty. She is capable of dignity and decency which are the finest tradition of Western civilization. She is a tireless worker with a voracious zest for life, and she is a person of transparent sincerity. As we all know, Blanche is not a shrinking violet who leaves us in doubt about her convictions. What is most important, she has the courage of her convictions. She not only stands up and speaks out when it is popular to do so, but is just as militant when she is a minority of one. Long ago she adopted for her life the stirring motto of Father James Keller: "What *one* person can do!"\r
+> \r
+> [[Ronald Reagan|Governor Reagan]], our distinguished speaker today, will forgive me if I share with a story known only to him and Blanche and me. On a Sunday afternoon in the winter of 1972, I took Blanche to the Governor's Pacific Palisades residence to get his help. For reason of conscience, Blanche had chosen for the first time in her life to bolt the political party she and Mr. Seaver had encouraged for decades. Although most of her life-long friends were doing so, she was absolutely refusing to serve as an honorary delegate to the National Convention. My only concern was that it could eventually prove awkward to her to isolate herself in this way, but I had failed to make any headway whatsoever. Accordingly, I sought reinforcement from Governor Reagan. I can only say that after two hours of very persuasive arguments, Blanche replied to the Governor: "Ron, I know I may be the only one who feels this way, but I must live with my conscience." When the slate of honorary delegates, including most of the distinguished Republican leaders in California was drawn, Blanche Seaver's name was conspicuous by its absence. In retrospect, her conscientious stand seems not an embarrassment, but a compliment. And she had stood up against a couple of pretty persuasive guys that she liked a lot.\r
+> \r
+> I should add a special word about her capacity for loyalty. So fierce is her loyalty that [[Richard Seaver]] once observed wryly, "Aunt Blanche's enemies have no virtues, but her friends have no vices." Her great patriotism is really a product of her deep loyalty. So is her continuing devotion to Frank Seaver. He died in October, 1964. For more than a decade, Mrs. Seaver has executed her work in his name and every Sunday afternoon, week after week and year after year, she has visited his grave at Forest Lawn.\r
+> \r
+> Underlying all of these qualities is a fundamental spirituality. Leaders of religion—Dr. [[James Fifield|James W. Fifield]], [[Rabbi Magnin]], [[James Francis McIntyre|Cardinal McIntyre]]—are the most intimate friends at the center of her life. An incredibly non-materialistic philosophy of life has been the basis for her generosity. She knows that life does not consist in the abundance of possessions. She not only has neither a cottage in Carmel nor a home in Palm Springs, but she and Mr. Seaver have never even owned their family residence. She still rents the mellow old house at [[20 Chester Place]]. She wears no jewelry, neglects her wardrobe, appears for the annual banquets year after year in the same familiar gowns.\r
+> \r
+> Her joy is not in getting but in giving, and I have never met a person who gets more joy out of giving. Not just big buildings, but a bouquet of roses for a wedding anniversary, a candygram at Christmastime, Vitamin C tablets to her friends with the sniffles, a bottle of wheat germ for those who look anemic—always, the simple contagious joy of giving and giving and giving again.\r
+>\r
+> It has taken great faith and boldness to give away these many millions. We can name others who have been as materially blessed, but most people are more materialistic than Blanche. They lack the courage to give away those material things which define their very security. It is enormously inspiring to me that Blanche Seaver has never defined her security in material terms, and, for that reason, she is profoundly secure.\r
+> \r
+> Mrs. Seaver clearly knows the difference between this brick and mortar and the soul of the college. Five years ago, on May 23, 1970, as we broke the first ground for Seaver College, we pledged "to bring together on these hills a community of scholars who hold distinctive spiritual beliefs." Our purpose in this College is primarily spiritual. Mr. Pepperdine was a lifelong member of the Church of Christ, and our continuing relationship with this religious group creates the core of our spiritual stance. Hence, unlike the pattern of most church-related institutions, in this era of expansion we seek to strengthen even further the ties with our own brethren.\r
+> \r
+> As we keep Christian values at the heart of the whole educational process, we will resist any sectarian spirit. We shall encourage full and open academic inquiry. We shall not pose as an institution which knows all truth. What we affirm is that while our vision of truth is limited, ultimate truth actually exists. We affirm that the universe is undergirded by an objective moral order. We will continue to keep pace with change; but our main purpose, in this place, will be to discover what is not changing. And our central conviction will be that Jesus Christ is the same yesterday, today and forever.\r
+> \r
+> What we do here today, then, is of permanent importance. Perhaps no other institution of human creation is of such enduring quality as an institution of higher learning. Even nations and civilizations rise and fall while universities and colleges survive. Among the oldest continuing human creations are the great universities at Paris, Oxford and Cambridge which stretch back across the centuries to the 1100s. [[Harvard|Harvard University]] was established in 1636, 140 years before the founding of the United States of America. During World War II when most of Germany was leveled by allied artillery, not one bomb was dropped on the beautiful city of Heidelberg because of its university. We believe that Seaver College of Pepperdine University will serve young people for centuries to come.\r
+> \r
+> In 1938, George Pepperdine chose as the [[Pepperdine motto|motto of this university]] a verse of scripture: "Freely ye received, freely give." (Matthew 10:8). No person has more powerfully lived that truth than Blanche Ellen Theodora Ebert Seaver. Her middle name, Theodora, is my favorite. Of Greek derivation, it means, "the gift of God." I believe it is by the providence of God that Mrs. Seaver was brought into our lives.\r
+> \r
+> Therefore, on this 20th day of April, 1975: By authority of the Board of Trustees of Pepperdine University, I do hereby proclaim this the [[Seaver College|Frank R. Seaver College]], dedicating it for all time to come to the glory of God and the service of mankind.`,LO=Object.freeze(Object.defineProperty({__proto__:null,default:OO},Symbol.toStringTag,{value:"Module"})),FO=`---\r
+id: 202504281033\r
+slug: pepperdine-university's-relationship-to-churches-of-christ\r
+title: Pepperdine University's Relationship to Churches of Christ\r
+year: 1978\r
+type: essay\r
+archiveReference: Box 3, Shirley Roper papers\r
+collectionId: 202504281034\r
+transcribedBy: Sam Perrin\r
+transcriptionDate: 2024-11-01\r
+---\r
+“Pepperdine University’s Relationship to Churches of Christ” is an essay summarizing the nature of Pepperdine’s relationship with the Churches of Christ. It is unsigned and undated, but I suspect it was written by president [[William S. Banowsky]]. References in the text allow us to assign it a date between July 1977 and April 1978.\r
+\r
+>PEPPERDINE UNIVERSITY’S RELATIONSHIP TO CHURCHES OF CHRIST\r
+>Since its founding in 1937, Pepperdine University has maintained an [[Pepperdine and the Churches of Christ|affiliation with the Churches of Christ]]. This religious body has no structure or hierarchy beyond that of each individual congregation. Each congregation is a separate self-governing entity which elects its own leaders who are not responsible to any higher authority within the Churches of Christ. Further, there are no meetings, conferences, or other gatherings or representatives of Churches of Christ for the purpose of passing resolutions, writing creeds or statements of belief, or in any other manner working to express the views of the Churches of Christ so as to be binding on others. There are no such meetings in any local community, any state, or any nation. Each congregation is independent.\r
+>\r
+>The above facts notwithstanding, Churches of Christ maintain a vigorous and active fellowship in the United States and around the world. A wide range of educational and social services are provided, such as schools, colleges and universities, orphanages, homes for unwed mothers, and homes for the aged. If the maintenance of any of these services requires an organization other than a local congregation, the institution is established under its own board of directors. Various individuals and congregations may then contribute as they see fit, but there is no denominational machinery to compel such contributions.\r
+>\r
+>Among the institutions of higher education maintained by members of Churches of Christ are the following:\r
+>\r
+>  [[Abilene Christian University]], Abilene, Texas\r
+>  [[Lipscomb University|David Lipscomb College]], Nashville, Tennessee\r
+>  [[Freed-Hardeman|Freed–Hardeman College]], Henderson, Tennessee\r
+>  [[Harding University|Harding College]], Searcy, Arkansas\r
+>  [[Faulkner University|Alabama Christian College]], Montgomery, Alabama\r
+>  [[Northeastern Christian College]], Villanova, Pennsylvania\r
+>  [[York College]], York, Nebraska\r
+>  [[Rochester University|Michigan Christian College]], Rochester, Michigan\r
+>  [[Columbia Christian College]], Portland, Oregon\r
+>  [[Oklahoma Christian University|Oklahoma Christian College]], Oklahoma City, Oklahoma\r
+>  \r
+>Each of these institutions is organized along lines very similar to Pepperdine University in that each operates under its own board of directors. in the same way that the individual congregations maintain fellowship with each other, they maintain relations with these schools, as the schools do with each other. The important principle is that the association is entirely voluntary and that there is no general corporate structure that can claim at any one time to speak for everybody else. The independence of each congregation and of each school, orphanage, or whatever, is a cardinal religious tenet of the Churches of Christ. The doctrinal basis for this is that authority belongs only to God and not to organizations of people.\r
+>\r
+>It is highly significant that Churches of Christ do not themselves maintain theological seminaries, and therefore colleges such as those named above have traditionally filled a leading role in training missionaries, ministers, and other church workers. Approximately 1,400 missionaries from Churches of Christ are serving around the world with the support of local congregations in the United States. The majority of these received their training in one or the other of such schools as those listed above. Most of the ministers who are serving the numerous Churches of Christ around the nation also received their training in such schools.\r
+>\r
+>Without attempting to be exhaustive or definitive, following are some of the indications of the relationship that Pepperdine University has with Churches of Christ:\r
+>1. The [[Articles of Incorporation]] of the University require that “at least sixty percent (60%) of the actual number of members serving shall be members of the Church of Christ.” (Article VI.) The Articles further specify that upon the liquidation or winding-up of the corporation of Pepperdine University, its assets shall be distributed either to nonprofit educational and religious purposes as specified by the Board, or in default of such determination, “to the Churches of Christ.” (Article VIII.)\r
+>2. The [[Bylaws]] of the University require: “A majority of the members of the Executive Committee shall be members of the Church of Christ.” (p. 4.)\r
+>3. In keeping with the Articles of Incorporation, The Bylaws state: “In view of those distinctive characteristics of the University which are attributable to the relationship it enjoys with Churches of Christ, at least sixty percent (60%) of the actual number of Regents serving shall be members of the Church of Christ.”  (p. 5.) At the present time, there are forty Regents, of whom twenty-four are members of the Church of Christ.\r
+>4. The Bylaws provide for a standing committee, known as the [[Religious Standards Committee]], to which is delegated full and exclusive authority to regulate spiritual and religious programs such as chapel assembly, religion courses, faculty and staff selection, standards for campus life and conduct, special convocations and lectureships “to insure a continuing and meaningful relationship with the Churches of Christ,” and to select the person to fill any vacancy in the Office of President. (p. 12.)\r
+>5. The Bylaws provide that “the Chairman of the Board of Regents shall be a member of the Church of Christ.” (p. 21.)\r
+>6. Numerous bulletins, brochures, and catalogs published by the University assert either its church relationship or its Christian mission and emphasis. It is characteristic both of Churches of Christ and of Pepperdine University to affirm a nonsectarian approach to Christianity and to assert independence of ecclesiastical control.\r
+>7. The legal notices inserted in our catalogs indicate the seriousness of our concerns about religion in such statements as the following: “Pepperdine University does not discriminate on the basis of sex except where necessitated by specific religious tenets held by the affiliated religious body.”\r
+>8. The student handbook for Seaver College, which is the liberal arts college of the University and which is, therefore, responsible for training the younger students of the University, lists various activities that are distinctive of a church-related institution. Among these is the Wednesday convocation, required of every student. This convocation, commonly known as chapel, “is a visible unifying experience for affirming the University’s founding base of faith through corporate worship and programs stimulating spiritual development.” The requirement to attend chapel is a long-standing traditional part of church-related institutions in the United States. The student handbook further states that “worship programs each Sunday and during the week are sponsored on or near the campus by members of the Churches of Christ, whose plea is for nondenominational New Testament Christianity.” Campus rules regarding conduct and discipline are those one would expect to find in a church-related institution, with reference to such matters as gambling, drinking, smoking, personal appearance, prohibition of dancing on campus, and avoidance of coeducational housing.\r
+>9. All but one of the seven executive officers of the University are members of the Church of Christ. Church members include the following:\r
+>	Dr. [[William S. Banowsky]], President\r
+>	Dr. [[Howard A. White]], Executive Vice President\r
+>	Mr. [[Warren Dillard|Warren M. Dillard]], Senior Vice President--Finance\r
+>	Dr. [[John Nicks|John D. Nicks]], Jr., Vice President for Academic Affairs\r
+>	Dr. [[Bob Thomas|Robert H. Thomas]], Vice President for Administrative Affairs\r
+>	Dr. [[James Wilburn|James R. Wilburn]], Vice President for University Affairs\r
+>  Of twenty-one additional general administrative officers of the University, all but two are members of the Church of Christ. The faculty of Seaver College, where the University expects to have its greatest impact in fulfilling its religious commitment, has a total of seventy-three members, forty-three of whom are members of the Church of Christ, for a percentage of 58.9 percent. The University total of 226 faculty members numbers seventy-eight members of the Church of Christ, which is 34.5 percent of the total.\r
+>10. The Pepperdine University policy of nondiscrimination and program of affirmative action contains the following statement: “The free exercise of religion guaranteed by the Constitution of the United States includes the right to establish and maintain religious educational institutions. Pepperdine University is chartered as a Christian institution, its founder having provided that the school maintain a special relationship with the Churches of Christ. Federal guidelines clearly recognize the right of a church-related institution to seek personnel who will support the goals of the institution, including the right to give preference in hiring and promotion of faculty and staff to members of the church to which the institution is related (Section VI-1.5 of Federal Executive Order 11246 of the Civil Rights Act of 1964). Therefore, the University will continue to give such preference to members of the Churches of Christ and also to others whose lives exhibit respect for and support of the goals of Christian education. Except for these special concerns, it is the established policy of Pepperdine University to select the most qualified persons available for University positions without regard to race, color, religious creed, national origin, ancestry, physical handicap, age, sex, or prior military service.”\r
+>11. The official statement for a bond issue authorized by the California Educational Facilities Authority of July 29, 1977, contains the following statement: “Since its inception, the University has maintained a continuing affiliation with the Churches of Christ. This Protestant body is comprised of a loosely related group of independent congregations and does not have either a centralized hierarchy or an official statement of doctrinal principles. Notwithstanding the University’s affiliation with the Churches of Christ, persons of all religious persuasion are welcome at the University as members of the student body and faculty.”\r
+>12. With the possible exception of the visit of Gerald R. Ford in September, 1975, the largest gathering of any kind in the history of Pepperdine University has been in connection with the annual [[Pepperdine Bible Lectures|Bible Lectureships]] that are planned explicitly for the Churches of Christ, and whose speakers are almost altogether ministers of the Churches of Christ. The largest gathering of the members of the Churches of Christ west of the Rocky Mountains are these lectureships that are held annually by Pepperdine University. The Lectureship for 1978 will begin on April 16, when it is expected that more than 5,000 members of the Churches of Christ will gather in the Firestone Fieldhouse to hear Dr. [[Ira North]], prominent minister from Nashville, Tennessee and former member of the Pepperdine University Board of Regents.\r
+>13. The University maintains a department of Church Relations headed by Dr. [[Carl Mitchell]], who is also the Chairman of the [[Religion and philosophy division|Religion Division]]. Quite a number of activities are held under his direction each year, including a Thanksgiving Youth Christian fellowship, a workshop for preachers and elders, and sessions for religious counselors. Also included under Dr. Mitchell’s direction is the annual tour of the Pepperdine University A Cappella Chorus, which during the current year will visit a number of Churches of Christ in our region. (A copy of the itinerary is attached.)\r
+>14. The Associated Women of Pepperdine is the support group composed of women who are members of the Churches of Christ in various parts of California. For many years this group has functioned as an auxiliary for service in the University and has contributed a total of well over a million dollars to the University. This group maintains a scholarship fund which is restricted to members of the Churches of Christ, and the amount of scholarships given to students during the current year is approximately $45,000.\r
+>15. The University is very concerned about its relationship with Churches of Christ. During the current academic year, President William S. Banowsky has made numerous preaching and visiting trips to various churches to discuss the work of the University and to encourage attendance at the spring Bible Lectureship.\r
+>16. A leading advisory group for the University is the [[Chancellor’s Council]], composed entirely of members of Churches of Christ and most of whose members are ministers. This Council meets on a regular basis with the Chancellor to discuss ways and means of promoting effective relationships between the University and the Church.\r
+>17. To a very high degree, Pepperdine University meets the standard of church-relatedness published in a study headed by Merrimon Cuninggim, President of Salem College, which study was sponsored by the National Council of Churches, with assistance from the Ford Foundation. (A copy is attached.)`,BO=Object.freeze(Object.defineProperty({__proto__:null,default:FO},Symbol.toStringTag,{value:"Module"})),$O=`---\r
+id: 202504281146\r
+slug: ronald-reagan-speech-delivered-at-seaver-dedication\r
+title: Ronald Reagan speech delivered at Seaver Dedication\r
+date: 1975-04-20\r
+year: 1975\r
+type: speech\r
+authors:\r
+  - Ronald Reagan\r
+archiveReference: Box 2, Seaver papers\r
+collectionId: 202504281148\r
+transcribedBy: Sam Perrin\r
+transcriptionDate: 2025-04-02\r
+lastUpdated: 2025-04-28\r
+---\r
+This is the text of a speech delivered by former California governor [[Ronald Reagan]], at the [[Dedication of Seaver College]] on April 20, 1975.\r
+\r
+>Text of Ronald Reagan speech delivered at Seaver Dedication, April 20, 1975.\r
+>\r
+>[[Blanche Seaver|Mrs. Seaver]], [[M. Norvel Young|Dr. Young]], [[William S. Banowsky|Dr. Banowsky]], members of the Administration, the faculty, the [[Board of Regents|Board]], Friends of Pepperdine and students who might be here: After listening to all of those credits in that introduction, I’m not quite sure just what role I’m playing here today. I have no placards with me; I will not ask you to get up and march. On hearing that I was reminded of a very great team that was in the American theatre for many, many years. They would not only play on Broadway in the great theatres there, but tour the country on many occasions. At one point, experienced as they were, there was a blow-up in lines. They couldn’t remember and the prompter in the wings whispered the line. They edged their way, ad-libbing, over closer because they couldn’t hear. They got closer and they still couldn’t hear. Finally he said the line so loud that even the audience could hear it and with that the star turned and said, “We know the line, which one of us says it?”\r
+>\r
+>As you know, it is a pleasure to be here in this most beautiful setting and when I think of students here, laboring and toiling to get an education in this particular setting, if Dr. Banowsky will forgive me, I am reminded of a visit I made some years ago to an industrial plant in the middlewest \\[*sic*\\]. It was of a newer type that had bee made similar to a campus, surrounded by beauty, with a beautiful grove of trees. Walking across this campus-like place, I said to the manager of the plant, how many work here? And he said “Roughly half.”\r
+>\r
+>Now, you all have been reminded of my interest in higher education a number of times in the last eight years. Sometimes I wish you hadn’t been, but seriously, I am interested in education, particularly in the preservation of our traditional, independent school and college type of education. I think it is our greatest guarantee of academic freedom. And I have seen nothing in these last eight years that didn’t strengthen my convictions that we must preserve it at all costs. I think the small intimate campus, if it disappears, some day we may find that while I have great respect for the great public educational institutions in our country and know the necessity for them, but without this particular type of school, we may find ourselves some day reduced to giant behemoth campuses that are literally assembly-line diploma mills.\r
+>\r
+>I have been interested to note in the last several weeks that some members of the University of California are beginning to refer to me as the spendthrift governor. But I am honored and delighted to be here and particularly on this occasion. In a world that seems to be in so much turmoil when old and valued traditions are being challenged that haven’t been challenged since the cynics of ancient Rome raised their scornful voices, there is a special joy in seeing a new college come into being: a place where the values that have been tested by time will be passed along to generations yet unborn. What is being dedicated today was made possible in large measure by the genius, the work, the thrift, and the unselfishness of a man who used to call himself just a plain old duffer who kept his nose to the grindstone. Some duffer!! [[Frank R. Seaver]] left his mark, and a good mark it was on American Industry, on aviation, on Los Angeles County, on California, and on the future. And he had a partner. A life-long partner in his work, his life and his love. And that partner is with us here today -- [[Blanche Seaver]]. Because of her and her willingness to carry on the great humanitarianism which characterized their partnership, we dedicate this college today. It is the latest in a dozen of \\[*sic*\\] so educational institutions, science centers and buildings on California campuses. All have been brought about and contributed by this partnership, so devoted to service. Now, if Frank were here, he’d be embarrased \\[*sic*\\] by now. He was modest, unassuming, a gentleman who shunned the spotlight. His interest was not in collecting accolades but in making it possible for others to grow and expand and thus extend the cycle of benefits of this American dream. The Seaver gifts were given with no strings attached. Once Frank and Blanche determined that a project merited their support, they also determined that it was of sufficient integrity to seek its own course. One of the very few times when Blanche did make a request involving a gift, it had to do with another building at another university. She was convinced that the architects had made the doors -- well, they weren’t expensive enough. She said “The doors should be open. They should be wide and free so that people could enter in.” And so, the door was redesigned.\r
+>\r
+>Frank was pretty much of a self-taught attorney. He was admitted to the bar before he went to the [[Harvard]] Law School -- which doesn’t cause me any unhappiness at all. He was an inventor, even though he was never an engineer. He was a generous and compassionate employer and he was a smart business man \\[*sic*\\]. Twenty years ago, back in the late ‘40s, when very few autos were equipped with air conditioning, Frank had it installed in the cars driven by his [[Hydril Co.]] salesmen. And when in the dead of summer they were up around Bakersfield and Taft and those other places and they would drop by they would find plenty of oil workers waiting for that air conditioned car to climb in and of course a little business was done at the same time.\r
+>\r
+>He had another love which he shared with Blanche. It was a love for government by free men. He was on the first board of free-voters of Los Angeles County, and back in 1912 he played an important role in writing this County’s first charter. And a significant 46 years later when they got around to re-writing the County Charter to bring it up to date in 1958, he was appointed as a member of the revision committee. After 8 months of study the commission decided that it could not improve on the original charter and adjourned with the recommendation that the citizens leave it the way it is. I think it is no exaggeration to say that some of the wisdom, some of the thinking of the founding fathers who wrote the Declaration of Independence was manifest in his own wisdom and the works of Frank R. Seaver.\r
+>\r
+>The other part of the Seaver equation, this gentle woman who is with us here today, the youngest of ten children, has received so many honors in her lifetime that together with her husband, has given so much to so many young men and women the opportunity in particular that she never had -- to get a college education. She serves on the Boards of Trustees of colleges and universities, she is the recipient of the Jane Addams metal for distinguished service twice, she is a member of boards of countless hospitals and orphanages and nurseries -- all bench marks in a lifetime of service. One of her accomplishments, one of many in her multi-faceted life, on which might come as a surprise to some of you if you hadn’t read the program very carefully, is that all told she has had some 20 songs published. And one of them will be sung for us here today. It was first recorded years ago by [[John McCormack|John McCormick]]. It is entitled “[[Just for Today]].” “Lord, for tomorrow and its needs I do not pray, Let me both diligently work and pray, Let me be kind in word and deed, Just for today. Keep me, guide and love me Lord, Just for today.” And so from this, these lives of diligence and love and prayer has come this liberal arts college. How will it serve? Not just as a university in this golden state. How will it serve mankind? A university is not simply a vending machine which dispenses pre-packaged knowledge. It must also be a repository and distribution center for a certain kind of wisdom. We stand in awe as man encapsulates some of his species and sends them speeding through space to land on the moon. We are amazed as man probes the inner universe and discovers molecular structures which are indespensible \\[*sic*\\] in understanding the physical life process. The computer science has promised whole new worlds of processing and transmitting information. The potential good for all mankind is enormous. But such developments can be thwarted, neutralized, and even turned against us if we don’t match them with significant and perhaps even greater social advances. The scriptures warn that though we have this power to move mountains and have the knowledge to understand all mysteries, without love we have nothing. We wait with more than idle curiosity to learn some day if there’s intelligent life on some other planet. And at times we wonder if there is intelligent life on earth. You know, it was never a part of the American dream that we evolve into a robot society run by computers, centralized thought and values and action. It was not what the Boston tea party was all about or Valley Forge or Appomattox. And we’d better match our technological advances with social understanding of the dynamics of free men, so that the machines and the energies and the data banks bring not only material well being, but more important a greater personal freedom, more versatility, unfettered skills, incentive and creativity in living. Perhaps I’m presumptive but also I exhort those who teach and those who learn, who research and apply, to couple their work with reason and conscience and heart. It will be at such seats of learning as this that the balance between the solid state of matter and the inner state of man would be redressed. It is most appropriate that Blanche and Frank Seaver have contributed furthering research in great science centers which they have provided, enriching the technological side of our society. It is equally appropriate today that in her partner’s name Blanche Seaver has made it possible for this institution to be devoted to the humanities. There is a belief that we’re creatures of the spirit born with a God-given right to be recognized, not as faceless ciphers but as individuals with dignity and freedom to choose. Many voices today are raised challenging such beliefs. With great inconsistency they march under a banner of so called liberalism while they strive ceaselessly for social reforms that are totally materialistic with no thought of what they might be doing, if they succeed, to the spirit of man. Lacking faith in the people they would substitute rule and regulation for the free rhythm of the marketplace and they do so in the sincere belief that they are benefitting mankind. But if they had their way, we will one day live in a society where everything that isn’t compulsary \\[*sic*\\] is prohibited.\r
+>\r
+>[[John Kenneth Galbraith|John Kenneth Galbreath]], who in my opinion is living proof that economics is an inexact science, has authored a new book, entitled “Economics and the Public Purpose”. He asserts that the market arrangements of our economic system have given us inadequate housing, terrible mass-transit, poor health care and a host of other miseries, all of which have to do with the material side of man. And then finally, he comes out for the first time to my knowledge from behind the white shield of liberalism and tells us that only socialism can solve the problems that beset us. He deals in fairy tales. Why is it so impossible for some to abandon theory, and hold up instead for a practical comparison, the two great examples that we have in the world today of two different ways of life. There is another nation greater in territory than our own, rich in natural resources, populated with some 250 million capable people. They have had more than a half a century to fully implement and put into practice socialism. And we could be just like them. But it would take a little doing on our part. We’d have to cut our paychecks by 80 percent, and move 33 million workers back to the farm, destroy 59 million television sets, tear up 14 out of 15 miles of highway, junk 19 out of 20 automobiles, tear up two-thirds of our railroad track, rip out nine tenths of our telephones, tear down 15 percent of our houses and then all we’d have to do is find a capitalist country willing to sell us wheat on credit so we wouldn’t starve.\r
+>\r
+>By contrast, look what has been done in a single lifetime here in this blessed land. My own lifetime. I’ve already lived, thanks to the research and the development, most of it privately subsidized in health, I’ve lived ten years longer than my life expectancy when I was born. A source of annoyance to a number of people. When I was born, 90 percent of the people lived below what we call the poverty line and two-thirds lived in substandard housing. Today, both figures are less than10 percent. 95 percent of all the people in our land have the minimum daily intake of nutrients essential to maintain health, 99 percent of our homes have gas or electric appliances, 96 percent have television sets, and we own 120 million automobiles and trucks, all of which will be down on the Coast Highway when you leave here today. But that’s on the material side. on another side, we have had time to become truly the most generous people on earth. We’ve shared our wealth more widely than any society heretofore known to man. We have more churches and libraries, we support with voluntary contributions more institutions like this, more symphonies, more operas, more non-profit theatres, and publish more books than all the rest of the world put together. One third of the young people in the world getting a college education are getting it in the United States, and we have more doctors and hospitals in proportion to population than any other nation.\r
+>\r
+>Back many, many years ago before this nation came into being, on the deck of the tiny Arabella off the wind-swept coast of Massachusetts, John Winthrop gathered the little band of Pilgrims there on the deck of the ship and he told them before they landed what it would be like. He said “We shall be as a city upon a hill,” but he said, “If we betray our God and do not fulfill his destiny for us we shall become a by-word for thousands of years for all mankind.”\r
+>\r
+>Well, today, because two Americans believe so strongly in [[Pepperdine and the American Way|this unique way of ours]], we have the Frank R. Seaver College of Liberal Arts as part of a University which itself exists because others shared that same devotion to that same dream and that dream is our heritage if we have the courage to keep it.\r
+>\r
+>Thank you.\r
+>\r
+>mb`,zO=Object.freeze(Object.defineProperty({__proto__:null,default:$O},Symbol.toStringTag,{value:"Module"})),VO=`---\r
+id: 202504281051\r
+slug: the-case-for-malibu\r
+title: The Case for Malibu\r
+date: 1968-03\r
+year: 1968\r
+type: letter\r
+authors:\r
+  - William S. Banowsky\r
+recipients:\r
+  - M. Norvel Young\r
+archiveReference: Box 62, William S. Banowsky papers\r
+collectionId: 202504281055\r
+transcribedBy: Sam Perrin\r
+transcriptionDate: 2024-11-01\r
+lastUpdated: 2025-04-29\r
+---\r
+“The Case for Malibu” is an essay arguing that Pepperdine should accept the Adamson family’s offer of a plot of land in Malibu. It was written by [[William S. Banowsky]], who would soon become executive vice president of Pepperdine University. The essay is included in a letter to Pepperdine president [[M. Norvel Young]].\r
+\r
+If this is the five-page letter mentioned on page 80 of Banowsky’s memoir *The Malibu Miracle*, the original letter may have been written October 26, 1967.\r
+\r
+This document may be the origin of a long history of people using the word “distinctive” to characterize Pepperdine, a trend that resulted in David Baird’s 2016 history of the university being titled “Quest for Distinction.”\r
+\r
+>COPY\r
+>March 1968\r
+>\r
+>To: Dr. M. Norvel Young\r
+>From: William S. Banowsky\r
+>\r
+>It is my judgment that the Malibu site is greatly superior to the Westlake proposition (and to all others previously considered). I will set forth basic reasons which lead me toward this conclusion.\r
+>\r
+>The key lies in the uniqueness and distincitiveness \\[*sic*\\] of the Malibu site. The only chance our kind of college will have for greatness--and perhaps even for survival--in the next quarter century must come from its _distinctiveness_. We will never be able to compete with USC in size, with UCLA in facilities, with Occidental in academic excellence, with [[El Camino College|El Camino]] in inexpensiveness to the student. Why should there even be a Pepperdine College? Many would say that Pepperdine could close its doors next fall and the work of education in Southern California would continue unchanged with such institutions as those named above easily assuming _most_ of the work being done by Pepperdine. Our response would be, "Yes, _most_ but not _all_ of the work." In this claim, our _raison d'etre_ must be established.\r
+>\r
+>Of course, our contention is that when the work of USC, UCLA, Occidental, El Camino, etc. has been finished, there is still _something_ being offered by Pepperdine which none of them quite matches. How does one describe that _something_? Perhaps, a composite description is needed:\r
+>\r
+>1. Pepperdine's bold Christian claims undergirding all academic work.\r
+>2. Pepperdine's non-sectarian stance.\r
+>3. Pepperdine's effort to create a truly spiritual campus atmosphere.\r
+>4. Pepperdine's emphasis on personal attention to individual students.\r
+>5. Pepperdine's high academic effort within a spiritual framework.\r
+>6. Pepperdine's ability to maintain basic American ideals tempered by a dynamic willingness to change and experiment.\r
+>7. Pepperdine's emphasis on human values in the midst of a vast and mechanized society.\r
+>8. Pepperdine's independence from state, federal, church, or political control.\r
+>\r
+>In all of these and other areas Pepperdine claims its _right to be_ on the premise of distinctiveness. Pepperdine is different! Distinctive education is our only hope. And campus location is important in maintaining this distinction. You have been courageous to take your time and move with slow, deliberate steps to secure a geographic spot to fully match and dynamically expand the college's claims to distinctiveness. I now urge you to see in the proposed Malibu site the full realization of this goal.\r
+>\r
+>Does mere geographic location make so much difference? Perhaps not to UCLA (though Westwood is obviously able to do something which Maywood could never do) because the government can put up sufficient funds to overwhelm the matter of location. But to an operation like ours, mere location can make the difference between mediocrity or excellence, between success or failure.\r
+>\r
+>While the Westlake site is a splendid one, and the college is to be complimented by such an offer, it is seriously _lacking in distinctiveness_. I actually think the Calabasas site would be more _distinctive_ and more capable of preserving the uniqueness of the college across the years. On the other hand, if it were down to a decision between these two, I would have no serious objection to going for Westlake over Calabasas on the basis of more acres, more buildable land, location in the midst of such a fantastic city development, etc. But Westlake, in my judgment, would probably never be as _distinctive_ a location in the minds of Los Angeles peopleas \\[*sic*\\] Calabasas. I took the time to read a special magazine section and a brochure on Westlake and have seen the truly remarkable features of their master plan for the entire city with lakes, golf courses, imposing homes, etc. But Westlake City will tend to become just that, a self-contained little city without distinctive or dynamic ties with Los Angeles. The whole atmosphere could tend to make Pepperdine look like any other suburban college. It seems to me that Westlake would be the kind of place where the state of California would choose to put one of their neighborhood junior colleges. But Pepperdine must not be willing to accept classification along with such neighborhood colleges.\r
+>\r
+>On the other hand, there is now and always will be _only_ _one_ _Malibu_. A college built at Malibu will forever have an edge in distinctiveness on the weight of location alone! I would favor Calabasas over Westlake on the strength of distinctiveness, but would yield to Westlake because the difference could be outweighed by other advantages at Westlake. _But I would regard losing Malibu for Westlake to be a tragedy of the greatest proportions._\r
+>I would prefer to have forty acres at Malibu over 250 acres at Westlake for the following reasons:\r
+>\r
+>_Distinctive Ties with Los Angeles_\r
+>9. Malibu has always been and is now closely identified with Los Angeles.\r
+>10. Malibu is geographically closer to Los Angeles than either of the other sites. (We actually timed it from Topanga Canyon to the Civic Center in twenty "easy" minutes.)\r
+>11. You can actually see the complete harbor from Malibu and all the way from Zuma to Palos Verdes and even Catalina Island. There is the sensation that you are still very much in Los Angeles.\r
+>12. The Los Angeles business community can be challenged to help financially.\r
+>\r
+>_Distinctive in Reputation_\r
+>13. Malibu has a legendary past going all the way back to the Spanish explorers.\r
+>14. Its name is known throughout the world.\r
+>15. Its image is plus all the way.\r
+>\r
+>_Distinctive in Beauty and Aesthetic Quality_\r
+>16. The beauty of the location is unsurpassed.\r
+>17. The combination of the magnificent view of the ocean, the beach front, and the rugged mountains behind is a winner.\r
+>18. It is close to Los Angeles, yet removed with an atmosphere of relaxation.\r
+>\r
+>_Distinctive in Climate_\r
+>19. No climate in the world is really superior to it. With a high of 80 and a low of 54, an average humidity of 60 per cent, a water temperature of 70 degrees in the summer.\r
+>20. The location will always be absolutely smog free.\r
+>\r
+>_Distinctive in Protection and Changelessness_\r
+>21. While change is inevitable everywhere, Malibu has unusual protection against normal urban and suburban deterioration.\r
+>22. The ocean will never change, it is today just as it was at creation.\r
+>23. The severely rugged mountains behind will also change very little, and are today absolutely unspoiled.\r
+>24. With the buffer provided by the ocean and the mountains, and the freeway to come in front of the campus, we will be locating the college at a site which will maintain its uniqueness for hundreds of years.\r
+>\r
+>_Distinctive Appeal to Students_\r
+>25. The very name "Malibu" has a magic ring all over the nation to young people. It will not sound like an exclusive resort area but a place "where the action is."\r
+>26. We can be very effective in recruiting day students from Los Angeles.\r
+>27. Most importantly, we need desperately to increase the percentage of our boarding students to as much as 2 to 1. Malibu will provide this opportunity.\r
+>28. The tuition level we must change will be entirely consistent with such a location and academic atmosphere.\r
+>\r
+>_Distinctive Appeal to Faculty_\r
+>29. The task of recruiting and maintaining the kind of faculty we need will be a cinch with this location.\r
+>\r
+>_Distinctive in its Appeal to Donors_\r
+>30. People capable of making the unusually large gifts which we need are looking for the unusual, the extraordinary, the different. All of the assets of the Malibu location can be drawn into an impelling case for large contributions.\r
+>31. Los Angeles, Westwood, Beverly Hills, Santa Monica, Hollywood, Pacific Palisades--these impressive cities will be our near neighbors.\r
+>\r
+>_Distinctive as an Educational Site_\r
+>32. We will be closer to UCLA from Malibu than Pepperdine now is.\r
+>33. We can draw the discriminating kind of student who lives in Westwood, Santa Monica, Pacific Palisades, Hollywood, Beverly Hills, etc., now attending UCLA.\r
+>34. Some recent California state colleges have been located on or very near the ocean.\r
+>\r
+>Malibu has that intangible something which distinguishes it from more ordinary sites as Westlake.\r
+>\r
+>May I urge you to be very decisive in pushing for Malibu.\r
+>\r
+>Malibu has the capacity to excite. It excites me greatly.\r
+>\r
+>\\[signed William S. Banowsky\\]`,UO=Object.freeze(Object.defineProperty({__proto__:null,default:VO},Symbol.toStringTag,{value:"Module"})),HO=`---\r
+id: 202504292045\r
+slug: trent-devenney-to-dan-mcmichael-1973-04-20\r
+title: Trent Devenney to Dan McMichael, 1973-04-20\r
+date: 1973-04-20\r
+year: 1973\r
+type: letter\r
+authors:\r
+  - Trent Devenney\r
+recipients:\r
+  - Dan McMichael\r
+archiveReference: Mrs. Harnish file, Box 56, Howard A. White papers\r
+collectionId: 202504281112\r
+transcribedBy: Sam Perrin\r
+transcriptionDate: 2025-02-12\r
+lastUpdated: 2025-04-29\r
+---\r
+This is a letter from Pepperdine alumnus [[Trent Devenney]] to [[Dan McMichael]], an associate of Pepperdine donor [[Richard Scaife]]. In the letter, Devenney explains what has come to be known as the [[Trent Devenney affair]].\r
+\r
+>April 20, 1973\r
+>\r
+>Mr. Dan McMichael\r
+>Scaife Family Charitable Trust\r
+>Oliver Building\r
+>Pittsburgh, Pennsylvania 15322\r
+>\r
+>Dear Mr. McMichael:\r
+>\r
+>I want to thank you for giving me so much of your time on the telephone last Tuesday. I would have normally written to you in order to give you an explaination \\[*sic*\\] of my purposes prior to such an extended discussion, but it was impossible. I had just come from a 5 hour meeting with [[George Benson|George S. Benson]], and he told me that I should not waste any time trying to reach you. Therefore, I called you immediately.\r
+>\r
+>It  is important for you to understand that I came to you primarily because I know that your continued confidence in Pepperdine University is essential if that institution is ultimately destined to serve a constructive purpose in our community. I can say, without equivocation, that Pepperdine will not survive the coming months without your continued support.\r
+>\r
+>As you know I am an alumnus of Pepperdine University, having graduated in 1964. You must understand, however, that I represent diverse interests in my current efforts to strengthen the University.\r
+>\r
+>The first person to retain my services in this work was [[Gordon Del Faro|a donor]] who is a businessman with deep involvements in California politics. He feels (correctly) that [[William S. Banowsky|William Banowsky]] is an opportunist and that he is a phoney \\[*sic*\\] conservative; therefore, his interest is to see that Dr. Banowsky’s political aspirations do not conflict with the aspirations of men whose sincerity is proven by their achievements.\r
+>\r
+>The next man to retain my services in this work is [[Archie Luper|a member of the University Board]]. His only interest is to see that constructive educational purposes are fulfilled within the structure of the University. He has long been aware that the institution is monolythically \\[*sic*\\] liberal internally.\r
+>\r
+>Finally, I represent [[Ira Rice|certain prominent members]] of the Church of Christ who feel that the religious orientation of the University is “un-orthodox”.\r
+>\r
+>I do not technically represent [[Helen Pepperdine|Mrs. Pepperdine]] as her legal counsel in this matter. She has no attorney. It is true, however, that I have been advising her and that she has done what I have asked in certain strategic matters.\r
+>\r
+>You should understnad \\[*sic*\\] that Mrs. Pepperdine is a very worried and a very confused woman at the present time. She feels that the University is in a situation where it will collapse, and will be lost to her, unless the proper actions are taken. Unfortunately, she is being given conflicting advice.\r
+>\r
+>To make matters worse, the Administration moved a woman into Mrs. Pepperdine’s home just on the heels of my advising her to seek the assistance of George S. Benson. This requires some explaination \\[*sic*\\].\r
+>\r
+>Mrs. Pepperdine turned her entire estate over to Pepperdine University at some time within the past 3 years. She receives an annuity in return. No longer having any money to give to the University, the Administration lost interest in her and failed to show her any attention. They even avoided giving her invitations to certain events on the grounds that there just weren’t enough seats to supply the demand. This caused Mrs. Pepperdine to be free from the day-to-day influence of the Administration and she began to look around for herself. She didn’t like what she was seeing and, over a period of the past year, she called special meetings of the [[Board of Regents|Board of Trustees]] to try to correct the problems. She failed.\r
+>\r
+>I came into the picture and advised her to go to Dr. Benson and, immediately, the Administration has become “attentive”. I think they fear George Benson more than they fear the Devil. Anyway, the Administration advised Mrs. Pepperdine to allow [[Charles Runnels|Charlie Runnels]]’ secretary move into her home so that she wouldn’t be “lonely” and so that she would have a chauffeur when she needed to go out. The result has been that she stays confused most of the time.\r
+>\r
+>Prior to this woman moving into her home, Mrs. Pepperdine was beginning to stear \\[*sic*\\] a steady, direct course toward solving the problems at Pepperdine. Now she will have a conference with me, and will come to agree on the situation and its solution, and then she goes home and gets confused.\r
+>\r
+>I simply don’t have the heart to try to dispell \\[*sic*\\] her confidence in the woman who has moved into her home. This is for two reasons: first, this woman is an old friend and, second, Mrs. Pepperdine is very lonely and she needs to think that this woman’s interest is genuine. There’s a third reason too. I don’t have someone to replace this woman with (i.e. I can’t point to someone and say, “Mrs. Pepperdine, there is a real friend for you.).\r
+>\r
+>I want you to understand that this is an enormously sad situation. Mrs. Pepperdine has been “taken” by family friends, by young men that she and Mr. Pepperdine put through school and even by Elders in her own church. It’s simply outrageous and, at her age, I don’t really know how she has the courage to face up to the facts that she has already faced.\r
+>\r
+>I am attempting to set up a meeting between Mrs. Pepperdine and [[Jerene Appleby Harnish|Jerene Harnish]] because Mrs. Harnish is a woman who knows how to bring order out of chaos. Mrs. Harnish is fully aware of the extent of the problems at Pepperdine and has indicated a desire to see them corrected. She is an enormously strong woman and she could give Mrs. Pepperdine the courage and the certainty that she needs.\r
+>\r
+>I was hoping that I could look to your interests to support Mrs. Pepperdine at this troublesome stage.\r
+>\r
+>I must raise another important point in this letter, and I don’t think I covered it sufficiently in our brief conversation. It is the political implication of the problems at Pepperdine.\r
+>\r
+>The [[Gordon Del Faro|businessman]] who first retained my services has a strong desire to see that Dr. Banowsky will not be competing with sound conservative politicians in the future. This is really his only interest in my work; although, I am certain that he would like for conservatives to have control over Pepperdine University.\r
+>\r
+>I am being compelled by this man to take my information to the Office of the Attorney General and to request that the Trust Department begin an [[Attorney General investigation|investigation]] of Pepperdine University. I must make an appointment with the [[Evelle Younger|Attorney General]] on Monday, April 23, 1973.\r
+>\r
+>I have advised against this move continuously and my advice has been followed until today. The reason for the change of attitude in this businessman is that George Putnam announced, last night on his evening news cast, that William Banowsky would announce his candidacy for the U.S. Senate against [[Alan Cranston|Allen Cranston]]. This has precipitated a demand that I take some immediate action to see that strong forces demand an accounting from the Board of Trustees and that this be done thoroughly. I have a certain amount of evidence that there are “irregularities”.\r
+>\r
+>I am certain that the situation at Pepperdine is far worse than we can really imagine. Mrs. Pepperdine has admitted that it is far worse than I, personally, am aware, but she will not elaborate.\r
+>\r
+>This campaign will give Dr. Banowsky an opportunity to leave Pepperdine before in \\[*sic*\\] all falls down on him (thereby ruining him positively) and he will have the “advantage” of being able to label his critics as “politically motivated”. It also shows, however, how really thoughtless of Pepperdine University he really is. His move into politics will put the University into the situation like a political battlefield. Every “transgression” will be resurrected to use against him.\r
+>\r
+>Bill saw the handwriting on the wall in January when he tried to get the job at [[San Francisco State]], but he was stopped. Someone probably got to [[Glenn S. Dumke|Dumpke]] and warned him. But this campaign may be his only means of escape and he has apparently chosen it. Incidentally, he has done this in spite of the fact that he has consistently people that his only interest was in Pepperdine.\r
+>\r
+>As I indicated, I am concerned that an investigation by the Attorney General will turn the campus into a political battlefield. If it’s true that the situation is extremely bad financially, then the institution could have a tarnished image for years to come. This could cause it to be lost for the purposes of conservative education.\r
+>\r
+>If you could find any possible legal means, your interests should step into this situation immediately. Otherwise, all of our investments in the University could be lost. I think that if we try to clean it up internally we could insure public confidence in the institution.\r
+>\r
+>I have notified Mrs. Pepperdine that I would like to address the next meeting of the Board of Trustees, and she indicated that they may have to call a special meeting of the Board for this purpose. They don’t have many regular meetings! I think that my appearance will be within 1 month.\r
+>\r
+>Incidentally, I have sent you 2 reports on Pepperdine University. One was done by [[Doyle Swain]] and the other by myself. They are both in rough draft form and will be rewritten prior to the Board meeting.\r
+>\r
+>I will send you a report of exhibits which I have gathered, but I will have to prepare an explaination \\[*sic*\\] for them. I had intended to show them to you personally and to explain them myself. This report will contain more financial information than the 2 reports already sent.\r
+>\r
+>Sincerely yours,\r
+>\\[signed\\] Trent C. Devenney\r
+>Trent C. Devenney\r
+>Associate\r
+>\r
+>TCD:aw`,WO=Object.freeze(Object.defineProperty({__proto__:null,default:HO},Symbol.toStringTag,{value:"Module"})),GO=`---\r
+id: 202504292033\r
+slug: trent-devenney-to-mrs.-seaver-1973-09-12\r
+title: Trent Devenney to Mrs. Seaver, 1973-09-12\r
+date: 1973-09-12\r
+year: 1973\r
+type: letter\r
+authors:\r
+  - Trent Devenney\r
+recipients:\r
+  - Blanche Seaver\r
+archiveReference: Devenney Affair #1 file, Box 11, Young papers\r
+collectionId: 202504292040\r
+transcribedBy: Sam Perrin\r
+transcriptionDate: 2025-02-20\r
+lastUpdated: 2025-04-29\r
+---\r
+This is a letter from Pepperdine alumnus [[Trent Devenney]] to donor [[Blanche Seaver]] dated September 12, 1973. In the letter, Devenney tells Seaver that Pepperdine needs more conservative professors if it is going to achieve her goals.\r
+\r
+>September 12, 1973\r
+>\r
+>[[Blanche Seaver|Mrs. Frank Seaver]]\r
+>20 Chester Place\r
+>Los Angeles, Calif.\r
+>\r
+>Dear Mrs. Seaver,\r
+>\r
+>I was very happy to see you at the Pro-America luncheon on Wednesday; although, I didn’t have an opportunity to speak with you. I came late and left early because of a trial in which I was engaged.\r
+>\r
+>[[Dick Vetterli]] was a professor of mine at Pepperdine, and I know that there has never been a better man on the faculty of the University than himself. He was enormously popular with students and they were sorry to see him leave Pepperdine.\r
+>\r
+>You and I had an opportunity to talk together several months ago when we met at the Wilshire Country Club, and we spoke of the need for quality, conservative faculty members to be located at Pepperdine. I know that we will ultimately achieve that objective.\r
+>\r
+>I don’t think that there has ever been a more generous and, at the same time, a more right-thinking donor to any college or university in our country. Your purposes and your objectives are not only clear and definite, but they are timely. You have made your gifts during a period in our history when our country needs such gifts and also at a time when our people are beginning to recognize that need.\r
+>\r
+>Your objectives and your purposes will ultimately be achieved in Pepperdine and your investments will prove to be the wisest that have been made in our generation. Many of us will continue to work to see that gifts, such as your own, are not subverted by people who may have deceptive designs. Pepperdine University will, one day soon, become a strong light in the darkness of our country.\r
+>\r
+>With kindest regards, I am\r
+>Sincerely yours,\r
+>\\[signed\\] Trent Devenney\r
+>\r
+>13910 Northwest Passage\r
+>Marina Del Rey, CA 90291\r
+`,KO=Object.freeze(Object.defineProperty({__proto__:null,default:GO},Symbol.toStringTag,{value:"Module"})),YO=`---\r
+id: 202504281117\r
+slug: white-to-file-1974-02-16\r
+title: White to file, 1974-02-16\r
+date: 1974-02-16\r
+year: 1974\r
+type: memo\r
+authors:\r
+  - Howard A. White\r
+archiveReference: Church Relations Major Items Feb. 1974 file, Box 63, Howard A. White papers\r
+collectionId: 202504281112\r
+transcribedBy: Sam Perrin\r
+transcriptionDate: 2024-10-08\r
+lastUpdated: 2025-04-28\r
+---\r
+This is a memo to file, written by Pepperdine executive vice president [[Howard A. White]], dated February 16, 1974. In the memo, White speculates about why president [[William S. Banowsky]] rejected an offer to be president of Lubbock Christian College.\r
+\r
+Typos in the original are reproduced with \\[*sic*\\], but some typos (like spacing errors) have been silently corrected.\r
+\r
+>February 16, 1974\r
+>\r
+>Yesterday after the University Coordinating Council meeting, [[William S. Banowsky|Bill]] talked to [[Jerry Hudson]] and me for about two hours in my office. He said he had had a religious experience that made him wish to devote the rest of his life to doing the work of God and that he was finished with politics.\r
+>\r
+>There was nothing new in his statement that he was quitting politics--he has said that so many times that it is a broken record. The religious experience was a new development. As a result of it, he said he wishes to take Pepperdine away from the narrow, sectarian approach of the Churches of Christ and make the school somewhat like [[Westmont]] or [[Wheaton]], with an interdenominational flavor. Since this will not get [[M. Norvel Young|Dr. Young]]'s approval, he said he (Bill) would accept the offer to become president of [[Lubbock Christian University|Lubbock Christian College]].\r
+>\r
+>Bill said Lubbock is rinky-dink, small, and would pay only $22,500 in salary, whereas he made $98,000 last year at Pepperdine, counting speaking engagements. Nevertheless, he said Lubbock has a chance to "make it" for the future, whereas Pepperdine cannot unless it cuts loose from the Churches of Christ.\r
+>\r
+>I asked Bill if he were willing to take steps that would cause all of us who stay at Pepperdine to be regarded as Benedict Arnolds in the church, and he said he is. I told him I am unwilling to do that, which in effect would be to say to the Churches of Christ that we hold them in contempt and wish to leave them. I told him that this is our heritage, that the church is our mother, and I am unwilling to call her a whore and turn my back on her. (Probably a good many of my associates at Pepperdine would call me narrowly sectarian, for I believe strongly in the [[Restoration Movement|Restoration]] plea. While the Churches of Christ, composed of human beings, are guilty of many faults and of a sectarian spirit, I still believe in the ideal that we profess to follow the Scriptures. If we cannot do that, or should not do that, then to me religion becomes a humanistic enterprise that holds no great interest).\r
+>\r
+>Bill said that [[M. Norvel Young|Norvel]] would really like to have an interdenominational school, but just does not have the nerve. I think he is wrong about Norvel, whose views may be much more liberal than mine, but who in my opinion sincerely wishes to hold on to the church. I feel strongly that [[Helen Mattox Young|Helen]] (Mrs. Young) does.\r
+>\r
+>Tuesday, February 19, is the day Bill says he must give Lubbock an answer. Of course he can move the deadline around any way he wishes. That little school is short of cash and of leadership, and he can probably dictate anything to them that he wishes, so far as timing is concerned.\r
+>\r
+>The biggest problem in his resigning now or later would be the probability of losing the interest and money of [[Blanche Seaver|Mrs. Frank R. Seaver]], who has given Pepperdine so much because of Bill. She has agreed to make her trust to Pepperdine irrevocable as of October of this year, but for tax reasons involving her relative, [[Richard Seaver]], she cannot do it now without his risking the loss of 5 of \\[*sic*\\] millions in inheritance taxes.\r
+>\r
+>In our conversation, Bill said if he stays at Pepperdine, "Then next Wednesday morning I will be president of Pepperdine for the first time." He means he and not Norvel would really have control. I am still convinced that this whole series of events is an effort on Bill's part to seize power, and he now says he has a divine mandate to do so. To talk of chaning \\[*sic*\\] Pepperdine so as to repudiate the church or, failing that, to move to Lubbock Christian, reveals to me a complete lack of basic conviction about either one.\r
+>\r
+>I talked to Norvel on the phone an hour this morning. I think he is standing firm.`,qO=Object.freeze(Object.defineProperty({__proto__:null,default:YO},Symbol.toStringTag,{value:"Module"})),QO=`---\r
+id: 202504281126\r
+slug: white-to-file-1977-01-27\r
+title: White to file, 1977-01-27\r
+date: 1977-01-27\r
+year: 1977\r
+type: memo\r
+authors:\r
+  - Howard A. White\r
+archiveReference: "Jan. 1977" file, Box 63, Howard A. White papers\r
+collectionId: 202504281112\r
+transcribedBy: Sam Perrin\r
+transcriptionDate: 2024-10-08\r
+lastUpdated: 2025-04-28\r
+---\r
+This is a memo to file, written by Pepperdine executive vice president [[Howard A. White]], dated January 27, 1977. In the memo, White recounts a plan by [[William S. Banowsky|Bill Banowsky]] and [[M. Norvel Young|Norvel Young]] to alter the membership of the university’s governing Board of Regents.\r
+\r
+Typos in the original are reproduced with \\[*sic*\\], but some typos have been silently cleaned up.\r
+\r
+>January 27, 1977\r
+>\r
+>Several days ago [[M. Norvel Young|Norvel Young]] told me that [[William S. Banowsky|Bill]] is planning to enlarge the [[Board of Regents]] again with more non-church members. The rationale would probably be that we need more men with money to bolster that organization. To date we have not seen that the ones we have already added are giving any more money than formerly, although of course they may give more later.\r
+>\r
+>Bill has had a particularly difficult time with the [[Hydril Co.|Hydril]] stock, in which case Pepperdine’s holdings would have brought a large sum, variously estimated in reports I have heard to be about $70 million. Bill even has had [[Leonard Straus]], of Thrifty Drug Stores, to work with Lehman Brothers in New York toward boying \\[*sic*\\] Pepperdine’s interest in Hydril, but that could lead to [[Richard Seaver|Richard]]’s losing control, which of course he does not wish to do. He has been perturbed enough by Pepperdine’s efforts to sell the stock that his year-end gift in 1976 was only $150,000. Bill attributed this amount that was given instead of the $500,000 or so that usually comes in to Richard’s displeasure about the stock. Bill has, in my opinion, not only been motivated by the wish to get the money, but also by his wish to cultivate Leonard Straus in the hope of getting the Jewish vote if Bill decides later to run for some public office.\r
+>\r
+>So we hold stock that with other stock that we will inherit from [[Blanche Seaver|Mrs. Seaver]] that could ultimately be worth $130,000,000. Until we can get some or all of that money, cash will be tight, but the future of the school is in the long run fairly well assured.\r
+>\r
+>This would be a great opportunity for Bill to preside over a Christian school that would have more assets than any of our schools have ever had, to make it truly Christian but independent and without provincialism or sectarianism. In giving what she has donated, Mrs. Seaver has well understood the [[Pepperdine and the Churches of Christ|church relationship]], although her knowledge of the churches of Christ may be limited. She has long attended [[Inglewood Church of Christ|Inglewood church]] with [[Charles Runnels]], and by no stretch of the imagination could it be fairly stated that Bill’s determination to bring about the ultimate separation or \\[*sic*\\] the institution from its church relationship is based on the desires of Mrs. Seaver or any other large donor. Their money has been given to Pepperdine __with__ its Christian commitment and not with the promise that the commitment would be forsaken. It is only fair to state that Mrs. Seaver has given her money largely out of her admiration for Bill himself. He deserves full credit for all he has raised, but Norvel has also raised a very large part of what Pepperdine has. (The morality of courting Mrs. Seaver and flattering her to get her money is another question. Bill would not give her the time of day without her money as a consideration, just as he pays virtually no attention to Mrs. Pepperdine. Another aspect of the morality of all this is seen in a recent meeting of the Executive Committee of the Board of Regents that I attended. In connection with financing the construction of the [[Caruso School of Law|Law School]], some of the regents were discussing the irrevocable trust of Mr. [[Odell McConnell]], who has pledged about 3 or 4 million dollars. In coarse jokes they speculated on the time of his demise so that we could get the money, and it is noteworthy that they did not even get his surname right--they called him “O’Donnell.”)\r
+>\r
+>[[Jerry Hudson]] was in town last week. We had dinner Thursday night, and I took him to the airport Sunday. He said Bill offered him the post of provost at Pepperdine, but not the presidency. Jerry is not interested in being provost. He said Bill told him he planned to change the rule that the chairman of the Executive Committee of the Board must be a member of the church or that a majority of the members of that committee must be members. Jerry also reported that when he asked Bill who would choose the next president if Bill were to die in a plane crash and that Bill said it would be people such as [[John Vaughn]] and [[Leonard Straus]].\r
+>\r
+>Time was when I fervently hoped that Jerry Hudson would return as president, and for the sake of my personal relations with him, I would rather have him than anybody I can think of who has any chance at getting the job, but I must sadly conclude that unless he has a change of heart, he would do no more for our Christian commitment than Bill is doing, and it may be that we are now in such a state of spiritual deterioration that nobody could do very much to reverse it.\r
+>\r
+>Yesterday afternoon I talked with Norvel about 2 hours at the [[Adamson House|Beach House]]. He asked me to talk with him about a proposal to get Bill to give about $10 million in assets to form a separate corporation of our church constituency to control an institute or other organization separate from [[Seaver College]]. This body would offer religion courses, choose its own faculty, and run its own affairs with credit being given by Seaver College, or in case of advanced degrees, maybe in its own right.\r
+>\r
+>Norvel prefaced all this by saying that Bill intended to move soon to name additional non-church member regents (especially if Mrs. Seaver does not recover from the fall that has hospitalized her). Norvel said that Bill is considering installing dancing by next September. By itself this in my opinion is not one of our most crucial issues, but in the context of other moves we are making, this will be regarded as another signal that Pepperdine disdains its affilation \\[*sic*\\] with church of Christ. Norvel agrees that we are now moving fairly fast in the direction of severing church ties.\r
+>\r
+>I told him I would cooperate in any move that would be a genuine and valid approach to having the Bible taught by faithful teachers, but that I did not wish to be part of a charade or camouflage that would keep the opposition quiet while Bill proceeds with his plans that would ultimately negate any attempt to have the Bible taught. I told Norvel I had the following reservations:\r
+>1. Bill would not agreed \\[*sic*\\] to dedicate the financial resources\r
+>2. Even if he did, the pressure from the rest of Seaver College would eventually lead to denying credit to courses that were conservatively oriented.\r
+>\r
+>Therefore I would rather have no institute or religion center than to have one that pushes the views of such as [[Royce Clark]].\r
+>\r
+>Bill continues to be an enigma. He sends his children to a Baptist school, which indicates he wants to have the advantages of rather conservative religious training. But with no real pushing from the regents, he can hardly wait to end Pepperdine’s connect \\[*sic*\\] with the church. Richard Seaver is ashamed of our “fundamentalism” etc., and I think Bill is too. While he does not use the word on himself, I think Bill’s proper position is that of an agnostic. He told me recently that he regards my metaphysics as rather odd.\r
+>\r
+>While I shall always admire Bill’s ability and always be grateful for the many ways he has shown confidence in me and given me a challenging work to do, I also resent the fact that he has exploited me to help keep the peace while he goes forward with his plans. My resignation would not have stopped him, but could have made it more difficult for him to proceed. I consider it most immoral to break the ties with the church and go contrary to the wishes of our founder, no matter how much money has been piled on top of the original donation of Mr. Pepperdine.`,XO=Object.freeze(Object.defineProperty({__proto__:null,default:QO},Symbol.toStringTag,{value:"Module"})),JO=`---\r
+id: 202504281112\r
+slug: howard-a.-white-papers\r
+title: Howard A. White papers\r
+description: The files of Pepperdine president Howard A. White\r
+createdAt: 2013-06-01\r
+---\r
+The Howard A. White papers is an archival collection containing the files of [[Howard A. White]], the fifth president of Pepperdine University. The collection is held at Pepperdine University Special Collections and University Archives (SCUA). The finding aid for this collection can be found at [OAC](https://oac.cdlib.org/findaid/ark:/13030/c8sb4531).\r
+\r
+Howard A. White was president of Pepperdine between 1978 and 1985. Before his presidency he served as dean of various programs, then as executive vice president. The papers cover White’s time at Pepperdine, and they benefit from the historical consciousness White developed as a professor of history.`,ZO=Object.freeze(Object.defineProperty({__proto__:null,default:JO},Symbol.toStringTag,{value:"Module"})),eL=`---\r
+id: 202504251508\r
+slug: pepperdine-university-speeches-collection\r
+title: Pepperdine University Speeches Collection\r
+description: Transcripts of archival speeches given at Pepperdine University\r
+createdAt: 2013-01-01\r
+updatedAt: 2013-07-01\r
+---\r
+The Pepperdine University Speeches Collection is an archival collection of important speeches delivered at Pepperdine University between 1937 and 2005. The collection is held at Pepperdine University Special Collections and University Archives (SCUA). The finding aid for this collection can be found at [OAC](https://oac.cdlib.org/findaid/ark:/13030/c80r9q1n).`,tL=Object.freeze(Object.defineProperty({__proto__:null,default:eL},Symbol.toStringTag,{value:"Module"})),nL=`---\r
+id: 202504281148\r
+slug: seaver-papers\r
+title: Seaver papers\r
+description: The files of Blanche and Frank Seaver\r
+createdAt: 2002\r
+updatedAt: 2012-07-01\r
+---\r
+The Seaver papers is an archival collection containing files relating to [[Blanche Seaver|Blanche]] and [[Frank R. Seaver]], donors to Pepperdine University. The collection is held at Pepperdine University Special Collections and University Archives (SCUA). The finding aid for this collection can be found at [OAC](https://oac.cdlib.org/findaid/ark:/13030/c8g44pm3).\r
+\r
+The collection contains papers relating to the Seavers’ involvement with Pepperdine, as well as Blanche’s career as a musician and Frank’s career in business, particularly with his [[Hydril Company]].`,rL=Object.freeze(Object.defineProperty({__proto__:null,default:nL},Symbol.toStringTag,{value:"Module"})),iL=`---\r
+id: 202504281034\r
+slug: shirley-roper-papers\r
+title: Shirley Roper papers\r
+description: The professional files of Pepperdine administrator Shirley Roper\r
+createdAt: 2014-03-01\r
+---\r
+The Shirley Roper papers is an archival collection of the files of [[Shirley Roper]], a Pepperdine University administrator. The collection is held at Pepperdine University Special Collections and University Archives (SCUA). The finding aid for this collection can be found at [OAC](https://oac.cdlib.org/findaid/ark:/13030/c8v98h3z).\r
+\r
+Shirley Roper held a variety of positions throughout a 49-year career at Pepperdine, including many years serving under presidents [[Howard A. White]], [[David Davenport]], and [[Andrew Benton]]. Following her retirement, her vast and orderly system of files was transferred to the University Archives, where they have been processed and are available to researchers. Her papers provide researchers invaluable insight into the inner workings of the university for many decades. `,sL=Object.freeze(Object.defineProperty({__proto__:null,default:iL},Symbol.toStringTag,{value:"Module"})),oL=`---\r
+id: 202504281055\r
+slug: william-s.-banowsky-papers\r
+title: William S. Banowsky papers\r
+description: The professional files of Pepperdine president William S. Banowsky\r
+createdAt: 2012-07-01\r
+---\r
+The William S. Banowsky papers is an archival collection of the files of [[William S. Banowsky]], the fourth president of Pepperdine University. The collection is held at Pepperdine University Special Collections and University Archives (SCUA). The finding aid for this collection can be found at [OAC](https://oac.cdlib.org/findaid/ark:/13030/c8d50m80).\r
+\r
+The collection provides extensive coverage of Banowsky’s time as president, including boxes of correspondence, publicity, minutes of the Board of Regents, etc. The papers also cover Banowsky’s career after Pepperdine, including his time as president of the University of Oklahoma.`,aL=Object.freeze(Object.defineProperty({__proto__:null,default:oL},Symbol.toStringTag,{value:"Module"})),lL=`---\r
+id: 202504292040\r
+slug: young-papers\r
+title: Young papers\r
+description: The collected papers of M. Norvel and Helen M. Young\r
+createdAt: 2012-03\r
+---\r
+The Young papers is an archival collection of the files of Pepperdine’s third president M. Norvel Young and his wife Helen Mattox Young. The collection is held at Pepperdine University Special Collections and University Archives (SCUA). The finding aid for this collection can be found at [OAC](https://oac.cdlib.org/findaid/ark:/13030/c82z13xh).\r
+\r
+The collection provides extensive coverage of the Youngs’ time at Pepperdine as well as their involvement with the Churches of Christ more broadly.`,cL=Object.freeze(Object.defineProperty({__proto__:null,default:lL},Symbol.toStringTag,{value:"Module"})),uL=`---\r
+id: 202504251450\r
+slug: dedication-of-seaver-college\r
+name: Dedication of Seaver College\r
+startDate: 1975-04-20\r
+---\r
+The dedication of Seaver College took place on April 20, 1975, in the [[the amphitheater|Fouch Amphitheater]] on the Malibu campus of Pepperdine University. The event named the undergraduate liberal arts college in Malibu "[[Seaver College]]" in honor of [[Frank R. Seaver]], whose widow [[Blanche Seaver]] had donated to support the college’s construction.\r
+\r
+## Program\r
+- The program of the dedication ceremony was overseen by MC [[M. Norvel Young]].\r
+- Donor [[Fritz Huntsinger]] led the pledge of allegiance.\r
+- Mrs. Seaver’s minister [[James Fifield]] read scripture.\r
+- Pepperdine executive vice president [[Howard A. White]] led a prayer.\r
+- The Pepperdine choir sang “Sweet, Sweet Spirit” and “Just For Today,” the latter of which was a composition by Mrs. Seaver.\r
+- Former California governor [[Ronald Reagan]] was introduced by Mrs. Seaver’s nephew [[Richard Seaver]], before delivering an [[Reagan's Seaver dedication speech|address]].\r
+- A second address (this one titled “[[A Spirit of Purpose]]”) was delivered by Pepperdine president [[William S. Banowsky]].\r
+- Donor [[Blanche Seaver]] spoke to formally offer the college to the university.\r
+- [[Jerry Hudson]], dean of Seaver College, formally accepted the college on behalf of the university.\r
+- [[Helen Pepperdine]], the wife of the university’s founder, gave Mrs. Seaver a copy of *[[Faith Is My Fortune]]*, a biography of her late husband [[George Pepperdine]].\r
+- Also present on the platform were Pepperdine vice chancellor [[Charles Runnels]], Seaver chemistry professor [[Warren Kilday]], U.S. Senator [[George Murphy]] (D.-Calif.), and nuclear physicist [[Edward Teller]].\r
+\r
+## Related writings\r
+- Sam Perrin, “[The second founding](https://gogp.substack.com/p/the-second-founding),” *Ghost of George Pepperdine*, 18 April 2025.\r
+`,dL=Object.freeze(Object.defineProperty({__proto__:null,default:uL},Symbol.toStringTag,{value:"Module"})),hL=`---\r
+id: 202504292052\r
+slug: trent-devenney-affair\r
+name: Trent Devenney affair\r
+startDate: 1973-01-20\r
+endDate: 1976-04-18\r
+startYear: 1973\r
+endYear: 1976\r
+---\r
+The Trent Devenney affair was a series of events at Pepperdine University in the mid-1970s, initiated by disgruntled alumnus Trent Devenney, who sought to remake the university as a solidly conservative institution. What began as a letter-writing campaign evolved into a [[Attorney General investigation|state attorney general investigation]] concerning the university’s executive compensation. No charges were filed, but practices were changed.\r
+\r
+## Dramatis personæ\r
+### Devenney & Co.\r
+- [[Trent Devenney]], Pepperdine alumnus, attorney, instigator\r
+- [[Doyle Swain]], (former) Pepperdine employee\r
+- [[Bill Robertson]], former Pepperdine accountant\r
+- [[Gordon Del Faro]], small donor and Republican businessman\r
+- [[Ira Rice]], Church of Christ preacher and editor of *Contending for the Faith*\r
+- [[Archie Luper]], Ventura restaurateur and Church of Christ member\r
+### Pepperdiners\r
+- [[William S. Banowsky]], president\r
+- [[M. Norvel Young]], chancellor\r
+- [[University Planning Consultants]]\r
+### Other\r
+- [[Evelle Younger]], California attorney general\r
+- [[Lawrence R. Tapper]], deputy attorney general overseeing the Pepperdine investigation\r
+- [[Denny Walsh]], reporter for the *Sacramento Bee*\r
+\r
+## Sources\r
+- Sam Perrin, “[Devenney; or, the modern Elpenor](https://gogp.substack.com/p/devenney-or-the-modern-elpenor),” *Ghost of George Pepperdine*, 28 Feb. 2025.\r
+- W. David Baird, “The Trent Devenney Affair,” *Quest for Distinction*, Pepp. Univ. Press (2016): 337–348.\r
+### In *The Graphic*\r
+- Neva Hash, “[[Pepperdine critics exposed]],” *The Graphic*, 1975-03-21: 3.\r
+- Mark Harvis, “[Pep investigation brings changes](https://pepperdine.quartexcollections.com/Documents/Detail/the-graphic/110839?item=111069),” *The Graphic*, 1976-06-25: 4.\r
+### Archival sources\r
+- [[Trent Devenney to Dan McMichael, 1973-04-20]]\r
+- [[Trent Devenney to Mrs. Seaver, 1973-09-12]]`,fL=Object.freeze(Object.defineProperty({__proto__:null,default:hL},Symbol.toStringTag,{value:"Module"})),pL=`---\r
+id: 202504281137\r
+slug: blanche-seaver\r
+name: Blanche Seaver\r
+alternateNames:\r
+  - Blanche Ellen Theodora Ebert\r
+  - Blanche Ebert Seaver\r
+  - Blanche E. Seaver\r
+birthDate: 1891-09-15\r
+deathDate: 1994-04-09\r
+---\r
+Blanche Seaver was a philanthropist and a major donor to Pepperdine University, where she funded the construction of Seaver College, which was named in honor of her late husband [[Frank R. Seaver]].\r
+\r
+## Timeline\r
+- She was born the youngest of ten children of Norwegian immigrants to Chicago, on September 15, 1891.\r
+- She married [[Frank R. Seaver|Frank Roger Seaver]] on September 16, 1916.\r
+- She was added to Pepperdine’s [[Board of Trustees]] as a Founder Trustee on April 19, 1975.\r
+- She attended the [[Dedication of Seaver College]] on April 20, 1975.\r
+- She was baptized by [[William S. Banowsky]] at the [[Inglewood Church of Christ]] on April 30, 1978.\r
+- She died on April 9, 1994.\r
+	- Her funeral was officiated by [[William S. Banowsky]] at the [[First Congregational Church of Los Angeles]].`,mL=Object.freeze(Object.defineProperty({__proto__:null,default:pL},Symbol.toStringTag,{value:"Module"})),gL=`---\r
+id: 202504251428\r
+slug: howard-a.-white\r
+name: Howard A. White\r
+alternateNames:\r
+  - Howard Ashley White\r
+  - Howard White\r
+birthDate: 1913-09-28\r
+deathDate: 1991-02-01\r
+---\r
+Howard A. White (1913–1991) was the fifth president of [[Pepperdine University]], serving from 1913 to 1991.\r
+\r
+## Timeline\r
+- He was born on September 28, 1913 in Cloverdale, Alabama.\r
+- He did his undergraduate work at [[Lipscomb University|David Lipscomb College]].\r
+- He received his master’s degree and PhD from Tulane University, the latter in 1953.\r
+	- While in New Orleans, White preached at the Carrolton Avenue Church of Christ between 1941 and 1953.\r
+- He taught in the history department at Lipscomb from 1953.\r
+- He followed [[M. Norvel Young]] to Pepperdine College in 1958, serving as chair of the social sciences division.\r
+- From 1958 to 1967, he served as director (and later dean) of the graduate program at Pepperdine.\r
+- From 1967, he served as dean of the undergraduate program at Pepperdine.\r
+- He served as executive vice president of Pepperdine from 1970 to 1978.\r
+- He served as president of Pepperdine from 1978 to 1985.\r
+- He died on February 1, 1991.\r
+	- His service was held February 7, 1991 in the [[Stauffer Chapel]], where the eulogy was delivered by [[Jerry Rushford]].\r
+\r
+## Personal\r
+- His full name was Howard Ashley White.\r
+### Family\r
+- His wife was [[Maxcine Feltman White]], with whom he had two sons.\r
+\r
+## Sources\r
+- His [[Howard A. White Papers|papers]] are held in Pepperdine University Special Collections.`,yL=Object.freeze(Object.defineProperty({__proto__:null,default:gL},Symbol.toStringTag,{value:"Module"})),vL=`---\r
+id: 202504281132\r
+slug: jerry-hudson\r
+name: Jerry Hudson\r
+alternateNames:\r
+  - Jerry E. Hudson\r
+birthDate: 1938-03-03\r
+deathDate: 2024-03-09\r
+---\r
+Jerry Hudson was a professor and academic administrator at Pepperdine University from 1962 to 1975.\r
+\r
+## Timeline\r
+- He was born on March 3, 1938.\r
+- He married Myra Ann Jared, a fellow student, on June 11, 1957.\r
+- He earned a bachelor’s degree in history from [[David Lipscomb College]] in 1959, and a PhD in history from Tulane University.\r
+- He was hired as a history professor at Pepperdine College in 1962.\r
+- He served as provost for the Malibu campus from 1971 to 1975, and as dean of what would become Seaver College, departing in September 1975 to become president of Hamline University.\r
+- In 1980, he left Hamline to become president of Williamette University, where he served for 17 years.\r
+- Hudson died on March 9, 2024.\r
+`,xL=Object.freeze(Object.defineProperty({__proto__:null,default:vL},Symbol.toStringTag,{value:"Module"})),wL=`---\r
+id: 202504281214\r
+slug: m.-norvel-young\r
+name: M. Norvel Young\r
+alternateNames:\r
+  - Matt Norvel Young\r
+  - Norvel Young\r
+birthDate: 1915-10-05\r
+deathDate: 1998-02-17\r
+---\r
+M. Norvel Young was the third president of Pepperdine University, serving from 1957 through the end of 1970. From 1971 to 1985, he served as chancellor of Pepperdine. He was chair of the [[Board of Trustees]] from 1971 to 1973.\r
+\r
+## Timeline\r
+- He was born October 5, 1915 in Nashville, Tennessee.\r
+- He received an associate's degree from [[Lipscomb University|David Lipscomb College]] in 1934.\r
+- He received a bachelor's degree from [[Abilene Christian University|Abilene Christian College]] in 1936.\r
+- He received a master's degree from [[Vanderbilt]] in 1937.\r
+- He went on a trip around the world with his cousin [[James O. Baird]] beginning in June 1937.\r
+- He taught history at George Pepperdine College from 1938 to 1941.\r
+- He married [[Helen Mattox Young|Helen Mattox]] on August 31, 1939.\r
+- He received his PhD from [[George Peabody]] in Nashville.\r
+- He preached at the [[Broadway Church of Christ]] from 1944 to 1957.\r
+- He was president of Pepperdine College between 1957 and 1970.\r
+- He was chancellor of Pepperdine from 1971 to 1985, after which he was chancellor emeritus.\r
+- He died February 17, 1998.\r
+	- His funeral was held at [[Firestone Fieldhouse]]; the eulogy was delivered by [[Jerry Rushford]].\r
+\r
+## Personal\r
+- His father was Matt Norvel Young, Sr., and his mother was Ruby Morrow.\r
+- His wife was [[Helen Mattox Young]]. They had three daughters and a son.\r
+\r
+## Sources\r
+- His [[Young papers|collected papers]] are held in Pepperdine University Special Collections.`,bL=Object.freeze(Object.defineProperty({__proto__:null,default:wL},Symbol.toStringTag,{value:"Module"})),kL=`---\r
+id: 202504291110\r
+slug: trent-devenney\r
+name: Trent Devenney\r
+alternateNames:\r
+  - Trent C. Devenney\r
+birthDate: 1941-06-20\r
+deathDate: 1991-03-26\r
+---\r
+Trent Devenney was an alumnus of Pepperdine College, graduating in 1964 with a degree in political science. In the 1970s, he instigated what has come to be known as the [[Trent Devenney affair]].\r
+\r
+## Timeline\r
+- He was born on June 20, 1941.\r
+- He attended Bakersfield Junior College.\r
+- In 1961, he attended Pepperdine’s third annual Freedom Forum, where he heard a speech by senator Barry Goldwater and decided to transfer to Pepperdine.\r
+- He was a political columnist for *The Graphic* beginning in the fall of 1961, and president of the California Young Republican College Federation in 1963.\r
+- He received a BA in political science from Pepperdine in 1964.\r
+- He received a JD from Hastings College in 1969.\r
+- He was a deputy in the Los Angeles city attorney’s office in the fall of 1973.\r
+- He wrote a long report about Pepperdine’s alleged failings in January 1973.\r
+- He prompted the [[Attorney General investigation]] of Pepperdine in April 1973.\r
+- He began a letter-writing campaign to Pepperdine donors in the fall of 1973.\r
+- He moved back to Bakersfield to practice law around 1975.\r
+- He died on March 26, 1991.`,SL=Object.freeze(Object.defineProperty({__proto__:null,default:kL},Symbol.toStringTag,{value:"Module"})),CL=`---\r
+id: 202504251413\r
+slug: william-s.-banowsky\r
+name: William S. Banowsky\r
+alternateNames:\r
+  - William Slater Banowsky\r
+  - Bill Banowsky\r
+birthDate: 1936-03-04\r
+deathDate: 2019-04-28\r
+---\r
+William S. Banowsky (1936–2019) was the fourth president of [[Pepperdine University]], serving from 1971 to 1978.\r
+\r
+## Timeline\r
+- He was born on March 4, 1936 and raised in Fort Worth, Texas.\r
+- He earned a BA in history and speech from [[Lipscomb University|David Lipscomb College]].\r
+- He received a master’s in speech from the University of New Mexico.\r
+- He worked at George Pepperdine College as an assistant to president [[M. Norvel Young]] between 1959 and 1963.\r
+- He received a PhD in speech from USC in 1963.\r
+- He served as minister at the [[Broadway Church of Christ]] in Lubbock, TX from 1963 to 1968.\r
+	- He had a highly publicized debate against Anson Mount, the editor of *Playboy*, October 8, 1967.\r
+- He returned to Pepperdine as executive vice president in June 1968.\r
+	- He had a debate against Bishop James Pike at UCSB on January 3, 1969.\r
+- He served as president of Pepperdine University from January 1971 to September 1978.\r
+	- In July 1975, he nearly became an undersecretary at the US Department of the Interior.\r
+- He became president of the University of Oklahoma, serving from 1978 to 1982.\r
+	- For six weeks in 1982 he was president of the Los Angeles Chamber of Commerce.\r
+	- He quickly returned to Oklahoma, where he served as president through 1984.\r
+- He held other jobs, including some years at Gaylord Broadcasting in the 1980s and at National Medical Enterprises.\r
+- In 2010, he published his memoir *[[The Malibu Miracle]]* on [[Pepperdine University Press]].\r
+- He died on April 28, 2019.\r
+\r
+## Personal\r
+- His full name was William Slater Banowsky.\r
+### Family\r
+- His father was [[Richard H. Banowsky]].\r
+- His wife was [[Gay Banowsky]], with whom he had four sons.\r
+\r
+## Sources\r
+- His [[William S. Banowsky papers|collected papers]] are held in Pepperdine University Special Collections.`,TL=Object.freeze(Object.defineProperty({__proto__:null,default:CL},Symbol.toStringTag,{value:"Module"})),PL=`---\r
+id: 202504251441\r
+slug: stauffer-chapel\r
+name: Stauffer Chapel\r
+city: Malibu\r
+region: California\r
+country: United States\r
+---\r
+Stauffer Chapel is a little white chapel with large stained-glass windows on the [[Malibu campus]] of [[Pepperdine University]], named for donor [[Beverly Stauffer]]. The chapel was designed by architect [[John Sheridan]] and the windows were done by Robert and Bette Donovan.\r
+\r
+## Timeline\r
+- Construction of the chapel was completed in 1973.\r
+- The chapel was dedicated on November 4, 1973 in a ceremony featuring Mrs. Stauffer and her chaplain, [[Benjamin Hawkes|Msgr. Benjamin Hawkes]].\r
+- Some panes of stained glass were broken by windstorms in February and December of 1974.\r
+	- The windows were glazed with a second plate of tougher, clear glass for protection in 1975.\r
+- The chapel has hosted many weddings over the years, and some funerals, including the funeral of [[Howard A. White]] on February 7, 1991.\r
 - The chapel was remodeled in March 2002 to improve acoustics.`,jL=Object.freeze(Object.defineProperty({__proto__:null,default:PL},Symbol.toStringTag,{value:"Module"}));var O=(e=>(e.document="document",e.person="person",e.place="place",e.event="event",e.collection="collection",e))(O||{}),gi=(e=>(e.documents="documents",e.people="people",e.places="places",e.events="events",e.collections="collections",e))(gi||{});const Ov={collection:"collections",document:"documents",event:"events",person:"people",place:"places"},Jp=Object.assign({"../content/documents/a-spirit-of-place.md":DO,"../content/documents/a-spirit-of-purpose.md":LO,"../content/documents/pepperdine-university's-relationship-to-churches-of-christ.md":BO,"../content/documents/ronald-reagan-speech-delivered-at-seaver-dedication.md":zO,"../content/documents/the-case-for-malibu.md":UO,"../content/documents/trent-devenney-to-dan-mcmichael-1973-04-20.md":WO,"../content/documents/trent-devenney-to-mrs.-seaver-1973-09-12.md":KO,"../content/documents/white-to-file-1974-02-16.md":qO,"../content/documents/white-to-file-1977-01-27.md":XO}),Qc=Object.assign({"../content/collections/howard-a.-white-papers.md":ZO,"../content/collections/pepperdine-university-speeches-collection.md":tL,"../content/collections/seaver-papers.md":rL,"../content/collections/shirley-roper-papers.md":sL,"../content/collections/william-s.-banowsky-papers.md":aL,"../content/collections/young-papers.md":cL}),Xc=Object.assign({"../content/events/dedication-of-seaver-college.md":dL,"../content/events/trent-devenney-affair.md":fL}),Jc=Object.assign({"../content/people/blanche-seaver.md":mL,"../content/people/howard-a.-white.md":yL,"../content/people/jerry-hudson.md":xL,"../content/people/m.-norvel-young.md":bL,"../content/people/trent-devenney.md":SL,"../content/people/william-s.-banowsky.md":TL}),Zc=Object.assign({"../content/places/stauffer-chapel.md":jL});function ua(e){var o,a;const t=e.split(`
 `),n={};let r=0,i=null;if(((o=t[0])==null?void 0:o.trim())==="---")for(let l=1;l<t.length;l++){const u=(a=t[l])==null?void 0:a.trim();if(u==="---"){r=l+1;break}const d=u.match(/^(\w+):\s*(.*)$/);if(d){i=d[1];const h=d[2];h.startsWith("-")?(n[i]=[h.slice(1).trim()],console.log("Array initialized for key:",i,"with value:",n[i])):n[i]=h}else i&&u.startsWith("-")&&(Array.isArray(n[i])||(n[i]=[]),n[i].push(u.slice(1).trim()))}const s=t.slice(r).join(`
 `);return{metadata:n,content:s}}function Zp(e){const t=`../content/documents/${e}.md`,n=Jp[t];if(!n)return;const{metadata:r,content:i}=ua(n.default);return{id:parseInt(r.id)||0,slug:e,title:r.title||"",content:i,date:r.date,type:r.type,source:r.source,location:r.location,authors:r.authors,recipients:r.recipients,year:parseInt(r.year)||0,transcribedBy:r.transcribedBy,transcriptionDate:r.transcriptionDate,archiveReference:r.archiveReference,collectionId:parseInt(r.collectionId)||0,lastUpdated:r.lastUpdated}}function da(){return Object.entries(Jp).map(([e,t])=>{var i;const r=(((i=e.split("/").pop())==null?void 0:i.replace(".md",""))||"").toLowerCase().replace(/\s+/g,"-");return Zp(r)})}function NL(e){return da().filter(t=>t.collectionId===e)}function ha(e,t){var h,f,m;let n,r,i;switch(t){case O.document:r=Zp(e),n=r==null?void 0:r.content;break;case O.collection:n=(h=em(e))==null?void 0:h.content;break;case O.person:i=nm(e),n=i==null?void 0:i.description;break;case O.event:n=(f=rm(e))==null?void 0:f.description;break;case O.place:n=(m=sm(e))==null?void 0:m.description;break;default:return[]}const s=[],o=da().filter(p=>{var g,b;return((n==null?void 0:n.includes(p.title))||t==O.person&&((g=p.authors)==null?void 0:g.includes((i==null?void 0:i.name)||""))||t==O.person&&((b=p.recipients)==null?void 0:b.includes((i==null?void 0:i.name)||"")))&&p.slug!==e});s.push(...o.map(p=>({id:p.id,type:O.document,name:p.title,slug:p.slug,description:p.content,date:p.date})));const a=tm().filter(p=>t==O.document&&p.id===(r==null?void 0:r.collectionId)&&p.slug!==e);s.push(...a.map(p=>({id:p.id,type:O.collection,name:p.title,slug:p.slug,description:p.description})));const l=eu().filter(p=>(n==null?void 0:n.includes(p.name))&&p.slug!==e);s.push(...l.map(p=>({id:p.id,type:O.person,name:p.name,slug:p.slug,description:p.description})));const u=im().filter(p=>(n==null?void 0:n.includes(p.name))&&p.slug!==e);s.push(...u.map(p=>({id:p.id,type:O.event,name:p.name,slug:p.slug,description:p.description,date:p.startDate||p.endDate})));const d=om().filter(p=>(n==null?void 0:n.includes(p.name))&&p.slug!==e);return s.push(...d.map(p=>({id:p.id,type:O.place,name:p.name,slug:p.slug,description:p.description}))),s}function em(e){const t=`../content/collections/${e}.md`,n=Qc[t];if(!n)return;const{metadata:r,content:i}=ua(n.default);return{id:parseInt(r.id)||0,slug:e,title:r.title||"",description:r.description||"",content:i,createdAt:new Date(r.createdAt||Date.now()),updatedAt:new Date(r.updatedAt||Date.now())}}function tm(){return Object.entries(Qc).map(([e,t])=>{var r;const n=((r=e.split("/").pop())==null?void 0:r.replace(".md",""))||"";return em(n)})}function EL(){return Object.keys(Qc).length}function RS(e){return tm().find(n=>n.id===e)}function nm(e){const t=`../content/people/${e}.md`,n=Jc[t];if(!n)return;const{metadata:r,content:i}=ua(n.default);return{id:parseInt(r.id)||0,slug:e,name:r.name||"",alternateNames:r.alternateNames||[],description:i,birthDate:r.birthDate,deathDate:r.deathDate,birthYear:r.birthYear,deathYear:r.deathYear}}function eu(){return Object.entries(Jc).map(([e,t])=>{var r;const n=((r=e.split("/").pop())==null?void 0:r.replace(".md",""))||"";return nm(n)})}function AL(){return Object.keys(Jc).length}function Lv(e){const t=eu();let n=t.find(r=>r.name===e);return n||(n=t.find(r=>{var i;return(i=r.alternateNames)==null?void 0:i.includes(e)}),n)?n.slug:""}function rm(e){const t=`../content/events/${e}.md`,n=Xc[t];if(!n)return;const{metadata:r,content:i}=ua(n.default);return{id:parseInt(r.id)||0,slug:e,name:r.name||"",description:i,startDate:r.startDate,endDate:r.endDate,startYear:r.startYear,endYear:r.endYear}}function im(){return Object.entries(Xc).map(([e,t])=>{var r;const n=((r=e.split("/").pop())==null?void 0:r.replace(".md",""))||"";return rm(n)})}function RL(){return Object.keys(Xc).length}function sm(e){const t=`../content/places/${e}.md`,n=Zc[t];if(!n)return;const{metadata:r,content:i}=ua(n.default);return{id:parseInt(r.id)||0,slug:e,name:r.name||"",alternateNames:r.alternateNames||[],city:r.city,region:r.region,country:r.country,description:i}}function om(){return Object.entries(Zc).map(([e,t])=>{var r;const n=((r=e.split("/").pop())==null?void 0:r.replace(".md",""))||"";return sm(n)})}function _L(){return Object.keys(Zc).length}function ML(e){if(e){if(Jp[`../content/documents/${e}.md`])return gi.documents;if(Qc[`../content/collections/${e}.md`])return gi.collections;if(Jc[`../content/people/${e}.md`])return gi.people;if(Xc[`../content/events/${e}.md`])return gi.events;if(Zc[`../content/places/${e}.md`])return gi.places}return null}var _S={},am={},lm={},fi={},MS={},fa={};(function(e){Object.defineProperty(e,"__esModule",{value:!0}),e.Doctype=e.CDATA=e.Tag=e.Style=e.Script=e.Comment=e.Directive=e.Text=e.Root=e.isTag=e.ElementType=void 0;var t;(function(r){r.Root="root",r.Text="text",r.Directive="directive",r.Comment="comment",r.Script="script",r.Style="style",r.Tag="tag",r.CDATA="cdata",r.Doctype="doctype"})(t=e.ElementType||(e.ElementType={}));function n(r){return r.type===t.Tag||r.type===t.Script||r.type===t.Style}e.isTag=n,e.Root=t.Root,e.Text=t.Text,e.Directive=t.Directive,e.Comment=t.Comment,e.Script=t.Script,e.Style=t.Style,e.Tag=t.Tag,e.CDATA=t.CDATA,e.Doctype=t.Doctype})(fa);var Z={},jr=le&&le.__extends||function(){var e=function(t,n){return e=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(r,i){r.__proto__=i}||function(r,i){for(var s in i)Object.prototype.hasOwnProperty.call(i,s)&&(r[s]=i[s])},e(t,n)};return function(t,n){if(typeof n!="function"&&n!==null)throw new TypeError("Class extends value "+String(n)+" is not a constructor or null");e(t,n);function r(){this.constructor=t}t.prototype=n===null?Object.create(n):(r.prototype=n.prototype,new r)}}(),go=le&&le.__assign||function(){return go=Object.assign||function(e){for(var t,n=1,r=arguments.length;n<r;n++){t=arguments[n];for(var i in t)Object.prototype.hasOwnProperty.call(t,i)&&(e[i]=t[i])}return e},go.apply(this,arguments)};Object.defineProperty(Z,"__esModule",{value:!0});Z.cloneNode=Z.hasChildren=Z.isDocument=Z.isDirective=Z.isComment=Z.isText=Z.isCDATA=Z.isTag=Z.Element=Z.Document=Z.CDATA=Z.NodeWithChildren=Z.ProcessingInstruction=Z.Comment=Z.Text=Z.DataNode=Z.Node=void 0;var gt=fa,cm=function(){function e(){this.parent=null,this.prev=null,this.next=null,this.startIndex=null,this.endIndex=null}return Object.defineProperty(e.prototype,"parentNode",{get:function(){return this.parent},set:function(t){this.parent=t},enumerable:!1,configurable:!0}),Object.defineProperty(e.prototype,"previousSibling",{get:function(){return this.prev},set:function(t){this.prev=t},enumerable:!1,configurable:!0}),Object.defineProperty(e.prototype,"nextSibling",{get:function(){return this.next},set:function(t){this.next=t},enumerable:!1,configurable:!0}),e.prototype.cloneNode=function(t){return t===void 0&&(t=!1),um(this,t)},e}();Z.Node=cm;var tu=function(e){jr(t,e);function t(n){var r=e.call(this)||this;return r.data=n,r}return Object.defineProperty(t.prototype,"nodeValue",{get:function(){return this.data},set:function(n){this.data=n},enumerable:!1,configurable:!0}),t}(cm);Z.DataNode=tu;var IS=function(e){jr(t,e);function t(){var n=e!==null&&e.apply(this,arguments)||this;return n.type=gt.ElementType.Text,n}return Object.defineProperty(t.prototype,"nodeType",{get:function(){return 3},enumerable:!1,configurable:!0}),t}(tu);Z.Text=IS;var DS=function(e){jr(t,e);function t(){var n=e!==null&&e.apply(this,arguments)||this;return n.type=gt.ElementType.Comment,n}return Object.defineProperty(t.prototype,"nodeType",{get:function(){return 8},enumerable:!1,configurable:!0}),t}(tu);Z.Comment=DS;var OS=function(e){jr(t,e);function t(n,r){var i=e.call(this,r)||this;return i.name=n,i.type=gt.ElementType.Directive,i}return Object.defineProperty(t.prototype,"nodeType",{get:function(){return 1},enumerable:!1,configurable:!0}),t}(tu);Z.ProcessingInstruction=OS;var nu=function(e){jr(t,e);function t(n){var r=e.call(this)||this;return r.children=n,r}return Object.defineProperty(t.prototype,"firstChild",{get:function(){var n;return(n=this.children[0])!==null&&n!==void 0?n:null},enumerable:!1,configurable:!0}),Object.defineProperty(t.prototype,"lastChild",{get:function(){return this.children.length>0?this.children[this.children.length-1]:null},enumerable:!1,configurable:!0}),Object.defineProperty(t.prototype,"childNodes",{get:function(){return this.children},set:function(n){this.children=n},enumerable:!1,configurable:!0}),t}(cm);Z.NodeWithChildren=nu;var LS=function(e){jr(t,e);function t(){var n=e!==null&&e.apply(this,arguments)||this;return n.type=gt.ElementType.CDATA,n}return Object.defineProperty(t.prototype,"nodeType",{get:function(){return 4},enumerable:!1,configurable:!0}),t}(nu);Z.CDATA=LS;var FS=function(e){jr(t,e);function t(){var n=e!==null&&e.apply(this,arguments)||this;return n.type=gt.ElementType.Root,n}return Object.defineProperty(t.prototype,"nodeType",{get:function(){return 9},enumerable:!1,configurable:!0}),t}(nu);Z.Document=FS;var BS=function(e){jr(t,e);function t(n,r,i,s){i===void 0&&(i=[]),s===void 0&&(s=n==="script"?gt.ElementType.Script:n==="style"?gt.ElementType.Style:gt.ElementType.Tag);var o=e.call(this,i)||this;return o.name=n,o.attribs=r,o.type=s,o}return Object.defineProperty(t.prototype,"nodeType",{get:function(){return 1},enumerable:!1,configurable:!0}),Object.defineProperty(t.prototype,"tagName",{get:function(){return this.name},set:function(n){this.name=n},enumerable:!1,configurable:!0}),Object.defineProperty(t.prototype,"attributes",{get:function(){var n=this;return Object.keys(this.attribs).map(function(r){var i,s;return{name:r,value:n.attribs[r],namespace:(i=n["x-attribsNamespace"])===null||i===void 0?void 0:i[r],prefix:(s=n["x-attribsPrefix"])===null||s===void 0?void 0:s[r]}})},enumerable:!1,configurable:!0}),t}(nu);Z.Element=BS;function $S(e){return(0,gt.isTag)(e)}Z.isTag=$S;function zS(e){return e.type===gt.ElementType.CDATA}Z.isCDATA=zS;function VS(e){return e.type===gt.ElementType.Text}Z.isText=VS;function US(e){return e.type===gt.ElementType.Comment}Z.isComment=US;function HS(e){return e.type===gt.ElementType.Directive}Z.isDirective=HS;function WS(e){return e.type===gt.ElementType.Root}Z.isDocument=WS;function IL(e){return Object.prototype.hasOwnProperty.call(e,"children")}Z.hasChildren=IL;function um(e,t){t===void 0&&(t=!1);var n;if(VS(e))n=new IS(e.data);else if(US(e))n=new DS(e.data);else if($S(e)){var r=t?sd(e.children):[],i=new BS(e.name,go({},e.attribs),r);r.forEach(function(l){return l.parent=i}),e.namespace!=null&&(i.namespace=e.namespace),e["x-attribsNamespace"]&&(i["x-attribsNamespace"]=go({},e["x-attribsNamespace"])),e["x-attribsPrefix"]&&(i["x-attribsPrefix"]=go({},e["x-attribsPrefix"])),n=i}else if(zS(e)){var r=t?sd(e.children):[],s=new LS(r);r.forEach(function(u){return u.parent=s}),n=s}else if(WS(e)){var r=t?sd(e.children):[],o=new FS(r);r.forEach(function(u){return u.parent=o}),e["x-mode"]&&(o["x-mode"]=e["x-mode"]),n=o}else if(HS(e)){var a=new OS(e.name,e.data);e["x-name"]!=null&&(a["x-name"]=e["x-name"],a["x-publicId"]=e["x-publicId"],a["x-systemId"]=e["x-systemId"]),n=a}else throw new Error("Not implemented yet: ".concat(e.type));return n.startIndex=e.startIndex,n.endIndex=e.endIndex,e.sourceCodeLocation!=null&&(n.sourceCodeLocation=e.sourceCodeLocation),n}Z.cloneNode=um;function sd(e){for(var t=e.map(function(r){return um(r,!0)}),n=1;n<t.length;n++)t[n].prev=t[n-1],t[n-1].next=t[n];return t}(function(e){var t=le&&le.__createBinding||(Object.create?function(a,l,u,d){d===void 0&&(d=u);var h=Object.getOwnPropertyDescriptor(l,u);(!h||("get"in h?!l.__esModule:h.writable||h.configurable))&&(h={enumerable:!0,get:function(){return l[u]}}),Object.defineProperty(a,d,h)}:function(a,l,u,d){d===void 0&&(d=u),a[d]=l[u]}),n=le&&le.__exportStar||function(a,l){for(var u in a)u!=="default"&&!Object.prototype.hasOwnProperty.call(l,u)&&t(l,a,u)};Object.defineProperty(e,"__esModule",{value:!0}),e.DomHandler=void 0;var r=fa,i=Z;n(Z,e);var s={withStartIndices:!1,withEndIndices:!1,xmlMode:!1},o=function(){function a(l,u,d){this.dom=[],this.root=new i.Document(this.dom),this.done=!1,this.tagStack=[this.root],this.lastNode=null,this.parser=null,typeof u=="function"&&(d=u,u=s),typeof l=="object"&&(u=l,l=void 0),this.callback=l??null,this.options=u??s,this.elementCB=d??null}return a.prototype.onparserinit=function(l){this.parser=l},a.prototype.onreset=function(){this.dom=[],this.root=new i.Document(this.dom),this.done=!1,this.tagStack=[this.root],this.lastNode=null,this.parser=null},a.prototype.onend=function(){this.done||(this.done=!0,this.parser=null,this.handleCallback(null))},a.prototype.onerror=function(l){this.handleCallback(l)},a.prototype.onclosetag=function(){this.lastNode=null;var l=this.tagStack.pop();this.options.withEndIndices&&(l.endIndex=this.parser.endIndex),this.elementCB&&this.elementCB(l)},a.prototype.onopentag=function(l,u){var d=this.options.xmlMode?r.ElementType.Tag:void 0,h=new i.Element(l,u,void 0,d);this.addNode(h),this.tagStack.push(h)},a.prototype.ontext=function(l){var u=this.lastNode;if(u&&u.type===r.ElementType.Text)u.data+=l,this.options.withEndIndices&&(u.endIndex=this.parser.endIndex);else{var d=new i.Text(l);this.addNode(d),this.lastNode=d}},a.prototype.oncomment=function(l){if(this.lastNode&&this.lastNode.type===r.ElementType.Comment){this.lastNode.data+=l;return}var u=new i.Comment(l);this.addNode(u),this.lastNode=u},a.prototype.oncommentend=function(){this.lastNode=null},a.prototype.oncdatastart=function(){var l=new i.Text(""),u=new i.CDATA([l]);this.addNode(u),l.parent=u,this.lastNode=l},a.prototype.oncdataend=function(){this.lastNode=null},a.prototype.onprocessinginstruction=function(l,u){var d=new i.ProcessingInstruction(l,u);this.addNode(d)},a.prototype.handleCallback=function(l){if(typeof this.callback=="function")this.callback(l,this.dom);else if(l)throw l},a.prototype.addNode=function(l){var u=this.tagStack[this.tagStack.length-1],d=u.children[u.children.length-1];this.options.withStartIndices&&(l.startIndex=this.parser.startIndex),this.options.withEndIndices&&(l.endIndex=this.parser.endIndex),u.children.push(l),d&&(l.prev=d,d.next=l),l.parent=u,this.lastNode=null},a}();e.DomHandler=o,e.default=o})(MS);var GS={};(function(e){Object.defineProperty(e,"__esModule",{value:!0}),e.CARRIAGE_RETURN_PLACEHOLDER_REGEX=e.CARRIAGE_RETURN_PLACEHOLDER=e.CARRIAGE_RETURN_REGEX=e.CARRIAGE_RETURN=e.CASE_SENSITIVE_TAG_NAMES_MAP=e.CASE_SENSITIVE_TAG_NAMES=void 0,e.CASE_SENSITIVE_TAG_NAMES=["animateMotion","animateTransform","clipPath","feBlend","feColorMatrix","feComponentTransfer","feComposite","feConvolveMatrix","feDiffuseLighting","feDisplacementMap","feDropShadow","feFlood","feFuncA","feFuncB","feFuncG","feFuncR","feGaussianBlur","feImage","feMerge","feMergeNode","feMorphology","feOffset","fePointLight","feSpecularLighting","feSpotLight","feTile","feTurbulence","foreignObject","linearGradient","radialGradient","textPath"],e.CASE_SENSITIVE_TAG_NAMES_MAP=e.CASE_SENSITIVE_TAG_NAMES.reduce(function(t,n){return t[n.toLowerCase()]=n,t},{}),e.CARRIAGE_RETURN="\r",e.CARRIAGE_RETURN_REGEX=new RegExp(e.CARRIAGE_RETURN,"g"),e.CARRIAGE_RETURN_PLACEHOLDER="__HTML_DOM_PARSER_CARRIAGE_RETURN_PLACEHOLDER_".concat(Date.now(),"__"),e.CARRIAGE_RETURN_PLACEHOLDER_REGEX=new RegExp(e.CARRIAGE_RETURN_PLACEHOLDER,"g")})(GS);Object.defineProperty(fi,"__esModule",{value:!0});fi.formatAttributes=KS;fi.escapeSpecialCharacters=LL;fi.revertEscapedCharacters=YS;fi.formatDOM=qS;var Ha=MS,Wo=GS;function DL(e){return Wo.CASE_SENSITIVE_TAG_NAMES_MAP[e]}function KS(e){for(var t={},n=0,r=e.length;n<r;n++){var i=e[n];t[i.name]=i.value}return t}function OL(e){e=e.toLowerCase();var t=DL(e);return t||e}function LL(e){return e.replace(Wo.CARRIAGE_RETURN_REGEX,Wo.CARRIAGE_RETURN_PLACEHOLDER)}function YS(e){return e.replace(Wo.CARRIAGE_RETURN_PLACEHOLDER_REGEX,Wo.CARRIAGE_RETURN)}function qS(e,t,n){t===void 0&&(t=null);for(var r=[],i,s=0,o=e.length;s<o;s++){var a=e[s];switch(a.nodeType){case 1:{var l=OL(a.nodeName);i=new Ha.Element(l,KS(a.attributes)),i.children=qS(l==="template"?a.content.childNodes:a.childNodes,i);break}case 3:i=new Ha.Text(YS(a.nodeValue));break;case 8:i=new Ha.Comment(a.nodeValue);break;default:continue}var u=r[s-1]||null;u&&(u.next=i),i.parent=t,i.prev=u,i.next=null,r.push(i)}return n&&(i=new Ha.ProcessingInstruction(n.substring(0,n.indexOf(" ")).toLowerCase(),n),i.next=r[0]||null,i.parent=t,r.unshift(i),r[1]&&(r[1].prev=r[0])),r}Object.defineProperty(lm,"__esModule",{value:!0});lm.default=VL;var FL=fi,Fv="html",Bv="head",Wa="body",BL=/<([a-zA-Z]+[0-9]?)/,$v=/<head[^]*>/i,zv=/<body[^]*>/i,cc=function(e,t){throw new Error("This browser does not support `document.implementation.createHTMLDocument`")},Dh=function(e,t){throw new Error("This browser does not support `DOMParser.prototype.parseFromString`")},Vv=typeof window=="object"&&window.DOMParser;if(typeof Vv=="function"){var $L=new Vv,zL="text/html";Dh=function(e,t){return t&&(e="<".concat(t,">").concat(e,"</").concat(t,">")),$L.parseFromString(e,zL)},cc=Dh}if(typeof document=="object"&&document.implementation){var Ga=document.implementation.createHTMLDocument();cc=function(e,t){if(t){var n=Ga.documentElement.querySelector(t);return n&&(n.innerHTML=e),Ga}return Ga.documentElement.innerHTML=e,Ga}}var Ka=typeof document=="object"&&document.createElement("template"),Oh;Ka&&Ka.content&&(Oh=function(e){return Ka.innerHTML=e,Ka.content.childNodes});function VL(e){var t,n;e=(0,FL.escapeSpecialCharacters)(e);var r=e.match(BL),i=r&&r[1]?r[1].toLowerCase():"";switch(i){case Fv:{var s=Dh(e);if(!$v.test(e)){var o=s.querySelector(Bv);(t=o==null?void 0:o.parentNode)===null||t===void 0||t.removeChild(o)}if(!zv.test(e)){var o=s.querySelector(Wa);(n=o==null?void 0:o.parentNode)===null||n===void 0||n.removeChild(o)}return s.querySelectorAll(Fv)}case Bv:case Wa:{var a=cc(e).querySelectorAll(i);return zv.test(e)&&$v.test(e)?a[0].parentNode.childNodes:a}default:{if(Oh)return Oh(e);var o=cc(e,Wa).querySelector(Wa);return o.childNodes}}}var UL=le&&le.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(am,"__esModule",{value:!0});am.default=KL;var HL=UL(lm),WL=fi,GL=/<(![a-zA-Z\s]+)>/;function KL(e){if(typeof e!="string")throw new TypeError("First argument must be a string");if(!e)return[];var t=e.match(GL),n=t?t[1]:void 0;return(0,WL.formatDOM)((0,HL.default)(e),null,n)}var ru={},on={},iu={},YL=0;iu.SAME=YL;var qL=1;iu.CAMELCASE=qL;iu.possibleStandardNames={accept:0,acceptCharset:1,"accept-charset":"acceptCharset",accessKey:1,action:0,allowFullScreen:1,alt:0,as:0,async:0,autoCapitalize:1,autoComplete:1,autoCorrect:1,autoFocus:1,autoPlay:1,autoSave:1,capture:0,cellPadding:1,cellSpacing:1,challenge:0,charSet:1,checked:0,children:0,cite:0,class:"className",classID:1,className:1,cols:0,colSpan:1,content:0,contentEditable:1,contextMenu:1,controls:0,controlsList:1,coords:0,crossOrigin:1,dangerouslySetInnerHTML:1,data:0,dateTime:1,default:0,defaultChecked:1,defaultValue:1,defer:0,dir:0,disabled:0,disablePictureInPicture:1,disableRemotePlayback:1,download:0,draggable:0,encType:1,enterKeyHint:1,for:"htmlFor",form:0,formMethod:1,formAction:1,formEncType:1,formNoValidate:1,formTarget:1,frameBorder:1,headers:0,height:0,hidden:0,high:0,href:0,hrefLang:1,htmlFor:1,httpEquiv:1,"http-equiv":"httpEquiv",icon:0,id:0,innerHTML:1,inputMode:1,integrity:0,is:0,itemID:1,itemProp:1,itemRef:1,itemScope:1,itemType:1,keyParams:1,keyType:1,kind:0,label:0,lang:0,list:0,loop:0,low:0,manifest:0,marginWidth:1,marginHeight:1,max:0,maxLength:1,media:0,mediaGroup:1,method:0,min:0,minLength:1,multiple:0,muted:0,name:0,noModule:1,nonce:0,noValidate:1,open:0,optimum:0,pattern:0,placeholder:0,playsInline:1,poster:0,preload:0,profile:0,radioGroup:1,readOnly:1,referrerPolicy:1,rel:0,required:0,reversed:0,role:0,rows:0,rowSpan:1,sandbox:0,scope:0,scoped:0,scrolling:0,seamless:0,selected:0,shape:0,size:0,sizes:0,span:0,spellCheck:1,src:0,srcDoc:1,srcLang:1,srcSet:1,start:0,step:0,style:0,summary:0,tabIndex:1,target:0,title:0,type:0,useMap:1,value:0,width:0,wmode:0,wrap:0,about:0,accentHeight:1,"accent-height":"accentHeight",accumulate:0,additive:0,alignmentBaseline:1,"alignment-baseline":"alignmentBaseline",allowReorder:1,alphabetic:0,amplitude:0,arabicForm:1,"arabic-form":"arabicForm",ascent:0,attributeName:1,attributeType:1,autoReverse:1,azimuth:0,baseFrequency:1,baselineShift:1,"baseline-shift":"baselineShift",baseProfile:1,bbox:0,begin:0,bias:0,by:0,calcMode:1,capHeight:1,"cap-height":"capHeight",clip:0,clipPath:1,"clip-path":"clipPath",clipPathUnits:1,clipRule:1,"clip-rule":"clipRule",color:0,colorInterpolation:1,"color-interpolation":"colorInterpolation",colorInterpolationFilters:1,"color-interpolation-filters":"colorInterpolationFilters",colorProfile:1,"color-profile":"colorProfile",colorRendering:1,"color-rendering":"colorRendering",contentScriptType:1,contentStyleType:1,cursor:0,cx:0,cy:0,d:0,datatype:0,decelerate:0,descent:0,diffuseConstant:1,direction:0,display:0,divisor:0,dominantBaseline:1,"dominant-baseline":"dominantBaseline",dur:0,dx:0,dy:0,edgeMode:1,elevation:0,enableBackground:1,"enable-background":"enableBackground",end:0,exponent:0,externalResourcesRequired:1,fill:0,fillOpacity:1,"fill-opacity":"fillOpacity",fillRule:1,"fill-rule":"fillRule",filter:0,filterRes:1,filterUnits:1,floodOpacity:1,"flood-opacity":"floodOpacity",floodColor:1,"flood-color":"floodColor",focusable:0,fontFamily:1,"font-family":"fontFamily",fontSize:1,"font-size":"fontSize",fontSizeAdjust:1,"font-size-adjust":"fontSizeAdjust",fontStretch:1,"font-stretch":"fontStretch",fontStyle:1,"font-style":"fontStyle",fontVariant:1,"font-variant":"fontVariant",fontWeight:1,"font-weight":"fontWeight",format:0,from:0,fx:0,fy:0,g1:0,g2:0,glyphName:1,"glyph-name":"glyphName",glyphOrientationHorizontal:1,"glyph-orientation-horizontal":"glyphOrientationHorizontal",glyphOrientationVertical:1,"glyph-orientation-vertical":"glyphOrientationVertical",glyphRef:1,gradientTransform:1,gradientUnits:1,hanging:0,horizAdvX:1,"horiz-adv-x":"horizAdvX",horizOriginX:1,"horiz-origin-x":"horizOriginX",ideographic:0,imageRendering:1,"image-rendering":"imageRendering",in2:0,in:0,inlist:0,intercept:0,k1:0,k2:0,k3:0,k4:0,k:0,kernelMatrix:1,kernelUnitLength:1,kerning:0,keyPoints:1,keySplines:1,keyTimes:1,lengthAdjust:1,letterSpacing:1,"letter-spacing":"letterSpacing",lightingColor:1,"lighting-color":"lightingColor",limitingConeAngle:1,local:0,markerEnd:1,"marker-end":"markerEnd",markerHeight:1,markerMid:1,"marker-mid":"markerMid",markerStart:1,"marker-start":"markerStart",markerUnits:1,markerWidth:1,mask:0,maskContentUnits:1,maskUnits:1,mathematical:0,mode:0,numOctaves:1,offset:0,opacity:0,operator:0,order:0,orient:0,orientation:0,origin:0,overflow:0,overlinePosition:1,"overline-position":"overlinePosition",overlineThickness:1,"overline-thickness":"overlineThickness",paintOrder:1,"paint-order":"paintOrder",panose1:0,"panose-1":"panose1",pathLength:1,patternContentUnits:1,patternTransform:1,patternUnits:1,pointerEvents:1,"pointer-events":"pointerEvents",points:0,pointsAtX:1,pointsAtY:1,pointsAtZ:1,prefix:0,preserveAlpha:1,preserveAspectRatio:1,primitiveUnits:1,property:0,r:0,radius:0,refX:1,refY:1,renderingIntent:1,"rendering-intent":"renderingIntent",repeatCount:1,repeatDur:1,requiredExtensions:1,requiredFeatures:1,resource:0,restart:0,result:0,results:0,rotate:0,rx:0,ry:0,scale:0,security:0,seed:0,shapeRendering:1,"shape-rendering":"shapeRendering",slope:0,spacing:0,specularConstant:1,specularExponent:1,speed:0,spreadMethod:1,startOffset:1,stdDeviation:1,stemh:0,stemv:0,stitchTiles:1,stopColor:1,"stop-color":"stopColor",stopOpacity:1,"stop-opacity":"stopOpacity",strikethroughPosition:1,"strikethrough-position":"strikethroughPosition",strikethroughThickness:1,"strikethrough-thickness":"strikethroughThickness",string:0,stroke:0,strokeDasharray:1,"stroke-dasharray":"strokeDasharray",strokeDashoffset:1,"stroke-dashoffset":"strokeDashoffset",strokeLinecap:1,"stroke-linecap":"strokeLinecap",strokeLinejoin:1,"stroke-linejoin":"strokeLinejoin",strokeMiterlimit:1,"stroke-miterlimit":"strokeMiterlimit",strokeWidth:1,"stroke-width":"strokeWidth",strokeOpacity:1,"stroke-opacity":"strokeOpacity",suppressContentEditableWarning:1,suppressHydrationWarning:1,surfaceScale:1,systemLanguage:1,tableValues:1,targetX:1,targetY:1,textAnchor:1,"text-anchor":"textAnchor",textDecoration:1,"text-decoration":"textDecoration",textLength:1,textRendering:1,"text-rendering":"textRendering",to:0,transform:0,typeof:0,u1:0,u2:0,underlinePosition:1,"underline-position":"underlinePosition",underlineThickness:1,"underline-thickness":"underlineThickness",unicode:0,unicodeBidi:1,"unicode-bidi":"unicodeBidi",unicodeRange:1,"unicode-range":"unicodeRange",unitsPerEm:1,"units-per-em":"unitsPerEm",unselectable:0,vAlphabetic:1,"v-alphabetic":"vAlphabetic",values:0,vectorEffect:1,"vector-effect":"vectorEffect",version:0,vertAdvY:1,"vert-adv-y":"vertAdvY",vertOriginX:1,"vert-origin-x":"vertOriginX",vertOriginY:1,"vert-origin-y":"vertOriginY",vHanging:1,"v-hanging":"vHanging",vIdeographic:1,"v-ideographic":"vIdeographic",viewBox:1,viewTarget:1,visibility:0,vMathematical:1,"v-mathematical":"vMathematical",vocab:0,widths:0,wordSpacing:1,"word-spacing":"wordSpacing",writingMode:1,"writing-mode":"writingMode",x1:0,x2:0,x:0,xChannelSelector:1,xHeight:1,"x-height":"xHeight",xlinkActuate:1,"xlink:actuate":"xlinkActuate",xlinkArcrole:1,"xlink:arcrole":"xlinkArcrole",xlinkHref:1,"xlink:href":"xlinkHref",xlinkRole:1,"xlink:role":"xlinkRole",xlinkShow:1,"xlink:show":"xlinkShow",xlinkTitle:1,"xlink:title":"xlinkTitle",xlinkType:1,"xlink:type":"xlinkType",xmlBase:1,"xml:base":"xmlBase",xmlLang:1,"xml:lang":"xmlLang",xmlns:0,"xml:space":"xmlSpace",xmlnsXlink:1,"xmlns:xlink":"xmlnsXlink",xmlSpace:1,y1:0,y2:0,y:0,yChannelSelector:1,z:0,zoomAndPan:1};const QS=0,Nr=1,su=2,ou=3,dm=4,XS=5,JS=6;function QL(e){return $e.hasOwnProperty(e)?$e[e]:null}function ut(e,t,n,r,i,s,o){this.acceptsBooleans=t===su||t===ou||t===dm,this.attributeName=r,this.attributeNamespace=i,this.mustUseProperty=n,this.propertyName=e,this.type=t,this.sanitizeURL=s,this.removeEmptyString=o}const $e={},XL=["children","dangerouslySetInnerHTML","defaultValue","defaultChecked","innerHTML","suppressContentEditableWarning","suppressHydrationWarning","style"];XL.forEach(e=>{$e[e]=new ut(e,QS,!1,e,null,!1,!1)});[["acceptCharset","accept-charset"],["className","class"],["htmlFor","for"],["httpEquiv","http-equiv"]].forEach(([e,t])=>{$e[e]=new ut(e,Nr,!1,t,null,!1,!1)});["contentEditable","draggable","spellCheck","value"].forEach(e=>{$e[e]=new ut(e,su,!1,e.toLowerCase(),null,!1,!1)});["autoReverse","externalResourcesRequired","focusable","preserveAlpha"].forEach(e=>{$e[e]=new ut(e,su,!1,e,null,!1,!1)});["allowFullScreen","async","autoFocus","autoPlay","controls","default","defer","disabled","disablePictureInPicture","disableRemotePlayback","formNoValidate","hidden","loop","noModule","noValidate","open","playsInline","readOnly","required","reversed","scoped","seamless","itemScope"].forEach(e=>{$e[e]=new ut(e,ou,!1,e.toLowerCase(),null,!1,!1)});["checked","multiple","muted","selected"].forEach(e=>{$e[e]=new ut(e,ou,!0,e,null,!1,!1)});["capture","download"].forEach(e=>{$e[e]=new ut(e,dm,!1,e,null,!1,!1)});["cols","rows","size","span"].forEach(e=>{$e[e]=new ut(e,JS,!1,e,null,!1,!1)});["rowSpan","start"].forEach(e=>{$e[e]=new ut(e,XS,!1,e.toLowerCase(),null,!1,!1)});const hm=/[\-\:]([a-z])/g,fm=e=>e[1].toUpperCase();["accent-height","alignment-baseline","arabic-form","baseline-shift","cap-height","clip-path","clip-rule","color-interpolation","color-interpolation-filters","color-profile","color-rendering","dominant-baseline","enable-background","fill-opacity","fill-rule","flood-color","flood-opacity","font-family","font-size","font-size-adjust","font-stretch","font-style","font-variant","font-weight","glyph-name","glyph-orientation-horizontal","glyph-orientation-vertical","horiz-adv-x","horiz-origin-x","image-rendering","letter-spacing","lighting-color","marker-end","marker-mid","marker-start","overline-position","overline-thickness","paint-order","panose-1","pointer-events","rendering-intent","shape-rendering","stop-color","stop-opacity","strikethrough-position","strikethrough-thickness","stroke-dasharray","stroke-dashoffset","stroke-linecap","stroke-linejoin","stroke-miterlimit","stroke-opacity","stroke-width","text-anchor","text-decoration","text-rendering","underline-position","underline-thickness","unicode-bidi","unicode-range","units-per-em","v-alphabetic","v-hanging","v-ideographic","v-mathematical","vector-effect","vert-adv-y","vert-origin-x","vert-origin-y","word-spacing","writing-mode","xmlns:xlink","x-height"].forEach(e=>{const t=e.replace(hm,fm);$e[t]=new ut(t,Nr,!1,e,null,!1,!1)});["xlink:actuate","xlink:arcrole","xlink:role","xlink:show","xlink:title","xlink:type"].forEach(e=>{const t=e.replace(hm,fm);$e[t]=new ut(t,Nr,!1,e,"http://www.w3.org/1999/xlink",!1,!1)});["xml:base","xml:lang","xml:space"].forEach(e=>{const t=e.replace(hm,fm);$e[t]=new ut(t,Nr,!1,e,"http://www.w3.org/XML/1998/namespace",!1,!1)});["tabIndex","crossOrigin"].forEach(e=>{$e[e]=new ut(e,Nr,!1,e.toLowerCase(),null,!1,!1)});const JL="xlinkHref";$e[JL]=new ut("xlinkHref",Nr,!1,"xlink:href","http://www.w3.org/1999/xlink",!0,!1);["src","href","action","formAction"].forEach(e=>{$e[e]=new ut(e,Nr,!1,e.toLowerCase(),null,!0,!0)});const{CAMELCASE:ZL,SAME:e4,possibleStandardNames:Uv}=iu,t4=":A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD",n4=t4+"\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040",r4=RegExp.prototype.test.bind(new RegExp("^(data|aria)-["+n4+"]*$")),i4=Object.keys(Uv).reduce((e,t)=>{const n=Uv[t];return n===e4?e[t]=t:n===ZL?e[t.toLowerCase()]=t:e[t]=n,e},{});on.BOOLEAN=ou;on.BOOLEANISH_STRING=su;on.NUMERIC=XS;on.OVERLOADED_BOOLEAN=dm;on.POSITIVE_NUMERIC=JS;on.RESERVED=QS;on.STRING=Nr;on.getPropertyInfo=QL;on.isCustomAttribute=r4;on.possibleStandardNames=i4;var pm={},mm={},Hv=/\/\*[^*]*\*+([^/*][^*]*\*+)*\//g,s4=/\n/g,o4=/^\s*/,a4=/^(\*?[-#/*\\\w]+(\[[0-9a-z_-]+\])?)\s*/,l4=/^:\s*/,c4=/^((?:'(?:\\'|.)*?'|"(?:\\"|.)*?"|\([^)]*?\)|[^};])+)/,u4=/^[;\s]*/,d4=/^\s+|\s+$/g,h4=`
