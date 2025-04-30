@@ -36,4 +36,4 @@ William S. Banowsky (1936–2019) was the fourth president of [[Pepperdine Unive
 - His wife was [[Gay Banowsky]], with whom he had four sons.
 
 ## Sources
-- His [[William S. Banowsky papers|Banowsky papers]] are held in Pepperdine University Special Collections.
+- His [[William S. Banowsky papers|collected papers]] are held in Pepperdine University Special Collections.

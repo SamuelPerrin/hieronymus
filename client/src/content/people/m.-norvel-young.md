@@ -28,3 +28,6 @@ M. Norvel Young was the third president of Pepperdine University, serving from 1
 ## Personal
 - His father was Matt Norvel Young, Sr., and his mother was Ruby Morrow.
 - His wife was [[Helen Mattox Young]]. They had three daughters and a son.
+
+## Sources
+- His [[Young papers|collected papers]] are held in Pepperdine University Special Collections.

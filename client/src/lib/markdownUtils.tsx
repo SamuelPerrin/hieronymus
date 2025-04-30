@@ -86,8 +86,12 @@ renderer.blockquote = (quote) => {
       return;
     }
 
+    if (!trimmedLine) {
+      output += "<br/>"; // Add a line break for empty lines
+      return;
+    }
     // Default case: treat as paragraph
-    output += `<p>${marked.parseInline(trimmedLine)}</p>`;
+    output += `<p class="mb-0">${marked.parseInline(trimmedLine)}</p>`;
   });
 
   // Close any remaining lists
@@ -111,7 +115,6 @@ export function renderMarkdown(markdown: string): string | Promise<string> {
   }
   
   try {
-    console.log("markdown:", markdown);
     let adjustedMarkdown = adjustMarkdown(markdown);
     // Use the simplest approach to parse markdown to HTML
     return marked.parse(adjustedMarkdown);

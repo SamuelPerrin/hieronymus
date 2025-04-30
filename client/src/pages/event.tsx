@@ -94,7 +94,7 @@ const EventPage = () => {
                         {event.name}
                       </CardTitle>
                       <div className="flex flex-wrap gap-2 mt-2">
-                        {event.startYear && event.endYear && (
+                        {!event.startDate && (event.startYear && event.endYear) && (
                           <Badge variant="outline" className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 border-none">
                             {event.startYear === event.endYear 
                               ? event.startYear 
@@ -108,7 +108,7 @@ const EventPage = () => {
                         )}
                         {event.endDate && (
                           <Badge variant="outline" className="bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 border-none">
-                            Ended: {event.endDate}
+                            Ended: {formatDate(event.endDate)}
                           </Badge>
                         )}
                       </div>
