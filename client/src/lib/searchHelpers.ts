@@ -68,7 +68,7 @@ export const searchDocuments = (tokens: string[]): [Document[], number] => {
       }
     }
     results.push({ document: doc, score });
-    console.log(doc.title, score);
+    // console.log(doc.title, score);
   }
 
   // Sort results by score in descending order and return the documents
@@ -101,7 +101,7 @@ export const searchPeople = (tokens: string[]): [Person[], number] => {
       }
     }
     results.push({ person, score });
-    console.log(person.name, score);
+    // console.log(person.name, score);
   }
 
   // Sort results by score in descending order and return the people
@@ -135,7 +135,7 @@ export const searchEvents = (tokens: string[]): [Event[], number] => {
       }
     }
     results.push({ event, score });
-    console.log(event.name, score);
+    // console.log(event.name, score);
   }
 
   // Sort results by score in descending order and return the events
@@ -168,7 +168,7 @@ export const searchPlaces = (tokens: string[]): [Place[], number] => {
       }
     }
     results.push({ place, score });
-    console.log(place.name, score);
+    // console.log(place.name, score);
   }
 
   // Sort results bys core in descending order and return the events
