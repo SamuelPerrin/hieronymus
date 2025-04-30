@@ -182,7 +182,7 @@ export function extractExcerpt(markdown: string, maxLength = 150): string {
   const MINIMUM_LENGTH = 20; // characters
 
   // Get the first real paragraph (avoid dates, salutations, addresses, etc.)
-  const paragraphs = markdown.split('\n\n');
+  const paragraphs = markdown.split('\n');
   let firstParagraph = paragraphs.find(p => p.length > MINIMUM_LENGTH)?.replace(/\n/g, ' ').trim();
   if (!firstParagraph) {
     firstParagraph = paragraphs[0].replace(/\n/g, ' ').trim();

@@ -95,7 +95,7 @@ const Places = () => {
                         </Link>
                       </TableCell>
                       <TableCell>
-                        {place.city || "N/A"}{place.region && `, ${place.region}`}{place.country && `, ${place.country}`}
+                        {place.city || "-"}{place.region && `, ${place.region}`}{place.country && `, ${place.country}`}
                       </TableCell>
                     </TableRow>
                   ))}

@@ -7,6 +7,7 @@ import SearchBar from "@/components/search/SearchBar";
 import { extractExcerpt } from "@/lib/markdownUtils";
 import { motion } from "framer-motion";
 import { getAllDocuments, getCollectionsLength, getEventsLength, getPeopleLength, getPlacesLength } from "@/lib/contentLoader";
+import { formatDate } from "@/lib/utils";
 
 const Home = () => {
   // Fetch recent documents
@@ -83,7 +84,7 @@ const Home = () => {
                   </Link>
                 </CardTitle>
                 <CardDescription className="flex items-center text-muted-foreground">
-                  <Calendar className="h-3 w-3 mr-1" /> {doc.date}
+                  {doc.date && <><Calendar className="h-3 w-3 mr-1" /> <span>{formatDate(doc.date!)}</span></>}
                 </CardDescription>
               </CardHeader>
               <CardContent>

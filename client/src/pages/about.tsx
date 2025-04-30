@@ -66,7 +66,7 @@ const AboutPage = () => {
                     <li>Digital images of each document are obtained from reputable archives.</li>
                     <li>Each document is transcribed by hand with attention to original formatting.</li>
                     <li>The text is reviewed and corrected as necessary.</li>
-                    <li>The transcript is enhanced with links to pages with more information on the people, places, and events referenced in the original.</li>
+                    <li>The transcript is enhanced with links to pages containing more information on the people, places, and events referenced in the original.</li>
                     <li>More documents and context will be added as new sources become available.</li>
                   </ol>
                 </CardContent>

@@ -94,7 +94,7 @@ const Collections = () => {
                           </Link>
                         </TableCell>
                         <TableCell>
-                          {collection.description || "N/A"}
+                          {collection.description || "-"}
                         </TableCell>
                       </TableRow>
                     ))}

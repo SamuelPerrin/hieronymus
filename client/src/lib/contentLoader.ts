@@ -67,7 +67,10 @@ export function getDocumentBySlug(slug: string): Document | undefined {
   const filePath = `../content/documents/${slug}.md`;
   const file = documents[filePath] as { default: string } | undefined;
 
-  if (!file) return undefined;
+  if (!file) {
+    console.error(`Document not found for slug: ${slug}`);
+    return undefined;
+  }
 
   const { metadata, content } = parseMarkdownMetadata(file.default);
 

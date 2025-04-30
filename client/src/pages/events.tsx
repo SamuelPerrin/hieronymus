@@ -96,10 +96,10 @@ const Events = () => {
                         </Link>
                       </TableCell>
                       <TableCell>
-                        {event.startDate ? formatDate(event.startDate.toString()) : "N/A"}
+                        {event.startDate ? formatDate(event.startDate.toString()) : "-"}
                       </TableCell>
                       <TableCell>
-                        {event.endDate ? formatDate(event.endDate.toString()) : "N/A"}
+                        {event.endDate ? formatDate(event.endDate.toString()) : "-"}
                       </TableCell>
                     </TableRow>
                   ))}

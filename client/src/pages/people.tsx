@@ -96,10 +96,10 @@ const People = () => {
                         </Link>
                       </TableCell>
                       <TableCell>
-                        {person.birthDate ? formatDate(person.birthDate) : "N/A"}
+                        {person.birthDate ? formatDate(person.birthDate) : "-"}
                       </TableCell>
                       <TableCell>
-                        {person.deathDate ? formatDate(person.deathDate) : "N/A"}
+                        {person.deathDate ? formatDate(person.deathDate) : "-"}
                       </TableCell>
                     </TableRow>
                   ))}
