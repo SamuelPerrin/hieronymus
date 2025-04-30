@@ -1,75 +1,75 @@
 import React, { useState } from "react";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumb";
-import { useMediaQuery } from "@/hooks/use-mobile";
-import { getAllCollections } from "@/lib/contentLoader";
-import { EntityType } from "@/models/schema";
 import Sidebar from "@/components/layout/Sidebar";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import Link from "@/components/ui/link";
-import { Archive } from "lucide-react";
+import { getAllDocuments, getCollectionById } from "@/lib/contentLoader";
+import { useMediaQuery } from "@/hooks/use-mobile";
+import { FileText } from "lucide-react";
+import { EntityType } from "@/models/schema";
+import { formatDate } from "@/lib/utils";
 
 const ITEMS_PER_PAGE = 10;
 
-const Collections = () => {
+const Documents = () => {
   const isMobile = useMediaQuery("(max-width: 1023px)");
-  
-  // Fetch collections
-  const collections = getAllCollections();
+
+  // Fetch documents
+  const documents = getAllDocuments();
   const [currentPage, setCurrentPage] = useState(1);
 
   // Pagination logic
-  const totalPages = Math.ceil(collections.length / ITEMS_PER_PAGE);
-  const paginatedCollections = collections.slice(
+  const totalPages = Math.ceil(documents.length / ITEMS_PER_PAGE);
+  const paginatedCollections = documents.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-  };
+  }
 
-  document.title = "Collections | Ghost in the Archive";
+  document.title = "Documents | Ghost in the Archive";
 
   // Define breadcrumb items
   const breadcrumbItems: BreadcrumbItem[] = [
     { label: "Home", href: "/" },
-    { label: "Collections", href: "/collections", current: true },
+    { label: "Documents", href: "/documents", current: true },
   ];
-  
+
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
       {/* Breadcrumbs */}
       <Breadcrumb items={breadcrumbItems} />
 
       <div className="flex flex-col lg:flex-row gap-8">
-        {/* Sidebar (Desktop) */}
+        {/* Sidebar (Desktop only) */}
         {!isMobile && (
           <aside className="lg:w-64 flex-shrink-0">
-            <Sidebar entityType={EntityType.collection} list={true} />
+            <Sidebar entityType={EntityType.document} list={true} />
           </aside>
         )}
+
         <div className="flex-grow">
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0}}
+            animate={{ opacity: 1}}
             transition={{ duration: 0.3 }}
           >
-            <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">
+            <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700  max-w-2xl">
               <CardHeader>
                 <div className="flex flex-col md:flew-row md:items-center gap-4">
-                  <div>
-                    <CardTitle className="text-2xl font-serif text-accent-900 dark:text-white">
-                      Collections
-                    </CardTitle>
-                  </div>
+                  <CardTitle className="text-2xl font-serif text-accent-900 dark:text-white">
+                    Documents
+                  </CardTitle>
                 </div>
               </CardHeader>
               <CardDescription className="text-accent-700 dark:text-accent-200 text-base">
                 <div className="pl-4 leading-relaxed">
-                  Explore our collections of transcribed archival documents.
+                  Explore our transcriptions of archival documents.
                 </div>
               </CardDescription>
               <CardContent>
@@ -77,36 +77,38 @@ const Collections = () => {
                   <TableHeader>
                     <TableRow>
                       <TableHead>Name</TableHead>
-                      <TableHead>Description</TableHead>
+                      <TableHead>Authors</TableHead>
+                      <TableHead>Date</TableHead>
+                      <TableHead>Collection</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {paginatedCollections.map((collection) => (
-                      <TableRow key={collection.id}>
+                    {paginatedCollections.map((document) => (
+                      <TableRow key={document.id}>
                         <TableCell>
-                          <Link to={`/collections/${collection.slug}`}>
+                          <Link to={`/documents/${document.slug}`}>
                             <div className="flex flex-row items-center">
-                              <div className="bg-orange-100 dark:bg-orange-900 h-7 w-7 rounded-full flex items-center justify-center flex-shrink-0">
-                                <Archive className="h-4 w-4 text-orange-800 dark:text-orange-200"></Archive>
+                              <div className="bg-blue-100 dark:bg-blue-900 h-7 w-7 rounded-full flex items-center justify-center flex-shrink-0">
+                                <FileText className="h-4 w-4 text-blue-800 dark:text-blue-200"></FileText>
                               </div>
-                              <span className="ml-2">{collection.title}</span>
+                              <span className="ml-2">{document.title}</span>
                             </div>
                           </Link>
                         </TableCell>
-                        <TableCell>
-                          {collection.description || "N/A"}
-                        </TableCell>
+                        <TableCell>{document.authors?.join(", ") || "-"}</TableCell>
+                        <TableCell>{document.date ? formatDate(document.date) : "-"}</TableCell>
+                        <TableCell>{getCollectionById(document.collectionId)?.title || "-"}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
-                
+
                 {/* Pagination */}
-                {collections.length > ITEMS_PER_PAGE && <Pagination className="mt-4">
+                {documents.length > ITEMS_PER_PAGE && <Pagination className="mt-4">
                   <PaginationContent>
                     <PaginationPrevious
                       onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                      disabled={currentPage === 1} // Pass disabled prop
+                      disabled={currentPage === 1}
                     />
                     {Array.from({ length: totalPages }, (_, index) => (
                       <PaginationItem key={index}>
@@ -118,9 +120,9 @@ const Collections = () => {
                         </PaginationLink>
                       </PaginationItem>
                     ))}
-                    <PaginationNext
+                    <PaginationNext 
                       onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
-                      disabled={currentPage === totalPages} // Pass disabled prop
+                      disabled={currentPage === totalPages}
                     />
                   </PaginationContent>
                 </Pagination>}
@@ -130,7 +132,7 @@ const Collections = () => {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Collections;
+export default Documents;

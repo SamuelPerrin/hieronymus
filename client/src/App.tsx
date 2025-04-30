@@ -8,6 +8,7 @@ import AppLayout from "@/components/layout/AppLayout";
 import ScrollToTop from "@/components/layout/ScrollToTop";
 import Home from "@/pages/home";
 import Document from "@/pages/document";
+import Documents from "@/pages/documents";
 import Collection from "@/pages/collection";
 import Collections from "@/pages/collections";
 import Person from "@/pages/person";
@@ -29,6 +30,7 @@ function MyRouter() {
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/documents/:slug" component={Document} />
+        <Route path="/documents" component={Documents} />
         <Route path="/collections/:slug" component={Collection} />
         <Route path="/collections" component={Collections} />
         <Route path="/people/:slug" component={Person} />

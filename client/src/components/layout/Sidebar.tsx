@@ -41,7 +41,7 @@ const Sidebar = ({ entityType, slug, list }: SidebarProps) => {
   } else if (list) {
     // Get an array of other List pages to tease in the Sidebar, excluding the current page
     listsToTease = Object.values(EntityType)
-      .filter(val => val !== entityType && val !== EntityType.document)
+      .filter(val => val !== entityType)
       .map(val => EntityType[val]);
     isLoading = false;
   }

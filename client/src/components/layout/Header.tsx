@@ -70,11 +70,17 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
               </Link>
             </div>
 
-            <div className="hidden lg:flex items-center space-x-6">
+            <div className="hidden lg:flex items-center space-x-3">
               <Link href={base + "/"}>
                 <Button variant="ghost" className={cn("text-accent-700 hover:text-white dark:text-primary-200 dark:hover:text-white", 
                   location === "/" && "text-accent-900 dark:text-white")}>
                   Home
+                </Button>
+              </Link>
+              <Link href={base + "/documents"}>
+                <Button variant="ghost" className={cn("text-accent-700 hover:text-white dark:text-primary-200 dark:hover:text-white", 
+                  location.startsWith("/documents") && "text-accent-900 dark:text-white")}>
+                  Documents
                 </Button>
               </Link>
               <Link href={base + "/collections"}>
@@ -177,6 +183,20 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
                     )}
                   >
                     Home
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
+                    href={base + "/documents"}
+                    onClick={() => handleNavigation(base + "/documents")}
+                    className={cn(
+                      "w-full text-right justify-end text-accent-700 hover:text-accent-900 dark:text-primary-200 dark:hover:text-white",
+                      location.startsWith("/documents") && "text-accent-900 bg-primary-100 dark:text-white dark:bg-accent"
+                    )}
+                  >
+                    Documents
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
