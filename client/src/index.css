@@ -176,6 +176,10 @@
     @apply mb-4;
   }
 
+  .markdown-content p.no-mb {
+    @apply mb-0;
+  }
+
   .markdown-content ol {
     list-style-type: none;
   }

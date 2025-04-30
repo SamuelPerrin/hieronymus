@@ -91,7 +91,7 @@ renderer.blockquote = (quote) => {
       return;
     }
     // Default case: treat as paragraph
-    output += `<p class="mb-0">${marked.parseInline(trimmedLine)}</p>`;
+    output += `<p class="no-mb">${marked.parseInline(trimmedLine)}</p>`;
   });
 
   // Close any remaining lists
