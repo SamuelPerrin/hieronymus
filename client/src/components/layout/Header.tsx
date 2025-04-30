@@ -21,7 +21,7 @@ const Header = ({ title = "Ghost in the Archive" }: HeaderProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const isMobile = useMediaQuery("(max-width: 1024px)");
   const { toast } = useToast();
-  const base = process.env.NODE_ENV === "production" ? "/hieronymus" : "";
+  const base = "";
 
   const toggleSearch = () => {
     setSearchOpen(!searchOpen);

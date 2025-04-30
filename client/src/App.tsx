@@ -21,11 +21,9 @@ import Search from "@/pages/search";
 import About from "@/pages/about";
 import Contact from "@/pages/contact";
 
-const base = process.env.NODE_ENV === "production" ? "/hieronymus" : "/";
-
 function MyRouter() {
   return (
-    <Router base={base}>
+    <Router>
       <ScrollToTop />
       <Switch>
         <Route path="/" component={Home} />

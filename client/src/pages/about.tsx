@@ -127,7 +127,7 @@ const AboutPage = () => {
                   For example, to cite <Link to="/documents/a-spirit-of-purpose">A Spirit of Purpose</Link>, you might use the following citation:
                 </p>
                 <div className="bg-primary-50 dark:bg-accent-700 p-4 rounded text-sm font-mono text-accent-900 dark:text-accent-200">
-                  William S. Banowsky, "A Spirit of Purpose," 20 Apr. 1975, Box 1, Pepperdine University Speeches Collection, Pepperdine University Special Collections and University Archives (Malibu, CA), transcribed by Sam Perrin, <i>Ghost in the Archive</i>, accessed [Access Date], [URL].
+                  William S. Banowsky, "A Spirit of Purpose," 20 Apr. 1975, Box 1, Pepperdine University Speeches Collection, Pepperdine University Special Collections and University Archives (Malibu, CA), transcribed by Sam Perrin, <i>Ghost in the Archive</i>, accessed [Access Date], https://ghostinthearchive.com/documents/a-spirit-of-purpose.
                 </div>
               </CardContent>
             </Card>

@@ -3,7 +3,7 @@ import { Ghost } from "lucide-react";
 import { FaTwitter, FaGithub } from "react-icons/fa";
 
 const Footer = () => {
-  const base = process.env.NODE_ENV === "production" ? "/hieronymus" : "";
+  const base = "";
   return (
     <footer className="bg-accent-900 text-white no-print">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
