@@ -176,6 +176,10 @@
     @apply mb-4;
   }
 
+  .markdown-content ol {
+    list-style-type: none;
+  }
+
   .markdown-content li p {
     @apply mb-0;
   }
@@ -188,12 +192,17 @@
     @apply border-l-4 border-l-gray-200 dark:border-l-gray-600 pl-4 my-6;
   }
 
-  .markdown-content li {
+  .markdown-content blockquote ol li {
+    @apply relative ml-4 pl-2;
+    text-indent: -1rem;
+  }
+
+  .markdown-content ul li {
     @apply relative pl-4;
     text-indent: -0.5rem;
   }
 
-  .markdown-content li::before {
+  .markdown-content ul li::before {
     @apply absolute left-1 text-lg text-gray-600 content-['•'];
   }
 

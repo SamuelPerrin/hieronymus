@@ -36,6 +36,69 @@ renderer.listitem = function({ text, task, checked }) {
   return `<li>${parsedText}</li>`;
 };
 
+// Don't let consecutive blockquote paragraphs be run into one
+renderer.blockquote = (quote) => {
+  let output = "<blockquote>";
+  const lines = quote.raw.split('\n');
+  let inOrderedList = false;
+  let inUnorderedList = false;
+  lines.forEach(line => {
+    // Remove leading '>' and trim whitespace
+    const trimmedLine = line.replace(/^>\s*/, '');
+
+    // Handle ordered lists (lines starting with "1.", "2.", etc.)
+    if (/^\d+\.\s/.test(trimmedLine)) {
+        if (!inOrderedList) {
+            output += "<ol>"; // Start ordered list if not already in one
+            inOrderedList = true;
+        }
+        output += `<li>${marked.parseInline(trimmedLine)}</li>`;
+        return;
+    } else if (inOrderedList) {
+        output += "</ol>"; // Close ordered list
+        inOrderedList = false;
+    }
+
+    // Handle unordered lists (lines starting with "-", "*", etc.)
+    if (/^[*-]\s/.test(trimmedLine)) {
+        if (!inUnorderedList) {
+            output += "<ul>"; // Start unordered list if not already in one
+            inUnorderedList = true;
+        }
+        output += `<li>${marked.parseInline(trimmedLine.replace(/^[*-]\s/, ''))}</li>`;
+        return;
+    } else if (inUnorderedList) {
+        output += "</ul>"; // Close unordered list
+        inUnorderedList = false;
+    }
+
+    // Handle headings
+    if (/^(#{1,6})\s+(.*)$/.test(trimmedLine)) {
+      const headingLevel = trimmedLine.match(/^(#{1,6})/)![0].length; // Get the number of #
+      const headingText = trimmedLine.replace(/^#{1,6}\s+/, ''); // Extract heading text
+      output += `<h${headingLevel}>${marked.parseInline(headingText)}</h${headingLevel}>`;
+      return;
+    }
+
+    // Handle indentation
+    if (/^>(\t|\s\s)/.test(line)) {
+      output += `<p class="ml-4">${marked.parseInline(trimmedLine)}</p>`;
+      return;
+    }
+
+    // Default case: treat as paragraph
+    output += `<p>${marked.parseInline(trimmedLine)}</p>`;
+  });
+
+  // Close any remaining lists
+  if (inOrderedList) output += "</ol>";
+  if (inUnorderedList) output += "</ul>";
+
+  output += "</blockquote>\n";
+  return output;
+};
+
+
 marked.setOptions({ renderer });
 
 /**
@@ -48,6 +111,7 @@ export function renderMarkdown(markdown: string): string | Promise<string> {
   }
   
   try {
+    console.log("markdown:", markdown);
     let adjustedMarkdown = adjustMarkdown(markdown);
     // Use the simplest approach to parse markdown to HTML
     return marked.parse(adjustedMarkdown);

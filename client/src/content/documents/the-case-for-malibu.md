@@ -13,9 +13,9 @@ archiveReference: Box 62, William S. Banowsky papers
 collectionId: 202504281055
 transcribedBy: Sam Perrin
 transcriptionDate: 2024-11-01
-lastUpdated: 2025-04-28
+lastUpdated: 2025-04-29
 ---
-“The Case for Malibu” is an essay arguing that Pepperdine should accept the Adamson family’s offer of a plot of land in Malibu. It was written in March 1968 by [[William S. Banowsky]], who would soon become executive vice president of Pepperdine University. The essay is included in a letter to Pepperdine president [[M. Norvel Young]].
+“The Case for Malibu” is an essay arguing that Pepperdine should accept the Adamson family’s offer of a plot of land in Malibu. It was written by [[William S. Banowsky]], who would soon become executive vice president of Pepperdine University. The essay is included in a letter to Pepperdine president [[M. Norvel Young]].
 
 If this is the five-page letter mentioned on page 80 of Banowsky’s memoir *The Malibu Miracle*, the original letter may have been written October 26, 1967.
 
