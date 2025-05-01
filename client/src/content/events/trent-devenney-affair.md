@@ -34,4 +34,10 @@ The Trent Devenney affair was a series of events at Pepperdine University in the
 - Mark Harvis, “[Pep investigation brings changes](https://pepperdine.quartexcollections.com/Documents/Detail/the-graphic/110839?item=111069),” *The Graphic*, 1976-06-25: 4.
 ### Archival sources
 - [[Trent Devenney to Dan McMichael, 1973-04-20]]
+- [[Trent Devenney to Helen Young, 1973-04-25]]
+- [[Trent Devenney to Norvel Young, 1973-04-30]]
+- [[Helen Pepperdine to Trent, 1973-05-04]]
 - [[Trent Devenney to Mrs. Seaver, 1973-09-12]]
+- [[Archie Luper to Evelle Younger, 1974-02-08]]
+- [[White to file, 1974-02-21]]
+- [[White to file, 1974-05-18]]
