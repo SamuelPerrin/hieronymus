@@ -19,7 +19,12 @@ const CollectionPage = () => {
 
   // Fetch collection
   let isLoadingCollection = true;
-  const collection = getCollectionBySlug(slug);
+  const collection = slug ? getCollectionBySlug(slug) : {
+    id: 0,
+    slug,
+    title: "Collection not found",
+    content: "The requested collection could not be found.",
+  } as Collection;
   isLoadingCollection = !collection;
 
   // Fetch documents for this collection

@@ -21,12 +21,17 @@ const PersonPage = () => {
 
   // Fetch person
   let isLoadingPerson = true;
-  const person = getPersonBySlug(slug);
+  const person = slug ? getPersonBySlug(slug) : {
+    id: 0,
+    slug,
+    name: "Person not found",
+    description: "The requested person could not be found.",
+  } as Person;
   isLoadingPerson = !person;
 
   // Fetch related items
   let isLoadingRelated = true;
-  const relatedItems = getRelatedItemsForSlug(slug, EntityType.person);
+  const relatedItems = slug ? getRelatedItemsForSlug(slug, EntityType.person) : [];
   isLoadingRelated = false;
 
   // Set page title

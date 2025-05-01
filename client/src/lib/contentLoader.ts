@@ -98,7 +98,7 @@ export function getAllDocuments(): Document[] {
   return Object.entries(documents).map(([path, content]) => {
     const fileName = path.split("/").pop()?.replace(".md", "") || "";
 
-    // This should match the way slugs are generated in markdownUtils.ts
+    // This should match the way slugs are generated in markdownUtils' renderer.text override
     const slug = fileName.toLowerCase().replace(/\s+/g, "-");
     return getDocumentBySlug(slug)!;
   });

@@ -20,12 +20,17 @@ const PlacePage = () => {
 
   // Fetch place
   let isLoadingPlace = true;
-  const place = getPlaceBySlug(slug);
+  const place = slug ? getPlaceBySlug(slug) : {
+    id: 0,
+    slug,
+    name: "Place not found",
+    description: "The requested place could not be found."
+  } as Place;
   isLoadingPlace = !place;
 
   // Fetch related items
   let isLoadingRelated = true;
-  const relatedItems = getRelatedItemsForSlug(slug, EntityType.place);
+  const relatedItems = slug ? getRelatedItemsForSlug(slug, EntityType.place) : [];
   isLoadingRelated = false;
 
   // Set page title

@@ -21,12 +21,17 @@ const EventPage = () => {
 
   // Fetch event
   let isLoadingEvent = true;
-  const event = getEventBySlug(slug);
+  const event = slug ? getEventBySlug(slug) : {
+    id: 0,
+    slug,
+    name: "Event not found",
+    description: "The requested event could not be found.",
+  } as Event;
   isLoadingEvent = !event;
 
   // Fetch related items
   let isLoadingRelated = true;
-  const relatedItems = getRelatedItemsForSlug(slug, EntityType.event);
+  const relatedItems = slug ? getRelatedItemsForSlug(slug, EntityType.event) : [];
   isLoadingRelated = false;
 
   // Set page title

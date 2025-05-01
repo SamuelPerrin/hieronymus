@@ -12,7 +12,7 @@ renderer.text = function (text) {
   // Example: [[PageName|DisplayName]] or [[PageName]]
   const pattern = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g;
   return text.raw.replace(pattern, (match, pageName, displayName) => {
-    // This should match the way slugs are generated from file names in contentLoader.ts
+    // This should match the way slugs are generated from file names in contentLoader's getAllDocuments
     const slug = pageName.toLowerCase().replace(/\s+/g, "-");
 
     // Check if the slug corresponds to a known page and determine the entity type

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { getDocumentBySlug, getRelatedItemsForSlug, getCollectionById } from "@/lib/contentLoader";
 import { useRoute } from "wouter";
-import { Collection, Document, EntityType, RelatedItem } from "@/models/schema";
+import { Collection, Document, EntityType, RelatedItem, SourceType } from "@/models/schema";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumb";
 import DocumentViewer from "@/components/document/DocumentViewer";
 import DocumentNav from "@/components/document/DocumentNav";
@@ -16,12 +16,19 @@ const DocumentPage = () => {
   const isMobile = useMediaQuery("(max-width: 1023px)");
 
   // Load document from markdown
-  const document = getDocumentBySlug(slug);
+  const document = slug ? getDocumentBySlug(slug) : {
+    id: 0,
+    slug,
+    type: SourceType.letter,
+    title: "Document not found",
+    content: "The requested document could not be found.",
+    collectionId: 0,
+  } as Document;
   const isLoadingDocument = false;
 
   // Load related items for sidebar
   let isLoadingRelated = true;
-  const relatedItems: RelatedItem[] = getRelatedItemsForSlug(slug, EntityType.document);
+  const relatedItems: RelatedItem[] = slug ? getRelatedItemsForSlug(slug, EntityType.document) : [];
   isLoadingRelated = false;
 
   // Set document title
