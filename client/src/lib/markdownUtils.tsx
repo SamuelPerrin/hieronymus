@@ -194,7 +194,7 @@ export function extractExcerpt(markdown: string, maxLength = 150): string {
     .replace(/\*\*|__/g, '') // Remove bold
     .replace(/\*|_/g, '') // Remove italic
     .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Remove markdown links
-    .replace(/\[\[[^|]+\|([^\]]+)\]\]/g, '$1') // Remove wiki links with display names
+    .replace(/\[\[([^\[\]]+?)\|([^\]]+)\]\]/g, '$2') // Remove wiki links with display names
     .replace(/\[\[([^\]]+)\]\]/g, '$1') // Remove wiki links
     .replace(/`([^`]+)`/g, '$1'); // Remove inline code
   

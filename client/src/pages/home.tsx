@@ -30,7 +30,7 @@ const Home = () => {
     document.title = "Ghost in the Archive";
   }, []);
 
-  const recentDocuments = documents?.slice(0, 3) || [];
+  const recentDocuments = documents?.sort((a,b) => b.id - a.id).slice(0, 3) || [];
   
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -182,7 +182,7 @@ const Home = () => {
                   <div>
                     <h3 className="font-serif font-bold text-accent-900 dark:text-white">Events</h3>
                     <p className="text-sm text-muted-foreground">
-                      {eventsLength === 1 ? `${eventsLength} historical event` : `${eventsLength} historiacal events`}
+                      {eventsLength === 1 ? `${eventsLength} historical event` : `${eventsLength} historical events`}
                     </p>
                   </div>
                 </div>
