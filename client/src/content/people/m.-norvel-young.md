@@ -11,7 +11,7 @@ deathDate: 1998-02-17
 M. Norvel Young was the third president of Pepperdine University, serving from 1957 through the end of 1970. From 1971 to 1985, he served as chancellor of Pepperdine. He was chair of the [[Board of Trustees]] from 1971 to 1973.
 
 ## Timeline
-- He was born October 5, 1915 in Nashville, Tennessee.
+- He was born on October 5, 1915 in Nashville, Tennessee.
 - He received an associate's degree from [[Lipscomb University|David Lipscomb College]] in 1934.
 - He received a bachelor's degree from [[Abilene Christian University|Abilene Christian College]] in 1936.
 - He received a master's degree from [[Vanderbilt]] in 1937.
