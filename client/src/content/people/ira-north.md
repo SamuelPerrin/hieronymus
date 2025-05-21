@@ -18,3 +18,4 @@ Ira North was a preacher among the Churches of Christ and a member of Pepperdine
 - He taught Bible and speech at David Lipscomb College for many years.
 - He was a member of Pepperdine’s [[Board of Regents|Board of Trustees]] from about 1973.
 - He resigned from the board in 1978 when he became editor of *[[Gospel Advocate]]*, an influential journal among Churches of Christ.
+- He died on January 15, 1984.

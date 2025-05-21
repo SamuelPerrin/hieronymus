@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumb";
 import { useMediaQuery } from "@/hooks/use-mobile";
 import { getAllPeople } from "@/lib/contentLoader";
@@ -6,31 +6,64 @@ import { EntityType } from "@/models/schema";
 import Sidebar from "@/components/layout/Sidebar";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
-import { formatDate } from "@/lib/utils";
+import DataTable from "@/components/ui/DataTable";
 import Link from "@/components/ui/link";
+import { formatDate } from "@/lib/utils";
 import { User } from "lucide-react";
 
-const ITEMS_PER_PAGE = 10;
+interface DataTablePerson {
+  id: number;
+  slug: string;
+  name: string;
+  birthDate?: string;
+  deathDate?: string;
+}
 
 const People = () => {
   const isMobile = useMediaQuery("(max-width: 1023px)");
 
   // Fetch people
-  const people = getAllPeople();
-  const [currentPage, setCurrentPage] = useState(1);
+  const people: DataTablePerson[] = getAllPeople();
 
-  // Pagination logic
-  const totalPages = Math.ceil(people.length / ITEMS_PER_PAGE);
-  const paginatedPeople = people.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  // Define columns with custom rendering and sorting
+  const columns: {
+    key: keyof DataTablePerson;
+    label: string;
+    sortable?: boolean;
+    render?: (row: DataTablePerson) => React.ReactNode;
+    sortValue?: (row: DataTablePerson) => any
+  }[] = [
+    {
+      key: "name",
+      label: "Name",
+      sortable: true,
+      render: (person) => (
+        <Link to={`/people/${person.slug}`}>
+          <div className="flex flex-row items-center">
+            <div className="bg-red-100 dark:bg-red-900 h-6 w-6 rounded-full flex items-center justify-center flex-shrink-0">
+              <User className="h-4 w-4 text-red-800 dark:text-red-200" />
+            </div>
+            <span className="ml-2">{person.name}</span>
+          </div>
+        </Link>
+      ),
+      sortValue: (person) => person.name,
+    },
+    {
+      key: "birthDate",
+      label: "Birth Date",
+      sortable: true,
+      render: (person) => (person.birthDate ? formatDate(person.birthDate) : "-"),
+      sortValue: (person) => person.birthDate || "", // Use raw date for sorting
+    },
+    {
+      key: "deathDate",
+      label: "Death Date",
+      sortable: true,
+      render: (person) => (person.deathDate ? formatDate(person.deathDate) : "-"),
+      sortValue: (person) => person.deathDate || "", // Use raw date for sorting
+    },
+  ];
 
   document.title = "People | Ghost in the Archive";
 
@@ -60,7 +93,7 @@ const People = () => {
           ></motion.div>
           <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">
             <CardHeader>
-              <div className="flex flex-col md:flew-row md:items-center gap-4">
+              <div className="flex flex-col md:flex-row md:items-center gap-4">
                 <div>
                   <CardTitle className="text-2xl font-serif text-accent-900 dark:text-white">
                     People
@@ -74,61 +107,12 @@ const People = () => {
               </div>
             </CardDescription>
             <CardContent>
-              <Table className="border">
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Birth Date</TableHead>
-                    <TableHead>Death Date</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {paginatedPeople.map((person) => (
-                    <TableRow key={person.id}>
-                      <TableCell>
-                        <Link to={`/people/${person.slug}`}>
-                          <div className="flex flex-row items-center">
-                            <div className="bg-red-100 dark:bg-red-900 h-6 w-6 rounded-full flex items-center justify-center flex-shrink-0">
-                              <User className="h-4 w-4 text-red-800 dark:text-red-200"></User>
-                            </div>
-                            <span className="ml-2">{person.name}</span>
-                          </div>
-                        </Link>
-                      </TableCell>
-                      <TableCell>
-                        {person.birthDate ? formatDate(person.birthDate) : "-"}
-                      </TableCell>
-                      <TableCell>
-                        {person.deathDate ? formatDate(person.deathDate) : "-"}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-              
-              {/* Pagination */}
-              {people.length > ITEMS_PER_PAGE && <Pagination className="mt-4">
-                <PaginationContent>
-                  <PaginationPrevious
-                    onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                    disabled={currentPage === 1} // Pass disabled prop
-                  />
-                  {Array.from({ length: totalPages }, (_, index) => (
-                    <PaginationItem key={index}>
-                      <PaginationLink
-                        isActive={currentPage === index + 1}
-                        onClick={() => handlePageChange(index + 1)}
-                      >
-                        {index + 1}
-                      </PaginationLink>
-                    </PaginationItem>
-                  ))}
-                  <PaginationNext
-                    onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
-                    disabled={currentPage === totalPages} // Pass disabled prop
-                  />
-                </PaginationContent>
-              </Pagination>}
+              <DataTable<DataTablePerson>
+                data={people}
+                columns={columns}
+                itemsPerPage={10}
+                searchKey="name"
+              />
             </CardContent>
           </Card>
         </div>
