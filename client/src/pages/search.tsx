@@ -11,6 +11,7 @@ import SearchBar from "@/components/search/SearchBar";
 import { extractExcerpt } from "@/lib/markdownUtils";
 import { motion } from "framer-motion";
 import { globalSearch, SearchResults } from "@/lib/searchHelpers";
+import { formatDate } from "@/lib/utils";
 
 function useQueryParam(param: string): string | null {
   const search = useSearch();
@@ -264,7 +265,7 @@ const SearchResultDocument = ({ document }: SearchResultDocumentProps) => {
               {document.date && (
                 <>
                   <span className="mx-2">•</span>
-                  <Calendar className="h-3 w-3 mr-1" /> {document.date}
+                  <Calendar className="h-3 w-3 mr-1" /> {formatDate(document.date)}
                 </>
               )}
             </div>

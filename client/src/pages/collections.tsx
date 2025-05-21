@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumb";
 import { useMediaQuery } from "@/hooks/use-mobile";
 import { getAllCollections } from "@/lib/contentLoader";
@@ -6,30 +6,54 @@ import { EntityType } from "@/models/schema";
 import Sidebar from "@/components/layout/Sidebar";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import DataTable from "@/components/ui/DataTable";
 import Link from "@/components/ui/link";
 import { Archive } from "lucide-react";
 
-const ITEMS_PER_PAGE = 10;
+interface DataTableCollection {
+  id: number;
+  slug: string;
+  title: string;
+  description?: string;
+}
 
 const Collections = () => {
   const isMobile = useMediaQuery("(max-width: 1023px)");
-  
+
   // Fetch collections
-  const collections = getAllCollections();
-  const [currentPage, setCurrentPage] = useState(1);
+  const collections: DataTableCollection[] = getAllCollections();
 
-  // Pagination logic
-  const totalPages = Math.ceil(collections.length / ITEMS_PER_PAGE);
-  const paginatedCollections = collections.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  // Define columns with custom rendering
+  const columns: {
+    key: keyof DataTableCollection;
+    label: string;
+    sortable?: boolean;
+    render?: (row: DataTableCollection) => React.ReactNode;
+    sortValue?: (row: DataTableCollection) => any;
+  }[] = [
+    {
+      key: "title",
+      label: "Name",
+      sortable: true,
+      render: (collection) => (
+        <Link to={`/collections/${collection.slug}`}>
+          <div className="flex flex-row items-center">
+            <div className="bg-orange-100 dark:bg-orange-900 h-7 w-7 rounded-full flex items-center justify-center flex-shrink-0">
+              <Archive className="h-4 w-4 text-orange-800 dark:text-orange-200" />
+            </div>
+            <span className="ml-2">{collection.title}</span>
+          </div>
+        </Link>
+      ),
+      sortValue: (collection) => collection.title,
+    },
+    {
+      key: "description",
+      label: "Description",
+      sortable: false,
+      render: (collection) => collection.description || "-",
+    },
+  ];
 
   document.title = "Collections | Ghost in the Archive";
 
@@ -38,7 +62,7 @@ const Collections = () => {
     { label: "Home", href: "/" },
     { label: "Collections", href: "/collections", current: true },
   ];
-  
+
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
       {/* Breadcrumbs */}
@@ -59,12 +83,10 @@ const Collections = () => {
           >
             <Card className="bg-white dark:bg-accent border-primary-100 dark:border-accent-700">
               <CardHeader>
-                <div className="flex flex-col md:flew-row md:items-center gap-4">
-                  <div>
-                    <CardTitle className="text-2xl font-serif text-accent-900 dark:text-white">
-                      Collections
-                    </CardTitle>
-                  </div>
+                <div className="flex flex-col md:flex-row md:items-center gap-4">
+                  <CardTitle className="text-2xl font-serif text-accent-900 dark:text-white">
+                    Collections
+                  </CardTitle>
                 </div>
               </CardHeader>
               <CardDescription className="text-accent-700 dark:text-accent-200 text-base">
@@ -73,57 +95,12 @@ const Collections = () => {
                 </div>
               </CardDescription>
               <CardContent>
-                <Table className="border">
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Description</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {paginatedCollections.map((collection) => (
-                      <TableRow key={collection.id}>
-                        <TableCell>
-                          <Link to={`/collections/${collection.slug}`}>
-                            <div className="flex flex-row items-center">
-                              <div className="bg-orange-100 dark:bg-orange-900 h-7 w-7 rounded-full flex items-center justify-center flex-shrink-0">
-                                <Archive className="h-4 w-4 text-orange-800 dark:text-orange-200"></Archive>
-                              </div>
-                              <span className="ml-2">{collection.title}</span>
-                            </div>
-                          </Link>
-                        </TableCell>
-                        <TableCell>
-                          {collection.description || "-"}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-                
-                {/* Pagination */}
-                {collections.length > ITEMS_PER_PAGE && <Pagination className="mt-4">
-                  <PaginationContent>
-                    <PaginationPrevious
-                      onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                      disabled={currentPage === 1} // Pass disabled prop
-                    />
-                    {Array.from({ length: totalPages }, (_, index) => (
-                      <PaginationItem key={index}>
-                        <PaginationLink
-                          isActive={currentPage === index + 1}
-                          onClick={() => handlePageChange(index + 1)}
-                        >
-                          {index + 1}
-                        </PaginationLink>
-                      </PaginationItem>
-                    ))}
-                    <PaginationNext
-                      onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
-                      disabled={currentPage === totalPages} // Pass disabled prop
-                    />
-                  </PaginationContent>
-                </Pagination>}
+                <DataTable<DataTableCollection>
+                  data={collections}
+                  columns={columns}
+                  itemsPerPage={10}
+                  searchKey="title"
+                />
               </CardContent>
             </Card>
           </motion.div>
@@ -131,6 +108,6 @@ const Collections = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Collections;
