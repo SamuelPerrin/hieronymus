@@ -19,15 +19,15 @@ This is a public statement about the [[Smoot affair]] by Pepperdine president [[
 >
 >A STATEMENT FROM PEPPERDINE COLLEGE
 >
->”Pepperdine College, as an independent, Christian, liberal arts institution of higher learning, is committed to the virtues of integrity, sincerity, morality, reverence for God, and respect for our fellow man. It is supported entirely by gifts and tuition and is deeply appreciative of being remembered in wills.
+>“Pepperdine College, as an independent, Christian, liberal arts institution of higher learning, is committed to the virtues of integrity, sincerity, morality, reverence for God, and respect for our fellow man. It is supported entirely by gifts and tuition and is deeply appreciative of being remembered in wills.
 >
->”The faculty and [[Board of Trustees|trustees]] of the college share the conviction that the needs of our society will be best served in an atmosphere in which sincere seekers of truth pursue their goals and responsible dialogue is encouraged.
+>“The faculty and [[Board of Trustees|trustees]] of the college share the conviction that the needs of our society will be best served in an atmosphere in which sincere seekers of truth pursue their goals and responsible dialogue is encouraged.
 >
 >”Pepperdine College recognizes that one of America’s great strengths is in the diversity of its opinions with reference to public questions and social issues.
 >
->”We reaffirm our commitment to the search for truth in an atmosphere of academic freedom and responsibility.
+>“We reaffirm our commitment to the search for truth in an atmosphere of academic freedom and responsibility.
 >
->”The institution on occasion awards honorary degrees in the sincere belief that the recipients have rendered significant contributions to society. Whatever the merits of a proposed recipient, the academic process precludes awarding a degree based upon the contingency of any gift.”
+>“The institution on occasion awards honorary degrees in the sincere belief that the recipients have rendered significant contributions to society. Whatever the merits of a proposed recipient, the academic process precludes awarding a degree based upon the contingency of any gift.”
 >
 >--[[M. Norvel Young]]
 >President

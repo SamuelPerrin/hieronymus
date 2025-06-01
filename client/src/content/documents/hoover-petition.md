@@ -1,7 +1,7 @@
 ---
 id: 202506010924
 slug: hoover-petition
-title: Hoover Petition
+title: Hoover petition
 date: 1966-05
 year: 1966
 type: petition
