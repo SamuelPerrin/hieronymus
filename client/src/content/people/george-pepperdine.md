@@ -5,7 +5,7 @@ name: George Pepperdine
 birthDate: 1886-06-20
 deathDate: 1962-07-31
 ---
-George Pepperdine was the founder of George Pepperdine College, which is now known as Pepperdine University. He served as the chair of the school’s governing Board of Trustees between 1937 and 1956. He also founded [[Western Auto|Western Auto Supply Company]], a chain of auto parts stores through which he earned a substantial fortune.
+George Pepperdine was the founder of George Pepperdine College, which is now known as Pepperdine University. He served as the chair of the school’s governing [[Board of Trustees]] between 1937 and 1956. He also founded [[Western Auto|Western Auto Supply Company]], a chain of auto parts stores through which he earned a substantial fortune.
 
 ## Timeline
 - He was born on June 20, 1886, in Mound Valley, Kansas.
@@ -17,7 +17,7 @@ George Pepperdine was the founder of George Pepperdine College, which is now kno
 - He married [[Helen Pepperdine|Helen Louise Davis]] on June 17, 1934.
 - He founded George Pepperdine College in 1937.
 - He sold his controlling interest in Western Auto in July 1939.
-- His George Pepperdine Foundation dissolved in 1951.
+- His [[George Pepperdine Foundation]] dissolved in 1951.
 - He resigned the chair of the Board of Trustees in March 1956.
 - He made his last public appearance at the Pepperdine Bible Lectures on March 22, 1962.
 - He died on July 31, 1962.

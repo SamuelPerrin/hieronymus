@@ -13,9 +13,9 @@ archiveReference: Trent Devenney file, Box 56, Howard A. White papers
 collectionId: 202504281112
 transcribedBy: Sam Perrin
 transcriptionDate: 2025-02-18
-lastUpdated: 2025-04-30
+lastUpdated: 2025-06-01
 ---
-This is a letter from Pepperdine alumnus [[Trent Devenney]] to [[M. Norvel Young]], dated April 30, 1973. In the letter, Devenney requests access to a special meeting of Pepperdine’s [[Board of Regents|Board of Trustees]] to discuss allegations connected to the [[Trent Devenney affair]].
+This is a letter from Pepperdine alumnus [[Trent Devenney]] to [[M. Norvel Young]], dated April 30, 1973. In the letter, Devenney requests access to a special meeting of Pepperdine’s [[Board of Trustees]] to discuss allegations connected to the [[Trent Devenney affair]].
 
 >April 30, 1973
 >

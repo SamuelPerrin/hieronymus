@@ -11,13 +11,13 @@ archiveReference: Box 2, Seaver papers
 collectionId: 202504281148
 transcribedBy: Sam Perrin
 transcriptionDate: 2025-04-02
-lastUpdated: 2025-04-28
+lastUpdated: 2025-06-01
 ---
 This is the text of a speech delivered by former California governor [[Ronald Reagan]], at the [[Dedication of Seaver College]] on April 20, 1975.
 
 >Text of Ronald Reagan speech delivered at Seaver Dedication, April 20, 1975.
 >
->[[Blanche Seaver|Mrs. Seaver]], [[M. Norvel Young|Dr. Young]], [[William S. Banowsky|Dr. Banowsky]], members of the Administration, the faculty, the [[Board of Regents|Board]], Friends of Pepperdine and students who might be here: After listening to all of those credits in that introduction, I’m not quite sure just what role I’m playing here today. I have no placards with me; I will not ask you to get up and march. On hearing that I was reminded of a very great team that was in the American theatre for many, many years. They would not only play on Broadway in the great theatres there, but tour the country on many occasions. At one point, experienced as they were, there was a blow-up in lines. They couldn’t remember and the prompter in the wings whispered the line. They edged their way, ad-libbing, over closer because they couldn’t hear. They got closer and they still couldn’t hear. Finally he said the line so loud that even the audience could hear it and with that the star turned and said, “We know the line, which one of us says it?”
+>[[Blanche Seaver|Mrs. Seaver]], [[M. Norvel Young|Dr. Young]], [[William S. Banowsky|Dr. Banowsky]], members of the Administration, the faculty, the [[Board of Trustees|Board]], Friends of Pepperdine and students who might be here: After listening to all of those credits in that introduction, I’m not quite sure just what role I’m playing here today. I have no placards with me; I will not ask you to get up and march. On hearing that I was reminded of a very great team that was in the American theatre for many, many years. They would not only play on Broadway in the great theatres there, but tour the country on many occasions. At one point, experienced as they were, there was a blow-up in lines. They couldn’t remember and the prompter in the wings whispered the line. They edged their way, ad-libbing, over closer because they couldn’t hear. They got closer and they still couldn’t hear. Finally he said the line so loud that even the audience could hear it and with that the star turned and said, “We know the line, which one of us says it?”
 >
 >As you know, it is a pleasure to be here in this most beautiful setting and when I think of students here, laboring and toiling to get an education in this particular setting, if Dr. Banowsky will forgive me, I am reminded of a visit I made some years ago to an industrial plant in the middlewest \[*sic*\]. It was of a newer type that had bee made similar to a campus, surrounded by beauty, with a beautiful grove of trees. Walking across this campus-like place, I said to the manager of the plant, how many work here? And he said “Roughly half.”
 >

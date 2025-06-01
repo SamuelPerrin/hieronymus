@@ -13,7 +13,7 @@ archiveReference: Mrs. Harnish file, Box 56, Howard A. White papers
 collectionId: 202504281112
 transcribedBy: Sam Perrin
 transcriptionDate: 2025-02-12
-lastUpdated: 2025-04-29
+lastUpdated: 2025-06-01
 ---
 This is a letter from Pepperdine alumnus [[Trent Devenney]] to [[Dan McMichael]], an associate of Pepperdine donor [[Richard Scaife]]. In the letter, Devenney explains what has come to be known as the [[Trent Devenney affair]].
 
@@ -44,7 +44,7 @@ This is a letter from Pepperdine alumnus [[Trent Devenney]] to [[Dan McMichael]]
 >
 >To make matters worse, the Administration moved a woman into Mrs. Pepperdine’s home just on the heels of my advising her to seek the assistance of George S. Benson. This requires some explaination \[*sic*\].
 >
->Mrs. Pepperdine turned her entire estate over to Pepperdine University at some time within the past 3 years. She receives an annuity in return. No longer having any money to give to the University, the Administration lost interest in her and failed to show her any attention. They even avoided giving her invitations to certain events on the grounds that there just weren’t enough seats to supply the demand. This caused Mrs. Pepperdine to be free from the day-to-day influence of the Administration and she began to look around for herself. She didn’t like what she was seeing and, over a period of the past year, she called special meetings of the [[Board of Regents|Board of Trustees]] to try to correct the problems. She failed.
+>Mrs. Pepperdine turned her entire estate over to Pepperdine University at some time within the past 3 years. She receives an annuity in return. No longer having any money to give to the University, the Administration lost interest in her and failed to show her any attention. They even avoided giving her invitations to certain events on the grounds that there just weren’t enough seats to supply the demand. This caused Mrs. Pepperdine to be free from the day-to-day influence of the Administration and she began to look around for herself. She didn’t like what she was seeing and, over a period of the past year, she called special meetings of the [[Board of Trustees]] to try to correct the problems. She failed.
 >
 >I came into the picture and advised her to go to Dr. Benson and, immediately, the Administration has become “attentive”. I think they fear George Benson more than they fear the Devil. Anyway, the Administration advised Mrs. Pepperdine to allow [[Charles Runnels|Charlie Runnels]]’ secretary move into her home so that she wouldn’t be “lonely” and so that she would have a chauffeur when she needed to go out. The result has been that she stays confused most of the time.
 >

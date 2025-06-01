@@ -13,7 +13,7 @@ archiveReference: Trent Devenney file, Box 56, Howard A. White papers
 collectionId: 202504281112
 transcribedBy: Sam Perrin
 transcriptionDate: 2025-02-18
-lastUpdated: 2025-04-30
+lastUpdated: 2025-06-01
 ---
 This is a letter from [[Trent Devenney]] to [[Helen Mattox Young|Helen Young]], dated April 25, 1973. In the letter, Devenney recounts a phone call about the steps he could take to gain access to a meeting of Pepperdine’s Board of Trustees.
 
@@ -27,7 +27,7 @@ This is a letter from [[Trent Devenney]] to [[Helen Mattox Young|Helen Young]], 
 >
 >This letter will serve to confirm our recent phone conversation.
 >
->I received a telephone call on Monday, April 23, 1973, at approximately 5:07 pm. I was informed that Dr. Young’s office was calling to notify me that he was unable to call himself but that he wanted me to be informed, by 5 pm, that he had considered my request, made through [[Helen Pepperdine|Mrs. George Pepperdine]], that I be allowed to appear before the [[Board of Regents|Board of Trustees]] of Pepperdine University.
+>I received a telephone call on Monday, April 23, 1973, at approximately 5:07 pm. I was informed that Dr. Young’s office was calling to notify me that he was unable to call himself but that he wanted me to be informed, by 5 pm, that he had considered my request, made through [[Helen Pepperdine|Mrs. George Pepperdine]], that I be allowed to appear before the [[Board of Trustees]] of Pepperdine University.
 >
 >I was further informed that Dr. Young requests that I submit to him, in writing, any statements or issues which I wish to discuss with the Board of Trustees and that Dr. Young would determine, on the basis of the information submitted to him, whether the material had merit or was significant enough to be submitted to the Board of Trustees.
 >

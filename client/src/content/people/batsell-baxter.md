@@ -18,7 +18,7 @@ Baxter had also worked at several other schools related to the Churches of Chris
 - He was president at [[Abilene Christian University|Abilene Christian College]] from 1924 to 1932.
 - He was president at [[Lipscomb University|David Lipscomb College]] from 1932 to 1934, after which time he taught in the Bible department.
 - He was president at George Pepperdine College from 1937 to 1939.
-- He briefly taught at [[Harding College]] before returning for a second term as president of Lipscomb from 1943 to 1946.
+- He briefly taught at [[Harding University|Harding College]] before returning for a second term as president of Lipscomb from 1943 to 1946.
 - He died on March 4, 1956.
 
 ## Personal

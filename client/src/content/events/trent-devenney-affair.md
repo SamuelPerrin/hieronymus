@@ -30,8 +30,8 @@ The Trent Devenney affair was a series of events at Pepperdine University in the
 - Sam Perrin, “[Devenney; or, the modern Elpenor](https://gogp.substack.com/p/devenney-or-the-modern-elpenor),” *Ghost of George Pepperdine*, 28 Feb. 2025.
 - W. David Baird, “The Trent Devenney Affair,” *Quest for Distinction*, Pepp. Univ. Press (2016): 337–348.
 ### In *The Graphic*
-- Neva Hash, “[[Pepperdine critics exposed]],” *The Graphic*, 1975-03-21: 3.
-- Mark Harvis, “[Pep investigation brings changes](https://pepperdine.quartexcollections.com/Documents/Detail/the-graphic/110839?item=111069),” *The Graphic*, 1976-06-25: 4.
+- Neva Hash, “[[Pepperdine critics exposed]],” *The Graphic*, 21 Mar. 1975: 3.
+- Mark Harvis, “[Pep investigation brings changes](https://pepperdine.quartexcollections.com/Documents/Detail/the-graphic/110839?item=111069),” *The Graphic*, 25 June 1976: 4.
 ### Archival sources
 - [[Trent Devenney to Dan McMichael, 1973-04-20]]
 - [[Trent Devenney to Helen Young, 1973-04-25]]
