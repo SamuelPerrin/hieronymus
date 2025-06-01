@@ -21,7 +21,7 @@ The Smoot affair was a series of events at Pepperdine in 1966, sparked by the wi
 - Pepperdine received positive press for the next several weeks.
 
 ## Sources
-- Sam Perrin, “[Bequest denied](https://gogp.substack.com/p/bequest-denied),” *Ghost of George Pepperdine*.
+- Sam Perrin, “[Bequest denied](https://gogp.substack.com/p/bequest-denied),” *Ghost of George Pepperdine*, 2 June 2025.
 - David Baird, “Creating a New Brand Celebrating Freedom and Free Markets,” *Quest for Distinction: Pepperdine University in the 20th Century*, Pepp. Univ. Press (2016): 119–120.
 ### In *The Graphic*
 - “[Bequest has condition: $1 million declined](https://pepperdine.quartexcollections.com/Documents/Detail/the-graphic/94107?item=97530),” *The Graphic*, 6 May 1966: 3.
