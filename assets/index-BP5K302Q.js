@@ -1797,7 +1797,7 @@ Baxter had also worked at several other schools related to the Churches of Chris
 ## Timeline
 - He was born on November 17, 1886.
 - He studied at [[Lipscomb University|Nashville Bible School]] under [[David Lipscomb]] and [[James Harding]].
-- He held degrees from [[Abilene Christian University|Abilene Christian College]] and [[USC|University of Southern California]].
+- He held degrees from [[TCU|Texas Christian University]] and [[Baylor]].
 - He was dean at [[Thorp Spring Christian College]] in Texas around 1911.
 - He was dean at [[Cordell Christian College]] in Oklahoma.
 - He was president at [[Abilene Christian University|Abilene Christian College]] from 1924 to 1932.
