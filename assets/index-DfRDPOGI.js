@@ -1637,6 +1637,7 @@ This is a letter from Pepperdine president [[William S. Banowsky]] to [[Doyle Sw
 `,U9=Object.freeze(Object.defineProperty({__proto__:null,default:H9},Symbol.toStringTag,{value:"Module"})),z9=`---
 id: 202507241035
 slug: william-banowsky-to-norvel-young,-1973-08-19
+title: William Banowsky to Norvel Young, 1973-08-19
 date: 1973-08-19
 year: 1973
 type: letter
