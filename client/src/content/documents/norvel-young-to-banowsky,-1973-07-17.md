@@ -1,0 +1,38 @@
+---
+id: 202507240937
+slug: norvel-young-to-banowsky,-1973-07-17
+title: Norvel Young to Banowsky, 1973-07-17
+date: 1973-07-17
+year: 1973
+type: letter
+authors:
+  - M. Norvel Young
+recipients:
+  - William S. Banowsky
+archiveReference: MNY–WSB file, Box 62, Banowsky papers
+collectionId: 202504281055
+transcribedBy: Sam Perrin
+transcriptionDate: 2025-07-16
+lastUpdated: 2025-07-24
+---
+This is a letter from Pepperdine chancellor [[M. Norvel Young]] to president [[William S. Banowsky]], in which Young advises Banowsky to wait before deciding either to accept the offer to become president of Lubbock Christian College or to go into politics.
+
+>To President Banowsky
+>From Dr. Young
+>Date July 17, 1973
+>
+>[[Charles Runnels|Charlie Runnels]] and I had a long talk yesterday afternoon. Of course, [[Helen Mattox Young|Helen]] and I have been agonizing with you over your decision for several days now. You read me so well that there is probably no need of my trying to verbalize my thoughts, but maybe it will help to put it in a concise form.
+>
+>In a choice between complete and total commitment to politics as you describe it, and I trust your knowingness, and Lubbock, I would find no alternative but to vote for Lubbock. This is because I love you and [[Gay Banowsky|Gay]] and the children and, even though I realize that if you choose politics you can probably help Pepperdine to raise several million before you cut loose, I don’t think that it is worth the sacrifice. I love Pepperdine and this month Helen and I began our twentieth year, counting the three years that we were here teaching. But, we love you and Gay more and there are some things that a real friend can’t ask of another.
+>
+>It is my best judgment that you will not be content in Lubbock. You will feel frustrated that you have given up the exciting contacts that you have made in California such as your television program, your political contacts, your social contacts, your newspaper column, your speeches, etc. You will likely either be pulled by the demands that keep coming and be away from home a lot or else you will be discontent because you have cut off the lines of communication. I remember once you said you would like to write a great book but not go to the autograph parties. I think I can understand this. You want the satisfaction of knowing you can do it but you don’t care for the handshaking and small talk that goes along with the congratulatory autograph party. However, it is one thing not to want to got to the party when everybody is asking you, it is another thing not to be invited and to feel ignored.
+>
+>Although I that no radical decision one way or the other, Lubbock or politics is a decision in itself. Sometimes the best decision when you are uncertain is to sit tight and wait. There is a golden mean between being active and passive in regard to your career. I probably am too passive, but you may be too prone to insist on pushing the door open rather than waiting until the best opportunity presents itself. At least, my judgment is that in your present role with your present opportunities, you can move in a number of directions. I think for you to move actively into politics or to move to Lubbock forecloses a number of options. If you compare it to a chess game, you are sitting in a position which is not deteriorating and in which you have a number of good moves. I think one reason you are impatient is because you have been at this job for five years now and the tedium of administration with all the personnel problems and of fund raising, with some of the particular personal relationships involved with prospects, is annoying. I can understand this.
+>
+>Then again, I think there is your long-standing resentment of Pepperdine’s schizophrenia. When you first came to Pepperdine, you saw it from one vantage point and now you see it clearly from another. Pepperdine as an institution reflects the dichotomy of most church members - in the world but not content to be entirely of it and not content to embrace all the secular values. Thus, a part of Pepperdine is always sitting in judgment on the other part. We are quite relevant to this age and yet not comfortable. Of course, as [[Horace Busby]] says, it is quite possible that all of our [[Christian colleges|church-related schools and colleges]] will be taken over by the government, but religion is very hardy and I think is going to be around a long time in education. You may have noticed [[Arnold J. Toynbee|Toynbee]]’s article in the Times recently in which he is calling for a return to religion. At any rate, I think we have to do what we can with the opportunities that are before us, and I really believe we are doing a lot for the young people who are enrolled. We may not be doing as much as we should but, for those who are mature enough, I think we are offering them a viable form of education in a big-city environment in which most of them are going to live.
+>
+>You are peculiarly well qualified to lead Pepperdine at this time. You understand here and, in spite of her faults, I think you love her. You have put five of your best years into building this new campus. I doubt if Pepperdine can ever be adopted by any other church or family. She grows out of the [[Restoration Movement|restoration movement]] with her own personality and will never fit into the mold of [[Freed-Hardeman]], [[Lipscomb University|Lipscomb]], or [[Abilene Christian University|Abilene]], but she is serving people they will never serve or touch. I think among the more knowing members of the church, she has respect; and here in the West, I think she has genuine affection on the part of many parents and alumni. Pepperdine needs your leadership and your talents at this particular time in her history. Although you have fulfilled in a dramatic way your original commitment and done much more than either of us imagined possible in terms of building this new campus and raising these funds, I know you recognize that we are still in a period of transition. There is a sense in which we are quite vulnerable - like a mother giving birth. The child has been born but both the mother and the child are weak. The child isn’t strong enough to help the mother, and the mother can’t go to work and leave the child. You would do a great work at [[Lubbock Christian University|Lubbock Christian]], and you know how much Helen and I love that institution. However, I think that it would be easier to find someone to fill that post than to fill this very complex and demanding role at Pepperdine University at this juncture in her existence.
+>
+>I guess the bottom line of my advice to you would be to maintain a holding pattern and wait for a clearer signal. I don’t think any one of us can see to far into the future. I believe if you continue to do well in what you are doing, the Lord will open up another door of opportunity either here or elsewhere, and you will be more sure you are doing the right think when you move. You are the only one who knows your own heart, and I hope I am not giving you poor advice. You have many talents but one of the rarest is a spiritual insight into the nature of things and the ability to inspire others to want to be better and do better. Whatever you do, I would like for you to nourish this talent and use it in your career.
+>
+>You know that whatever you decide, Helen and I love you and Gay and we will be ready to help. Your friendship means so much to us. Somehow since [[Matt Norvel Young Sr.|Dad]] has gone on, and Franklin and Anne Beaty have passed on, I feel more alone and your friendship means more than ever. 

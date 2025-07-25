@@ -11,7 +11,7 @@ archiveReference: Lewis, D. B. 1958–1966 file, Box 42, Young papers
 collectionId: 202504292040
 transcribedBy: Sam Perrin
 transcriptionDate: 2025-05-30
-lastUpdated: 2025-06-01
+lastUpdated: 2025-07-24
 ---
 This is a public statement about the [[Smoot affair]] by Pepperdine president [[M. Norvel Young]] released to the press. In the statement, Young explains that the college refuses to grant an honorary doctorate to [[Dan Smoot]] because it was a condition of a posthumous gift from the estate of [[Dallas B. Lewis|D. B. Lewis]]. The statement is undated but was probably issued on May 5, 1966.
 
@@ -23,7 +23,7 @@ This is a public statement about the [[Smoot affair]] by Pepperdine president [[
 >
 >“The faculty and [[Board of Trustees|trustees]] of the college share the conviction that the needs of our society will be best served in an atmosphere in which sincere seekers of truth pursue their goals and responsible dialogue is encouraged.
 >
->”Pepperdine College recognizes that one of America’s great strengths is in the diversity of its opinions with reference to public questions and social issues.
+>“Pepperdine College recognizes that one of America’s great strengths is in the diversity of its opinions with reference to public questions and social issues.
 >
 >“We reaffirm our commitment to the search for truth in an atmosphere of academic freedom and responsibility.
 >

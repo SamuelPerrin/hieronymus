@@ -13,7 +13,7 @@ archiveReference: Devenney Affair #1 file, Box 11, Young papers
 collectionId: 202504292040
 transcribedBy: Sam Perrin
 transcriptionDate: 2025-02-20
-lastUpdated: 2025-04-29
+lastUpdated: 2025-07-24
 ---
 This is a letter from Pepperdine alumnus [[Trent Devenney]] to donor [[Blanche Seaver]] dated September 12, 1973. In the letter, Devenney tells Seaver that Pepperdine needs more conservative professors if it is going to achieve her goals.
 
@@ -29,7 +29,7 @@ This is a letter from Pepperdine alumnus [[Trent Devenney]] to donor [[Blanche S
 >
 >[[Dick Vetterli]] was a professor of mine at Pepperdine, and I know that there has never been a better man on the faculty of the University than himself. He was enormously popular with students and they were sorry to see him leave Pepperdine.
 >
->You and I had an opportunity to talk together several months ago when we met at the Wilshire Country Club, and we spoke of the need for quality, conservative faculty members to be located at Pepperdine. I know that we will ultimately achieve that objective.
+>You and I had an opportunity to talk together several months ago when we met at the [[Wilshire Country Club]], and we spoke of the need for quality, conservative faculty members to be located at Pepperdine. I know that we will ultimately achieve that objective.
 >
 >I don’t think that there has ever been a more generous and, at the same time, a more right-thinking donor to any college or university in our country. Your purposes and your objectives are not only clear and definite, but they are timely. You have made your gifts during a period in our history when our country needs such gifts and also at a time when our people are beginning to recognize that need.
 >

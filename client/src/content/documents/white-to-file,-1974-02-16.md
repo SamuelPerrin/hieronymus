@@ -1,6 +1,6 @@
 ---
 id: 202504281117
-slug: white-to-file-1974-02-16
+slug: white-to-file,-1974-02-16
 title: White to file, 1974-02-16
 date: 1974-02-16
 year: 1974
@@ -11,7 +11,7 @@ archiveReference: Church Relations Major Items Feb. 1974 file, Box 63, Howard A.
 collectionId: 202504281112
 transcribedBy: Sam Perrin
 transcriptionDate: 2024-10-08
-lastUpdated: 2025-04-28
+lastUpdated: 2025-07-24
 ---
 This is a memo to file, written by Pepperdine executive vice president [[Howard A. White]], dated February 16, 1974. In the memo, White speculates about why president [[William S. Banowsky]] rejected an offer to be president of Lubbock Christian College.
 
