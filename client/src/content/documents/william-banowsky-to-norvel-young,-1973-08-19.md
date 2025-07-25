@@ -1,6 +1,7 @@
 ---
 id: 202507241035
 slug: william-banowsky-to-norvel-young,-1973-08-19
+title: William Banowsky to Norvel Young, 1973-08-19
 date: 1973-08-19
 year: 1973
 type: letter
